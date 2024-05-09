@@ -8,7 +8,7 @@
 
 ;; lisa dao
 
-(use-trait proposal-trait 'SM26NBC8SFHNW4P1Y4DFH27974P56WN86C92HPEHH.proposal-trait.proposal-trait)
+(use-trait proposal-trait .proposal-trait.proposal-trait)
 (use-trait extension-trait .extension-trait.extension-trait)
 
 (define-constant err-unauthorised (err u1000))
