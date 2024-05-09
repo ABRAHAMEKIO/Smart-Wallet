@@ -10,9 +10,13 @@ path = 'contracts/lisa-dao.clar'
 clarity_version = 2
 epoch = 2.1
 
+[contracts.proxy-trait]
+path = 'contracts/proxy-trait.clar'
+clarity_version = 2
+epoch = 2.1
+
 [contracts.smart-wallet]
 path = 'contracts/smart-wallet.clar'
-depends_on = ["lisa-dao"]
 clarity_version = 2
 epoch = 2.1
 [repl.analysis]
