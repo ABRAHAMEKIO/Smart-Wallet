@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "test": "pnpm test",
+    "test": "vitest run",
     "test:report": "vitest run -- --coverage --costs",
     "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\""
   },
