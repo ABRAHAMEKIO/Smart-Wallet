@@ -3,30 +3,47 @@ name = 'Smart-Wallet'
 description = ''
 authors = []
 telemetry = true
-cache_dir = '.\.cache'
-requirements = []
+cache_dir = "./.cache"
+
+requirements = [
+    { contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard" },
+    { contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait" },
+]
+
+[contracts.rule-set-trait]
+path = 'contracts/rule-set-trait.clar'
+clarity_version = 2
+epoch = 2.1
+
+[contracts.standard-rules]
+path = 'contracts/rules/standard-rules.clar'
+clarity_version = 2
+epoch = 2.1
+
+[contracts.no-rules]
+path = 'contracts/rules/no-rules.clar'
+clarity_version = 2
+epoch = 2.1
+
+[contracts.emergency-rules]
+path = 'contracts/rules/emergency-rules.clar'
+clarity_version = 2
+epoch = 2.1
+
+
+[contracts.inactive-observer]
+path = 'contracts/admins/inactive-observer.clar'
+clarity_version = 2
+epoch = 2.1
+
+
 [contracts.extension-trait]
 path = 'contracts/extension-trait.clar'
 clarity_version = 2
 epoch = 2.1
 
-[contracts.lisa-dao]
-path = 'contracts/lisa-dao.clar'
-clarity_version = 2
-epoch = 2.1
-
-[contracts.proposal-trait]
-path = 'contracts/proposal-trait.clar'
-clarity_version = 2
-epoch = 2.1
-
-[contracts.proxy-trait]
-path = 'contracts/proxy-trait.clar'
-clarity_version = 2
-epoch = 2.1
-
-[contracts.sip-010-trait]
-path = 'contracts/sip-010-trait.clar'
+[contracts.smart-wallet-trait]
+path = 'contracts/smart-wallet-trait.clar'
 clarity_version = 2
 epoch = 2.1
 
@@ -34,6 +51,7 @@ epoch = 2.1
 path = 'contracts/smart-wallet.clar'
 clarity_version = 2
 epoch = 2.1
+
 [repl.analysis]
 passes = ['check_checker']
 
