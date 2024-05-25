@@ -39,7 +39,7 @@
 ;; activity tracker
 ;;
 (define-constant activity-period (if is-in-mainnet (* u70 u24 u3600 u1000) u1000)) ;; 10 weeks or 1 second
-(define-data-var last-tx-time uint (get-time))
+(define-data-var last-tx-time uint u0)
 (define-read-only (get-time)
 	(unwrap-panic (get-block-info? time (- block-height u1))))
 (define-read-only (is-inactive)
