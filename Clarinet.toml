@@ -3,20 +3,31 @@ name = 'Smart-Wallet'
 description = ''
 authors = []
 telemetry = true
-cache_dir = "./.cache"
+cache_dir = '.\.cache'
 
-requirements = [
-    { contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard" },
-    { contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait" },
-]
+[[project.requirements]]
+contract_id = 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard'
 
-[contracts.rule-set-trait]
-path = 'contracts/rule-set-trait.clar'
+[[project.requirements]]
+contract_id = 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait'
+
+[[project.requirements]]
+contract_id = 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope'
+
+[[project.requirements]]
+contract_id = 'SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition'
+[contracts.emergency-rules]
+path = 'contracts/rules/emergency-rules.clar'
 clarity_version = 2
 epoch = 2.1
 
-[contracts.standard-rules]
-path = 'contracts/rules/standard-rules.clar'
+[contracts.extension-trait]
+path = 'contracts/extension-trait.clar'
+clarity_version = 2
+epoch = 2.1
+
+[contracts.inactive-observer]
+path = 'contracts/admins/inactive-observer.clar'
 clarity_version = 2
 epoch = 2.1
 
@@ -25,25 +36,8 @@ path = 'contracts/rules/no-rules.clar'
 clarity_version = 2
 epoch = 2.1
 
-[contracts.emergency-rules]
-path = 'contracts/rules/emergency-rules.clar'
-clarity_version = 2
-epoch = 2.1
-
-
-[contracts.inactive-observer]
-path = 'contracts/admins/inactive-observer.clar'
-clarity_version = 2
-epoch = 2.1
-
-
-[contracts.extension-trait]
-path = 'contracts/extension-trait.clar'
-clarity_version = 2
-epoch = 2.1
-
-[contracts.smart-wallet-trait]
-path = 'contracts/smart-wallet-trait.clar'
+[contracts.rule-set-trait]
+path = 'contracts/rule-set-trait.clar'
 clarity_version = 2
 epoch = 2.1
 
@@ -52,6 +46,15 @@ path = 'contracts/smart-wallet.clar'
 clarity_version = 2
 epoch = 2.1
 
+[contracts.smart-wallet-trait]
+path = 'contracts/smart-wallet-trait.clar'
+clarity_version = 2
+epoch = 2.1
+
+[contracts.standard-rules]
+path = 'contracts/rules/standard-rules.clar'
+clarity_version = 2
+epoch = 2.1
 [repl.analysis]
 passes = ['check_checker']
 
