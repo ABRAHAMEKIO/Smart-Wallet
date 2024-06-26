@@ -27,14 +27,13 @@
 	(ok (asserts! true err-unauthorised))
 )
 
-(define-read-only (is-allowed-sip010 (sip010 <sip-010-trait>) (amount uint) (recipient principal) (memo (optional (buff 34))))
-	(ok (asserts! true err-unauthorised))
+(define-private (is-allowed-sip010 (sip010 <sip-010-trait>) (amount uint) (recipient principal) (memo (optional (buff 34))))
+	(contract-call? sip010 transfer amount tx-sender recipient memo)
 )
 
-(define-read-only (is-allowed-sip009 (sip009 <sip-009-trait>) (amount uint) (recipient principal))
-	(ok (asserts! true err-unauthorised))
+(define-private (is-allowed-sip009 (sip009 <sip-009-trait>) (amount uint) (recipient principal))
+	(contract-call? sip009 transfer amount tx-sender recipient)
 )
-
 ;;
 ;; activity tracker
 ;;
@@ -59,6 +58,7 @@
 	)
 )
 
+(stx-transfer? u1000 tx-sender (as-contract tx-sender))
 
 (define-public (extension-call (extension <extension-trait>) (payload (buff 2048)))
 	(begin
@@ -77,6 +77,7 @@
 		(contract-call? sip010 transfer amount (as-contract tx-sender) recipient memo)
 	)
 )
+
 
 (define-public (sip009-transfer (nft-id uint) (recipient principal) (sip009 <sip-009-trait>))
 	(begin
