@@ -28,11 +28,11 @@
 )
 
 (define-private (is-allowed-sip010 (sip010 <sip-010-trait>) (amount uint) (recipient principal) (memo (optional (buff 34))))
-	(contract-call? sip010 transfer amount tx-sender recipient memo)
+		(ok (asserts! true err-unauthorised))
 )
 
 (define-private (is-allowed-sip009 (sip009 <sip-009-trait>) (amount uint) (recipient principal))
-	(contract-call? sip009 transfer amount tx-sender recipient)
+		(ok (asserts! true err-unauthorised))
 )
 ;;
 ;; activity tracker
