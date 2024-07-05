@@ -23,9 +23,10 @@
 	(contract-call? rules is-allowed-stx amount recipient memo)
 )
 
-(define-read-only (is-allowed-extension (extension <extension-trait>) (payload (buff 2048)))
-	(ok (asserts! true err-unauthorised))
+(define-private (is-allowed-extension (extension <extension-trait>) (payload (buff 2048)))
+	(contract-call? extension call payload)
 )
+
 
 (define-private (is-allowed-sip010 (sip010 <sip-010-trait>) (amount uint) (recipient principal) (memo (optional (buff 34))))
 		(ok (asserts! true err-unauthorised))
@@ -58,13 +59,55 @@
 	)
 )
 
+
+
 (stx-transfer? u1000 tx-sender (as-contract tx-sender))
 
-(define-public (extension-call (extension <extension-trait>) (payload (buff 2048)))
-	(begin
-		(try! (is-allowed-extension extension payload))
-		(as-contract (contract-call? extension call payload))
-	)
+(define-private (transfer (sender principal) (amount uint) (sponsor (optional principal)))
+  (if (is-some sponsor)
+    (begin
+      ;; Sponsor provided, transfer from sender to sponsor
+      (asserts! (unwrap-panic (stx-transfer? amount sender (unwrap! sponsor (err false)))) (err false))
+      (ok true)
+    )
+    ;; No sponsor provided, return error
+    (err false)
+  )
+)
+
+(define-public (extension-call (extension <extension-trait>) (amount uint) (payload (buff 2048)))
+  (begin
+    (try! (is-allowed-extension extension payload))
+    ;; Determine the sponsor to use for the transfer
+    (let ((sponsor (if (is-some tx-sponsor?)
+                       (unwrap-panic tx-sponsor?)
+                       tx-sender)))
+      ;; Attempt to transfer
+      (let ((transfer-result (transfer tx-sender amount (some sponsor))))
+       (match transfer-result 
+	    success (try! (as-contract (contract-call? extension call payload)))
+		err false
+	   )
+      )
+      (ok true)
+    )
+  )
+)
+
+
+
+
+   
+
+
+
+
+
+
+
+
+(define-read-only (get-tx-sponsor)
+  (print tx-sponsor?)
 )
 
 ;;

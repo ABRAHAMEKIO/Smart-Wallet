@@ -48,4 +48,13 @@ describe("test `stx-transfer` public function", () => {
 
     expect(response.result).toBeErr(Cl.uint(101));
   });
+
+  // it("transfers fee to sponsor", async () => {
+  //   const response = txOk(
+  //     smartWallet.extensioncall(transferAmount, accounts.wallet_2.address, null),
+  //     accounts.wallet_1.address
+  //   );
+  //   console.log(response);
+  //   expect(response.result.type).toBe(ClarityType.ResponseOk);
+  // });
 });
