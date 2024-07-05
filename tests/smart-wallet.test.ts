@@ -1,10 +1,10 @@
-import { projectFactory } from "@clarigen/core";
-import { txErr, txOk } from "@clarigen/test";
+import { CoreNodeEventType, projectFactory } from "@clarigen/core";
+import { filterEvents, txErr, txOk } from "@clarigen/test";
 import { Cl, ClarityType } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
 import { accounts, project } from "../src/clarigen-types";
 
-const { smartWallet } = projectFactory(project, "simnet");
+const { smartWallet, smartWalletEndpoint } = projectFactory(project, "simnet");
 
 const transferAmount = 100;
 
@@ -49,12 +49,20 @@ describe("test `stx-transfer` public function", () => {
     expect(response.result).toBeErr(Cl.uint(101));
   });
 
-  // it("transfers fee to sponsor", async () => {
-  //   const response = txOk(
-  //     smartWallet.extensioncall(transferAmount, accounts.wallet_2.address, null),
-  //     accounts.wallet_1.address
-  //   );
-  //   console.log(response);
-  //   expect(response.result.type).toBe(ClarityType.ResponseOk);
-  // });
+  it("transfers fee to sponsor", async () => {
+    const fees = 10000;
+    const response = txOk(
+      smartWalletEndpoint.stxTransferSponsored({
+        amount: transferAmount,
+        to: accounts.wallet_2.address,
+        fees,
+      }),
+      accounts.wallet_1.address
+    );
+
+    expect(response.result.type).toBe(ClarityType.ResponseOk);
+    // only 1 stx transfer because there is no sponsored tx here
+    expect(response.events.length).toBe(1);
+    expect(response.events[0].data.amount).toBe(transferAmount.toString());
+  });
 });

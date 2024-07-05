@@ -20,6 +20,21 @@ export const contracts = {
   },
   emergencyRules: {
     functions: {
+      isAllowedExtension: {
+        name: "is-allowed-extension",
+        access: "public",
+        args: [
+          { name: "extension", type: "trait_reference" },
+          { name: "payload", type: { buffer: { length: 2048 } } },
+        ],
+        outputs: { type: { response: { ok: "bool", error: "none" } } },
+      } as TypedAbiFunction<
+        [
+          extension: TypedAbiArg<string, "extension">,
+          payload: TypedAbiArg<Uint8Array, "payload">
+        ],
+        Response<boolean, null>
+      >,
       isAllowedStx: {
         name: "is-allowed-stx",
         access: "public",
@@ -146,6 +161,21 @@ export const contracts = {
   },
   noRules: {
     functions: {
+      isAllowedExtension: {
+        name: "is-allowed-extension",
+        access: "public",
+        args: [
+          { name: "extension", type: "trait_reference" },
+          { name: "payload", type: { buffer: { length: 2048 } } },
+        ],
+        outputs: { type: { response: { ok: "bool", error: "none" } } },
+      } as TypedAbiFunction<
+        [
+          extension: TypedAbiArg<string, "extension">,
+          payload: TypedAbiArg<Uint8Array, "payload">
+        ],
+        Response<boolean, null>
+      >,
       isAllowedStx: {
         name: "is-allowed-stx",
         access: "public",
@@ -990,6 +1020,23 @@ export const contracts = {
   },
   smartWallet: {
     functions: {
+      isAllowedExtension: {
+        name: "is-allowed-extension",
+        access: "private",
+        args: [
+          { name: "rules", type: "trait_reference" },
+          { name: "extension", type: "trait_reference" },
+          { name: "payload", type: { buffer: { length: 2048 } } },
+        ],
+        outputs: { type: { response: { ok: "bool", error: "uint128" } } },
+      } as TypedAbiFunction<
+        [
+          rules: TypedAbiArg<string, "rules">,
+          extension: TypedAbiArg<string, "extension">,
+          payload: TypedAbiArg<Uint8Array, "payload">
+        ],
+        Response<boolean, bigint>
+      >,
       isAllowedSip009: {
         name: "is-allowed-sip009",
         access: "private",
@@ -1149,27 +1196,18 @@ export const contracts = {
         args: [],
         outputs: { type: "uint128" },
       } as TypedAbiFunction<[], bigint>,
+      getTxSponsor: {
+        name: "get-tx-sponsor",
+        access: "read_only",
+        args: [],
+        outputs: { type: { optional: "principal" } },
+      } as TypedAbiFunction<[], string | null>,
       isAdminCalling: {
         name: "is-admin-calling",
         access: "read_only",
         args: [],
         outputs: { type: { response: { ok: "bool", error: "uint128" } } },
       } as TypedAbiFunction<[], Response<boolean, bigint>>,
-      isAllowedExtension: {
-        name: "is-allowed-extension",
-        access: "read_only",
-        args: [
-          { name: "extension", type: "trait_reference" },
-          { name: "payload", type: { buffer: { length: 2048 } } },
-        ],
-        outputs: { type: { response: { ok: "bool", error: "uint128" } } },
-      } as TypedAbiFunction<
-        [
-          extension: TypedAbiArg<string, "extension">,
-          payload: TypedAbiArg<Uint8Array, "payload">
-        ],
-        Response<boolean, bigint>
-      >,
       isInactive: {
         name: "is-inactive",
         access: "read_only",
@@ -1251,6 +1289,63 @@ export const contracts = {
     clarity_version: "Clarity2",
     contractName: "smart-wallet",
   },
+  smartWalletEndpoint: {
+    functions: {
+      stxTransferSponsored: {
+        name: "stx-transfer-sponsored",
+        access: "public",
+        args: [
+          {
+            name: "details",
+            type: {
+              tuple: [
+                { name: "amount", type: "uint128" },
+                { name: "fees", type: "uint128" },
+                { name: "to", type: "principal" },
+              ],
+            },
+          },
+        ],
+        outputs: { type: { response: { ok: "bool", error: "uint128" } } },
+      } as TypedAbiFunction<
+        [
+          details: TypedAbiArg<
+            {
+              amount: number | bigint;
+              fees: number | bigint;
+              to: string;
+            },
+            "details"
+          >
+        ],
+        Response<boolean, bigint>
+      >,
+    },
+    maps: {},
+    variables: {
+      errInvalidPayload: {
+        name: "err-invalid-payload",
+        type: {
+          response: {
+            ok: "none",
+            error: "uint128",
+          },
+        },
+        access: "constant",
+      } as TypedAbiVariable<Response<null, bigint>>,
+    },
+    constants: {
+      errInvalidPayload: {
+        isOk: false,
+        value: 5_000n,
+      },
+    },
+    non_fungible_tokens: [],
+    fungible_tokens: [],
+    epoch: "Epoch21",
+    clarity_version: "Clarity2",
+    contractName: "smart-wallet-endpoint",
+  },
   smartWalletTrait: {
     functions: {},
     maps: {},
@@ -1262,8 +1357,60 @@ export const contracts = {
     clarity_version: "Clarity2",
     contractName: "smart-wallet-trait",
   },
+  sponsoredTransfer: {
+    functions: {
+      call: {
+        name: "call",
+        access: "public",
+        args: [{ name: "payload", type: { buffer: { length: 2048 } } }],
+        outputs: { type: { response: { ok: "bool", error: "uint128" } } },
+      } as TypedAbiFunction<
+        [payload: TypedAbiArg<Uint8Array, "payload">],
+        Response<boolean, bigint>
+      >,
+    },
+    maps: {},
+    variables: {
+      errInvalidPayload: {
+        name: "err-invalid-payload",
+        type: {
+          response: {
+            ok: "none",
+            error: "uint128",
+          },
+        },
+        access: "constant",
+      } as TypedAbiVariable<Response<null, bigint>>,
+    },
+    constants: {
+      errInvalidPayload: {
+        isOk: false,
+        value: 500n,
+      },
+    },
+    non_fungible_tokens: [],
+    fungible_tokens: [],
+    epoch: "Epoch21",
+    clarity_version: "Clarity2",
+    contractName: "sponsored-transfer",
+  },
   standardRules: {
     functions: {
+      isAllowedExtension: {
+        name: "is-allowed-extension",
+        access: "public",
+        args: [
+          { name: "extension", type: "trait_reference" },
+          { name: "payload", type: { buffer: { length: 2048 } } },
+        ],
+        outputs: { type: { response: { ok: "bool", error: "none" } } },
+      } as TypedAbiFunction<
+        [
+          extension: TypedAbiArg<string, "extension">,
+          payload: TypedAbiArg<Uint8Array, "payload">
+        ],
+        Response<boolean, null>
+      >,
       isAllowedStx: {
         name: "is-allowed-stx",
         access: "public",
@@ -1380,8 +1527,12 @@ export const identifiers = {
   sip010TraitFtStandard:
     "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard",
   smartWallet: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet",
+  smartWalletEndpoint:
+    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-endpoint",
   smartWalletTrait:
     "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-trait",
+  sponsoredTransfer:
+    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sponsored-transfer",
   standardRules: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.standard-rules",
 } as const;
 
@@ -1470,9 +1621,21 @@ export const deployments = {
     testnet: null,
     mainnet: null,
   },
+  smartWalletEndpoint: {
+    devnet: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-endpoint",
+    simnet: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-endpoint",
+    testnet: null,
+    mainnet: null,
+  },
   smartWalletTrait: {
     devnet: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-trait",
     simnet: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-trait",
+    testnet: null,
+    mainnet: null,
+  },
+  sponsoredTransfer: {
+    devnet: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sponsored-transfer",
+    simnet: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sponsored-transfer",
     testnet: null,
     mainnet: null,
   },
