@@ -48,9 +48,6 @@ genesis:
 plan:
   batches:
     - id: 0
-      transactions: []
-      epoch: "2.0"
-    - id: 1
       transactions:
         - emulated-contract-publish:
             contract-name: nft-trait
@@ -72,6 +69,9 @@ plan:
             emulated-sender: SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE
             path: ".\\.cache/requirements/SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.clar"
             clarity-version: 1
+      epoch: "2.0"
+    - id: 1
+      transactions:
         - emulated-contract-publish:
             contract-name: extension-trait
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
@@ -122,23 +122,13 @@ plan:
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/smart-wallet-endpoint.clar
             clarity-version: 2
+        - emulated-contract-publish:
+            contract-name: smart-wallet-standard
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/smart-wallet-standard.clar
+            clarity-version: 2
       epoch: "2.1"
     - id: 2
-      transactions: []
-      epoch: "2.1"
-    - id: 3
-      transactions: []
-      epoch: "2.1"
-    - id: 4
-      transactions: []
-      epoch: "2.1"
-    - id: 5
-      transactions: []
-      epoch: "2.1"
-    - id: 6
-      transactions: []
-      epoch: "2.1"
-    - id: 7
       transactions:
         - emulated-contract-publish:
             contract-name: nope
@@ -146,41 +136,11 @@ plan:
             path: ".\\.cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope.clar"
             clarity-version: 2
       epoch: "2.4"
-    - id: 8
-      transactions: []
-      epoch: "2.4"
-    - id: 9
-      transactions: []
-      epoch: "2.4"
-    - id: 10
-      transactions: []
-      epoch: "2.4"
-    - id: 11
-      transactions: []
-      epoch: "2.4"
-    - id: 12
-      transactions: []
-      epoch: "2.4"
-    - id: 13
+    - id: 3
       transactions:
         - emulated-contract-publish:
             contract-name: og-bitcoin-pizza-leather-edition
             emulated-sender: SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5
             path: ".\\.cache/requirements/SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition.clar"
             clarity-version: 2
-      epoch: "2.5"
-    - id: 14
-      transactions: []
-      epoch: "2.5"
-    - id: 15
-      transactions: []
-      epoch: "2.5"
-    - id: 16
-      transactions: []
-      epoch: "2.5"
-    - id: 17
-      transactions: []
-      epoch: "2.5"
-    - id: 18
-      transactions: []
       epoch: "2.5"
