@@ -16,6 +16,9 @@ contract_id = 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope'
 
 [[project.requirements]]
 contract_id = 'SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition'
+[[project.requirements]]
+contract_id = 'SP000000000000000000002Q6VF78.pox-4'
+
 [contracts.emergency-rules]
 path = 'contracts/rules/emergency-rules.clar'
 clarity_version = 2
@@ -66,6 +69,16 @@ epoch = 2.1
 path = 'contracts/extensions/sponsored-transfer.clar'
 clarity_version = 2
 epoch = 2.1
+
+[contracts.ext-delegate-stx-pox-4]
+path = 'contracts/extensions/ext-delegate-stx-pox-4.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.ext-allow-contract-caller-pox-4]
+path = 'contracts/extensions/ext-allow-contract-caller-pox-4.clar'
+clarity_version = 2
+epoch = 2.5
 
 [contracts.smart-wallet-endpoint]
 path = 'contracts/smart-wallet-endpoint.clar'

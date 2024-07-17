@@ -48,6 +48,9 @@ genesis:
 plan:
   batches:
     - id: 0
+      transactions: []
+      epoch: "2.0"
+    - id: 1
       transactions:
         - emulated-contract-publish:
             contract-name: nft-trait
@@ -69,9 +72,6 @@ plan:
             emulated-sender: SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE
             path: ".\\.cache/requirements/SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.clar"
             clarity-version: 1
-      epoch: "2.0"
-    - id: 1
-      transactions:
         - emulated-contract-publish:
             contract-name: extension-trait
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
@@ -129,6 +129,12 @@ plan:
             clarity-version: 2
       epoch: "2.1"
     - id: 2
+      transactions: []
+      epoch: "2.1"
+    - id: 3
+      transactions: []
+      epoch: "2.1"
+    - id: 4
       transactions:
         - emulated-contract-publish:
             contract-name: nope
@@ -136,11 +142,33 @@ plan:
             path: ".\\.cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope.clar"
             clarity-version: 2
       epoch: "2.4"
-    - id: 3
+    - id: 5
+      transactions: []
+      epoch: "2.4"
+    - id: 6
+      transactions: []
+      epoch: "2.4"
+    - id: 7
       transactions:
         - emulated-contract-publish:
             contract-name: og-bitcoin-pizza-leather-edition
             emulated-sender: SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5
             path: ".\\.cache/requirements/SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition.clar"
             clarity-version: 2
+        - emulated-contract-publish:
+            contract-name: ext-allow-contract-caller-pox-4
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/extensions/ext-allow-contract-caller-pox-4.clar
+            clarity-version: 2
+        - emulated-contract-publish:
+            contract-name: ext-delegate-stx-pox-4
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/extensions/ext-delegate-stx-pox-4.clar
+            clarity-version: 2
+      epoch: "2.5"
+    - id: 8
+      transactions: []
+      epoch: "2.5"
+    - id: 9
+      transactions: []
       epoch: "2.5"
