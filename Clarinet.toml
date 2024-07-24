@@ -46,6 +46,10 @@ path = 'contracts/smart-wallet.clar'
 clarity_version = 2
 epoch = 2.1
 
+[contracts.smart-wallet-endpoint]
+path = 'contracts/smart-wallet-endpoint.clar'
+clarity_version = 2
+epoch = 2.1
 
 [contracts.smart-wallet-standard]
 path = 'contracts/smart-wallet-standard.clar'
@@ -57,22 +61,15 @@ path = 'contracts/smart-wallet-trait.clar'
 clarity_version = 2
 epoch = 2.1
 
-[contracts.standard-rules]
-path = 'contracts/rules/standard-rules.clar'
-clarity_version = 2
-epoch = 2.1
-
 [contracts.sponsored-transfer]
 path = 'contracts/extensions/sponsored-transfer.clar'
 clarity_version = 2
 epoch = 2.1
 
-[contracts.smart-wallet-endpoint]
-path = 'contracts/smart-wallet-endpoint.clar'
+[contracts.standard-rules]
+path = 'contracts/rules/standard-rules.clar'
 clarity_version = 2
 epoch = 2.1
-
-
 [repl.analysis]
 passes = ['check_checker']
 

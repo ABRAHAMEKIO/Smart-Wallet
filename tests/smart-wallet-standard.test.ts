@@ -13,9 +13,10 @@ function hasAmountProperty(data: any): data is { amount: string } {
   return (data as { amount: string }).amount !== undefined;
 }
 
-describe("test `stx-transfer` public function", () => {
+describe("test `smart-wallet-standard` public functions", () => {
+
   it("transfers 100 stx to wallet", async () => {
-    const response = txOk(
+    const response = await txOk(
       smartWallet.stxTransfer(transferAmount, accounts.wallet_2.address, null),
       accounts.wallet_1.address
     );
@@ -26,7 +27,7 @@ describe("test `stx-transfer` public function", () => {
   it("transfers 100 sip10 tokens to wallet", async () => {
     const sip010Contract = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope";
 
-    const response = txErr(
+    const response = await txErr(
       smartWallet.sip010Transfer(
         transferAmount,
         accounts.wallet_2.address,
@@ -42,7 +43,7 @@ describe("test `stx-transfer` public function", () => {
   it("transfers 1 Nft to wallet", async () => {
     const sip09Contract =
       "SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition";
-    const response = txErr(
+    const response = await txErr(
       smartWallet.sip009Transfer(
         1,
         "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet",
@@ -54,9 +55,10 @@ describe("test `stx-transfer` public function", () => {
     expect(response.result).toBeErr(Cl.uint(101));
   });
 
+  // Uncomment and adjust as needed for other tests
   // it("transfers fee to sponsor", async () => {
   //   const fees = 10000;
-  //   const response = txOk(
+  //   const response = await txOk(
   //     smartWalletEndpoint.stxTransferSponsored({
   //       amount: transferAmount,
   //       to: accounts.wallet_2.address,
