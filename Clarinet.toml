@@ -3,21 +3,19 @@ name = 'Smart-Wallet'
 description = ''
 authors = []
 telemetry = true
-cache_dir = '.\.cache'
+cache_dir = '.cache'
 
-[[project.requirements]]
-contract_id = 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard'
+requirements = [
+    { contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard" },
+    { contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait" },
+    { contract_id = "SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait" },
+    { contract_id = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope" },
+    { contract_id = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.napper" },
+    { contract_id = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wrapped-nothing-v8" },
+    { contract_id = "SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition" },
+    { contract_id = 'SP000000000000000000002Q6VF78.pox-4' },
+]
 
-[[project.requirements]]
-contract_id = 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait'
-
-[[project.requirements]]
-contract_id = 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope'
-
-[[project.requirements]]
-contract_id = 'SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition'
-[[project.requirements]]
-contract_id = 'SP000000000000000000002Q6VF78.pox-4'
 
 [contracts.emergency-rules]
 path = 'contracts/rules/emergency-rules.clar'
@@ -59,6 +57,11 @@ path = 'contracts/smart-wallet-standard.clar'
 clarity_version = 2
 epoch = 2.1
 
+[contracts.smart-wallet-standard-endpoint]
+path = 'contracts/smart-wallet-standard-endpoint.clar'
+clarity_version = 2
+epoch = 2.1
+
 [contracts.smart-wallet-trait]
 path = 'contracts/smart-wallet-trait.clar'
 clarity_version = 2
@@ -69,8 +72,13 @@ path = 'contracts/rules/standard-rules.clar'
 clarity_version = 2
 epoch = 2.1
 
-[contracts.sponsored-transfer]
-path = 'contracts/extensions/sponsored-transfer.clar'
+[contracts.ext-sponsored-transfer]
+path = 'contracts/extensions/ext-sponsored-transfer.clar'
+clarity_version = 2
+epoch = 2.1
+
+[contracts.ext-unsafe-sip010-transfer]
+path = 'contracts/extensions/ext-unsafe-sip010-transfer.clar'
 clarity_version = 2
 epoch = 2.1
 
