@@ -81,7 +81,7 @@ epoch = 2.1
 [contracts.ext-unsafe-sip010-transfer]
 path = 'contracts/extensions/ext-unsafe-sip010-transfer.clar'
 clarity_version = 2
-epoch = 2.1
+epoch = 3.0
 
 [contracts.ext-delegate-stx-pox-4]
 path = 'contracts/extensions/ext-delegate-stx-pox-4.clar'
