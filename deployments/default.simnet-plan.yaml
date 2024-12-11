@@ -132,9 +132,6 @@ plan:
       transactions: []
       epoch: "2.1"
     - id: 3
-      transactions: []
-      epoch: "2.1"
-    - id: 4
       transactions:
         - emulated-contract-publish:
             contract-name: nope
@@ -142,13 +139,10 @@ plan:
             path: ".\\.cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope.clar"
             clarity-version: 2
       epoch: "2.4"
+    - id: 4
+      transactions: []
+      epoch: "2.4"
     - id: 5
-      transactions: []
-      epoch: "2.4"
-    - id: 6
-      transactions: []
-      epoch: "2.4"
-    - id: 7
       transactions:
         - emulated-contract-publish:
             contract-name: og-bitcoin-pizza-leather-edition
@@ -166,9 +160,6 @@ plan:
             path: contracts/extensions/ext-delegate-stx-pox-4.clar
             clarity-version: 2
       epoch: "2.5"
-    - id: 8
-      transactions: []
-      epoch: "2.5"
-    - id: 9
+    - id: 6
       transactions: []
       epoch: "2.5"

@@ -49,6 +49,10 @@ path = 'contracts/smart-wallet.clar'
 clarity_version = 2
 epoch = 2.1
 
+[contracts.smart-wallet-endpoint]
+path = 'contracts/smart-wallet-endpoint.clar'
+clarity_version = 2
+epoch = 2.1
 
 [contracts.smart-wallet-standard]
 path = 'contracts/smart-wallet-standard.clar'
@@ -79,11 +83,6 @@ epoch = 2.5
 path = 'contracts/extensions/ext-allow-contract-caller-pox-4.clar'
 clarity_version = 2
 epoch = 2.5
-
-[contracts.smart-wallet-endpoint]
-path = 'contracts/smart-wallet-endpoint.clar'
-clarity_version = 2
-epoch = 2.1
 
 
 [repl.analysis]
