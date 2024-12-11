@@ -15,19 +15,19 @@
 )
 
 (define-private (is-allowed-stx (amount uint) (recipient principal) (memo (optional (buff 34))))
-	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
+	(is-admin-calling)
 )
 
 (define-private (is-allowed-extension (extension <extension-trait>) (payload (buff 2048)))
-	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
+	(is-admin-calling)
 )
 
 (define-private (is-allowed-sip010 (sip010 <sip-010-trait>) (amount uint) (recipient principal) (memo (optional (buff 34))))
-		(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
+	(is-admin-calling)
 )
 
 (define-private (is-allowed-sip009 (sip009 <sip-009-trait>) (amount uint) (recipient principal))
-		(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
+	(is-admin-calling)
 )
 ;;
 ;; calls with context switching
@@ -85,11 +85,13 @@
 	(begin
 		(try! (is-admin-calling))
 		(try! (enable-admin new-admin true))
-		(try! (as-contract (enable-admin contract-caller false)))
+		(map-set admins contract-caller false)
 		(ok true)
 	)
 )
 
 ;; init
-(enable-admin tx-sender true)
-(enable-admin (as-contract tx-sender) true)
+(map-set admins tx-sender true)
+(map-set admins (as-contract tx-sender) true)
+;; send 1000 ustx to the smart wallet
+(stx-transfer? u1000 tx-sender (as-contract tx-sender))

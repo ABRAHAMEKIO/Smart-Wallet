@@ -88,11 +88,10 @@ path = 'contracts/extensions/ext-delegate-stx-pox-4.clar'
 clarity_version = 2
 epoch = 2.5
 
-[contracts.ext-allow-contract-caller-pox-4]
-path = 'contracts/extensions/ext-allow-contract-caller-pox-4.clar'
+[contracts.ext-test]
+path = 'contracts/tests/ext-test.clar'
 clarity_version = 2
 epoch = 2.5
-
 
 [repl.analysis]
 passes = ['check_checker']

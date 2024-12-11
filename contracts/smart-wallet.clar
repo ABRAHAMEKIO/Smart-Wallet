@@ -117,7 +117,7 @@
 
 ;; init
 (set-security-level u1)
-(enable-admin .inactive-observer true)
-(enable-admin tx-sender true)
+(map-set admins .inactive-observer true)
+(map-set admins tx-sender true)
 ;; send 1000 ustx to the smart wallet
 (stx-transfer? u1000 tx-sender (as-contract tx-sender))

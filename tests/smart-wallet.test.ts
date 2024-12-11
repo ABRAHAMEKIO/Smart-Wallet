@@ -1,6 +1,6 @@
 import { CoreNodeEventType, projectFactory } from "@clarigen/core";
 import { filterEvents, txErr, txOk } from "@clarigen/test";
-import { Cl, ClarityType } from "@stacks/transactions";
+import { Cl, ClarityType, trueCV } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
 import { accounts, project } from "../src/clarigen-types";
 
@@ -54,25 +54,25 @@ describe("test `stx-transfer` public function", () => {
     expect(response.result).toBeErr(Cl.uint(101));
   });
 
-  // it("transfers fee to sponsor", async () => {
-  //   const fees = 10000;
-  //   const response = txOk(
-  //     smartWalletEndpoint.stxTransferSponsored({
-  //       amount: transferAmount,
-  //       to: accounts.wallet_2.address,
-  //       fees,
-  //     }),
-  //     accounts.wallet_1.address
-  //   );
+  it("transfers fee to sponsor", async () => {
+    const fees = 10000;
+    const response = txOk(
+      smartWalletEndpoint.stxTransferSponsored({
+        amount: transferAmount,
+        to: accounts.wallet_2.address,
+        fees,
+      }),
+      accounts.wallet_1.address
+    );
 
-  //   expect(response.result.type).toBe(ClarityType.ResponseOk);
-  //   // only 1 stx transfer because there is no sponsored tx here
-  //   expect(response.events.length).toBe(1);
-  //   const event = response.events[0].data;
-  //   if (hasAmountProperty(event)) {
-  //     expect(event.amount).toBe(transferAmount.toString());
-  //   } else {
-  //     throw new Error("Event data does not have amount property");
-  //   }
-  // });
+    expect(response.result).toBeOk(trueCV());
+    // only 1 stx transfer event because there is no sponsored tx here
+    expect(response.events.length).toBe(1);
+    const event = response.events[0].data;
+    if (hasAmountProperty(event)) {
+      expect(event.amount).toBe(transferAmount.toString());
+    } else {
+      throw new Error("Event data does not have amount property");
+    }
+  });
 });
