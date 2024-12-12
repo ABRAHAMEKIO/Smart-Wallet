@@ -15,19 +15,19 @@
 )
 
 (define-private (is-allowed-stx (amount uint) (recipient principal) (memo (optional (buff 34))))
-	(is-admin-calling)
+	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
 )
 
 (define-private (is-allowed-extension (extension <extension-trait>) (payload (buff 2048)))
-	(is-admin-calling)
+	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
 )
 
 (define-private (is-allowed-sip010 (sip010 <sip-010-trait>) (amount uint) (recipient principal) (memo (optional (buff 34))))
-	(is-admin-calling)
+		(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
 )
 
 (define-private (is-allowed-sip009 (sip009 <sip-009-trait>) (amount uint) (recipient principal))
-	(is-admin-calling)
+		(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
 )
 ;;
 ;; calls with context switching
@@ -41,6 +41,18 @@
 		))
 	)
 )
+
+(define-public 
+	(delegate-call-back 
+		(amount-ustx uint)
+        (delegate-to principal)
+        (until-burn-ht (optional uint))
+        (pox-addr (optional { version: (buff 1), hashbytes: (buff 32) })) 
+	) 
+	(to-uint-response (contract-call? 'SP000000000000000000002Q6VF78.pox-4 delegate-stx amount-ustx delegate-to until-burn-ht pox-addr))
+)
+(define-read-only (to-uint-response (res (response bool int)))
+    (match res success (ok success) error (err (to-uint error))))
 
 (define-public (extension-call (extension <extension-trait>) (payload (buff 2048)))
 	(begin
@@ -85,13 +97,11 @@
 	(begin
 		(try! (is-admin-calling))
 		(try! (enable-admin new-admin true))
-		(map-set admins contract-caller false)
+		(try! (as-contract (enable-admin contract-caller false)))
 		(ok true)
 	)
 )
 
 ;; init
-(map-set admins tx-sender true)
-(map-set admins (as-contract tx-sender) true)
-;; send 1000 ustx to the smart wallet
-(stx-transfer? u1000 tx-sender (as-contract tx-sender))
+(enable-admin tx-sender true)
+(enable-admin (as-contract tx-sender) true)
