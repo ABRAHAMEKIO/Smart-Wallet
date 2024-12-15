@@ -1,13 +1,14 @@
 import { Avatar, Button } from '@nextui-org/react';
 import React from 'react';
 import { IoMdSend } from 'react-icons/io';
+import { TbBrandCashapp } from "react-icons/tb";
 
 function WalletBalance({ stx, btc, setSelectedContract, sendModalOnOpen }) {
     console.log({ stx });
     return (
         <div className="myflex">
-            <div className="flex gap-1 justify-center items-center">
-                <div className='flex gap-1 justify-center items-center'>
+            <div className="flex gap-3 justify-center items-center">
+                <div className='flex gap-3 justify-center items-center'>
                     <Avatar
                         isBordered
                         radius="full"
@@ -19,11 +20,16 @@ function WalletBalance({ stx, btc, setSelectedContract, sendModalOnOpen }) {
                         <h5 className="text-small tracking-tight text-default-400">Rate: $ {stx.rate}</h5>
                     </div>
                 </div>
-                <Button color="primary" radius="full" size="sm" onPress={() => sendModalOnOpen(true)}>
-                    <IoMdSend />
-                </Button>
+                <div className='flex gap-2'>
+                    <Button color="primary" radius="full" size="sm" onPress={() => sendModalOnOpen(true)}>
+                        <TbBrandCashapp size="small"/>
+                    </Button>
+                    <Button color="primary" radius="full" size="sm" onPress={() => sendModalOnOpen(true)}>
+                        <IoMdSend size="small"/>
+                    </Button>
+                </div>
             </div>
-            <div className="flex gap-1 justify-center items-center">
+            {/* <div className="flex gap-1 justify-center items-center">
                 <div className='flex gap-1 justify-center items-center'>
                     <Avatar
                         isBordered
@@ -38,8 +44,8 @@ function WalletBalance({ stx, btc, setSelectedContract, sendModalOnOpen }) {
                 </div>
                 {/* <Button color="primary" radius="full" size="sm" onPress={() => sendModalOnOpen(true)}>
                     <IoMdSend />
-                </Button> */}
-            </div>
+                </Button> 
+            </div> */}
         </div>
     );
 }

@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Select, SelectItem } from "@nextui-org/react";
 import { Tabs, Tab, Card, CardHeader, CardFooter, Image, CardBody, Button, Avatar, useDisclosure } from "@nextui-org/react";
 import { RiNftFill } from "react-icons/ri";
 import { MdGeneratingTokens } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
+import { TbBrandCashapp } from 'react-icons/tb';
+
+
 export default function WalletAssets({ fungible_Tokens, non_Fungible_Tokens, setSelectedContract, sendModalOnOpen }) {
+    const [] = useState();
 
     function openSendModal(asset) {
         setSelectedContract(asset);
         sendModalOnOpen(true);
     }
 
+    function formatNumber(num) {
+        if (num >= 1e9) {
+            return (num / 1e9).toFixed(1).replace(/\.0$/, "") + "b"; // Billions
+        }
+        if (num >= 1e6) {
+            return (num / 1e6).toFixed(1).replace(/\.0$/, "") + "m"; // Millions
+        }
+        if (num >= 1e3) {
+            return (num / 1e3).toFixed(1).replace(/\.0$/, "") + "k"; // Thousands
+        }
+        return num.toString(); // Less than 1,000
+    }
+
     return (
-        <Tabs className='w-full' aria-label="Options" placement={'top'}>
+        <Tabs className='w-full' aria-label="Options" placement={'top'} >
             <Tab key="token" title={
                 <div className="flex items-center gap-1">
                     <MdGeneratingTokens />
@@ -20,25 +38,33 @@ export default function WalletAssets({ fungible_Tokens, non_Fungible_Tokens, set
             }>
                 <Card className='mt-1'>
                     <CardBody>
-                        <div className="myresponsivegrid">
+                        <div className="w-full flex flex-col gap-4">
                             {fungible_Tokens.map(({ name, balance, icon, contract_id }) => (
-                                <Card style={{ width: '200px', height: '150px' }} isFooterBlurred className="w-full h-[300px] col-span-12 sm:col-span-5">
-                                    <Image
-                                        removeWrapper
-                                        alt="Card example background"
-                                        className="z-0 w-full h-full scale-125 -translate-y-6"
-                                        src={icon}
-                                    />
-                                    <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10 justify-between">
-                                        <div>
-                                            <p className="text-black text-tiny">{name}</p>
-                                            <p className="text-black text-tiny">{balance}</p>
+                                <div className="flex justify-between justify-center items-center">
+                                    <div className='flex gap-3 justify-center items-center'>
+                                        <Avatar
+                                            isBordered
+                                            radius="full"
+                                            size="md"
+                                            src={icon}
+                                        />
+                                        <div className="flex flex-col gap-1 items-start justify-center">
+                                            <h4 className="text-small font-semibold leading-none text-default-600">{name}</h4>
+                                            <h5 className="text-small tracking-tight text-default-400"> {formatNumber(balance)}</h5>
                                         </div>
-                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendModal(contract_id)}>
+                                    </div>
+                                    <p className='truncate p-3'>
+                                        <a href='#' className='text-primary underline'>jjksdfjsdflkjshfjkshkfjhsdkfjhskdljfh</a>
+                                    </p>
+                                    <div className='flex flex-col gap-2'>
+                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendModal()}>
                                             <IoMdSend />
                                         </Button>
-                                    </CardFooter>
-                                </Card>
+                                        {/* <Button color="primary" radius="full" size="sm" onPress={() => openSendModal()}>
+                                        <IoMdSend />
+                                    </Button> */}
+                                    </div>
+                                </div>
                             ))}
                             {fungible_Tokens.length === 0 && <p>No Ft Asset's</p>}
                         </div>
@@ -53,8 +79,13 @@ export default function WalletAssets({ fungible_Tokens, non_Fungible_Tokens, set
             }>
                 <Card fullWidth>
                     <CardBody>
-                        <div className="myresponsivegrid">
-                            {non_Fungible_Tokens.map(({ name, count, image }) => (
+                        <div className="w-full">
+                            <Select label="Assets List">
+                                {non_Fungible_Tokens.map(({ name }) => (
+                                    <SelectItem startContent={<Avatar src='/icon-placeholder.svg' />}>{name}</SelectItem>
+                                ))}
+                            </Select>
+                            {/* {non_Fungible_Tokens.map(({ name, count, image }) => (
                                 // /* eslint-disable no-console 
                                 <Card style={{ width: '200px', height: '150px' }} isFooterBlurred className="w-full h-[300px] col-span-12 sm:col-span-5">
                                     <Image
@@ -74,7 +105,7 @@ export default function WalletAssets({ fungible_Tokens, non_Fungible_Tokens, set
                                     </CardFooter>
                                 </Card>
                             ))}
-                            {non_Fungible_Tokens.length === 0 && <p>No Nft Asset's</p>}
+                            {non_Fungible_Tokens.length === 0 && <p>No Nft Asset's</p>} */}
                         </div>
                     </CardBody>
                 </Card>

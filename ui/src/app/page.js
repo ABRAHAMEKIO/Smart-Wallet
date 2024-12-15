@@ -38,7 +38,7 @@ export default function Home() {
 
       <main className="w-full mymaindiv">
         <div className="w-full flex justify-between items-center">
-          <Logo />
+          <Logo clientConfig={clientConfig} setClientConfig={setClientConfig} />
           <Avatar clientConfig={clientConfig} />
         </div>
 

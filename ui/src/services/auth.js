@@ -26,9 +26,14 @@ export function isUserAuthed() {
 }
 
 export function getAddress(network) {
-    return isUserAuthed() ? userSession.loadUserData().profile.stxAddress[network] : '';
+    const networkVal = {
+        testnet: 'testnet', devnet: 'testnet',
+        mainnet: 'mainnet', mocknet: 'mainnet'
+    }[network];
+    console.log('===================.>>>>>>>>>>>>>>>>>>>>>>',  {networkVal, network} );
+    return isUserAuthed() ? userSession.loadUserData().profile.stxAddress[networkVal] : '';
 }
 
 export function network(network) {
-    return { testnet: STACKS_TESTNET, mainnet: STACKS_MAINNET }[network];
+    return { mainnet: STACKS_MAINNET, testnet: STACKS_TESTNET, mocknet: STACKS_MOCKNET, devnet: STACKS_DEVNET }[network];
 }

@@ -21,7 +21,7 @@ const Avatar = ({ clientConfig }) => {
 
   return (
     <User
-      className="flex p-0 gap-1"
+      className="flex p-0 gap-3"
       avatarProps={{ src: avatar || "/avatar.png" }}
       description={<div><small>{{ mainnet: shortmainnet, testnet: shorttestnet }[clientConfig[appOrigin]['network']]}</small> {authed ? <CiLogout onClick={disconnect} className="text-danger" /> : <CiLogin onClick={authenticate} className="tesxt-success" />}</div>}
       name={bns || "No Bns"}
