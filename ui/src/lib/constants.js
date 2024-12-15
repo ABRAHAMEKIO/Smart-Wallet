@@ -4,31 +4,14 @@ export const api = {
     nakamototestnet: 'https://api.nakamoto.testnet.hiro.so',
 };
 
-export const decimals = {
-    "ST143YHR805B8S834BWJTMZVFR1WP5FFC00V8QTV4.functional-moccasin-guacamole::BurningMan": 1000000,
-    "ST163M7HN0G1CFK0E7NW9BJRG755C5JWMQAPTKJPX.kela-coin::kela-coin": 1000000,
-    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.captain-chainhook-faktory::HOOK": 1000000,
-    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.count-token::count-token": 1000000,
-    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.Foundry-test-123::WELSH": 1000000,
-    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.Foundry-test-1234::WELSH": 1000000,
-    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.Foundry-test::WELSH": 1000000,
-    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.foundry-TfUD4cVh::WELSH": 1000000,
-    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.Foundry::WELSH": 1000000,
-    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.mock-usdc::mock-usdc": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.aeusdc::aeusdc": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.alex::alex": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.diko::diko": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.leo::leo": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.mia::mia": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.not-not::not-not": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.nyc::nyc": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.roo::roo": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.sbtc::sbtc": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.ststx::ststx": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.susdt::susdt": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.uasu::uasu": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.usda-token::usda": 1000000,
-    "ST3D8PX7ABNZ1DPP9MRRCYQKVTAC16WXJ7VCN3Z97.welsh::welsh": 1000000,
+export const explorer = (address, tx, network) => {
+    const explorerUrl = {
+        mainnet: `https://explorer.hiro.so/${address ? 'address' : 'txid'}/${address || tx}?chain=mainnet`,
+        testnet: `https://explorer.hiro.so/${address ? 'address' : 'txid'}/${address || tx}?chain=testnet`,
+        devnet: `http://localhost:3999/${address ? 'address' : 'txid'}/${address || tx}?chain=devnet`,
+    }
+    console.log({ url: explorerUrl[network], address, tx, network });
+    return explorerUrl[network];
 }
 
 export const spportedExtensions = [
@@ -46,3 +29,4 @@ export const spportedExtensions = [
     { key: "otter", label: "Otter" },
     { key: "crocodile", label: "Crocodile" },
 ]
+

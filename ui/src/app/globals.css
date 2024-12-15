@@ -186,3 +186,11 @@ button.Vote {
   justify-content: center;
   align-items: center;
 }
+
+.myCustomBannerHeadertext {
+  font-size: 2rem;
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}

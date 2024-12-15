@@ -5,9 +5,11 @@ import { RiNftFill } from "react-icons/ri";
 import { MdGeneratingTokens } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
 import { TbBrandCashapp } from 'react-icons/tb';
+import { umicrostoActualValue } from "../services/operator";
+import { explorer } from '../lib/constants';
 
 
-export default function WalletAssets({ fungible_Tokens, non_Fungible_Tokens, setSelectedContract, sendModalOnOpen }) {
+export default function WalletAssets({ network, fungible_Tokens, non_Fungible_Tokens, setSelectedContract, sendModalOnOpen }) {
     const [] = useState();
 
     function openSendModal(asset) {
@@ -15,7 +17,7 @@ export default function WalletAssets({ fungible_Tokens, non_Fungible_Tokens, set
         sendModalOnOpen(true);
     }
 
-    function formatNumber(num) {
+    function formatNumber(num, op) {
         if (num >= 1e9) {
             return (num / 1e9).toFixed(1).replace(/\.0$/, "") + "b"; // Billions
         }
@@ -25,7 +27,7 @@ export default function WalletAssets({ fungible_Tokens, non_Fungible_Tokens, set
         if (num >= 1e3) {
             return (num / 1e3).toFixed(1).replace(/\.0$/, "") + "k"; // Thousands
         }
-        return num.toString(); // Less than 1,000
+        return op ? num.toString() : `micro${num.toString()}`; // Less than 1,000
     }
 
     return (
@@ -39,22 +41,22 @@ export default function WalletAssets({ fungible_Tokens, non_Fungible_Tokens, set
                 <Card className='mt-1'>
                     <CardBody>
                         <div className="w-full flex flex-col gap-4">
-                            {fungible_Tokens.map(({ name, balance, icon, contract_id }) => (
+                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, tx_id, decimals }) => (
                                 <div className="flex justify-between justify-center items-center">
                                     <div className='flex gap-3 justify-center items-center'>
                                         <Avatar
                                             isBordered
                                             radius="full"
                                             size="md"
-                                            src={icon}
+                                            src={image_uri || placeholder_icon}
                                         />
                                         <div className="flex flex-col gap-1 items-start justify-center">
-                                            <h4 className="text-small font-semibold leading-none text-default-600">{name}</h4>
-                                            <h5 className="text-small tracking-tight text-default-400"> {formatNumber(balance)}</h5>
+                                            <h4 className="text-small font-semibold leading-none text-default-600">{name || suggested_name}</h4>
+                                            <h5 className="text-small tracking-tight text-default-400"> {formatNumber(umicrostoActualValue(balance, decimals || 1), decimals)}</h5>
                                         </div>
                                     </div>
                                     <p className='truncate p-3'>
-                                        <a href='#' className='text-primary underline'>jjksdfjsdflkjshfjkshkfjhsdkfjhskdljfh</a>
+                                        <a href={`${explorer(contract_principal || '', tx_id || '', network)}`} target='blank' className='text-primary underline'>{tx_id || contract_principal}</a>
                                     </p>
                                     <div className='flex flex-col gap-2'>
                                         <Button color="primary" radius="full" size="sm" onPress={() => openSendModal()}>

@@ -22,10 +22,10 @@ function WalletBalance({ stx, btc, setSelectedContract, sendModalOnOpen }) {
                 </div>
                 <div className='flex gap-2'>
                     <Button color="primary" radius="full" size="sm" onPress={() => sendModalOnOpen(true)}>
-                        <TbBrandCashapp size="small"/>
+                        <TbBrandCashapp />
                     </Button>
                     <Button color="primary" radius="full" size="sm" onPress={() => sendModalOnOpen(true)}>
-                        <IoMdSend size="small"/>
+                        <IoMdSend />
                     </Button>
                 </div>
             </div>

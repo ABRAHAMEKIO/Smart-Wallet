@@ -48,7 +48,7 @@ export default function TabsComponents({ clientConfig, setSelectedContract, send
                 }>
                     <Card className='mt-1'>
                         <CardBody >
-                            <WalletAssets fungible_Tokens={fungible_Tokens} non_Fungible_Tokens={non_Fungible_Tokens} setSelectedContract={setSelectedContract} sendModalOnOpen={sendModalOnOpen} />
+                            <WalletAssets network={network} fungible_Tokens={fungible_Tokens} non_Fungible_Tokens={non_Fungible_Tokens} setSelectedContract={setSelectedContract} sendModalOnOpen={sendModalOnOpen} />
                         </CardBody>
                     </Card>
                 </Tab>
