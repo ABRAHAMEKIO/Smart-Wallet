@@ -20,8 +20,8 @@ function SendFtModal({ sendFtModalOpen, sendFtModalOnClose, props }) {
     async function send() {
         const address = getAddress(props.network);
         const contractName = "smart-wallet";
-        const sendAmount = actualtoUmicroValue(amount, props.decimals);
-
+        const sendAmount = actualtoUmicroValue(amount, props.decimals || 1);
+        console.log({ sendAmount, amount, props, propss: props.decimals });
         const condition01 = Pc.principal(`${address}.${contractName}`).willSendLte(sendAmount).ft(props.address.split('::')[0]);
 
         openContractCall({

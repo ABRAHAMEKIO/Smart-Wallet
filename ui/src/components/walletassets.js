@@ -108,7 +108,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                                         <a href={`${explorer(contract_principal || '', tx_id || '', network)}`} target='blank' className='text-primary underline'>{tx_id || contract_principal}</a>
                                     </p>
                                     <div className='flex flex-col gap-2'>
-                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendModal({ address: contract_identity, decimals })}>
+                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendModal({ address: contract_identity, decimals, balance })}>
                                             <IoMdSend />
                                         </Button>
                                     </div>
