@@ -13,7 +13,7 @@ import { getAddress } from '../services/auth';
 
 const appOrigin = window.location.origin;
 
-export default function TabsComponents({ clientConfig, setSelectedContract, sendFtModalOnOpen, setSendNftModalOnOpen }) {
+export default function TabsComponents({ clientConfig, setSelectedContract, sendStxModalOnClose, sendFtModalOnOpen, setSendNftModalOnOpen }) {
     const [stx, setStx] = useState({});
     const [fungible_Tokens, setFungible_Tokens] = useState([]);
     const [non_Fungible_Tokens, setNon_Fungible_Tokens] = useState([]);
@@ -35,7 +35,7 @@ export default function TabsComponents({ clientConfig, setSelectedContract, send
 
     return (
         <>
-            <WalletBalance stx={stx} setSelectedContract={setSelectedContract} sendFtModalOnOpen={sendFtModalOnOpen} />
+            <WalletBalance stx={stx} setSelectedContract={setSelectedContract} sendStxModalOnClose={sendStxModalOnClose} />
 
             <div style={{ marginTop: '2rem' }} />
 

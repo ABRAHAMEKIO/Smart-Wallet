@@ -10,6 +10,7 @@ import Logo from "../components/logo";
 import Landing from "../pages/landing";
 // Modals
 import SmartWalletDeployModal from "../components/modals/smartwalletdeploymodal";
+import SendStxModal from "../components/modals/sendstxmodal";
 import SendFtModal from "../components/modals/sendftmodal";
 import SendNftModal from "../components/modals/sendnftmodal";
 import Alerter from "../components/alerter";
@@ -29,6 +30,7 @@ export default function Home() {
 
   // Modal State
   const [openSmartWalletDeploy, setOpenSmartWalletDeploy] = useState();
+  const [sendStxModalOpen, sendStxModalOnClose] = useState(false);
   const [sendFtModalOpen, setSendFtModalOnOpen] = useState(false);
   const [sendNftModalOpen, setSendNftModalOnOpen] = useState(false);
 
@@ -98,13 +100,14 @@ export default function Home() {
             <div style={{ marginTop: '4rem' }} />
 
             <div className="w-full">
-              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendFtModalOnOpen={setSendFtModalOnOpen} setSendNftModalOnOpen={setSendNftModalOnOpen} />
+              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendStxModalOnClose={sendStxModalOnClose} sendFtModalOnOpen={setSendFtModalOnOpen} setSendNftModalOnOpen={setSendNftModalOnOpen} />
             </div>
           </>
         }
 
         {/* Modals */}
         <SmartWalletDeployModal clientConfig={clientConfig} openSmartWalletDeploy={openSmartWalletDeploy} closeSmartWalletDeploy={() => setOpenSmartWalletDeploy(false)} />
+        <SendStxModal sendStxModalOpen={sendStxModalOpen} sendStxModalOnClose={sendStxModalOnClose} clientConfig={clientConfig} />
         <SendFtModal sendFtModalOpen={sendFtModalOpen} sendFtModalOnClose={() => setSendFtModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
         <SendNftModal sendNftModalOpen={sendNftModalOpen} setSendNftModalOnOpen={() => setSendNftModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
       </main>

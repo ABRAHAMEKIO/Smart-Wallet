@@ -74,6 +74,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
 
         }))
         setNftMeta(nftHoldings);
+        setIsDisAbled(false);
     }
 
     console.log({ nftMeta });
