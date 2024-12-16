@@ -18,7 +18,7 @@ function SendStxModal({ clientConfig, sendStxModalOpen, sendStxModalOnClose }) {
     async function send() {
         const address = getAddress(activeNetwork);
         const contractName = "smart-wallet";
-        const sendAmount = actualtoUmicroValue(amount, 1000000);
+        const sendAmount = amount * 1000000;
         console.log(sendAmount);
 
         const condition01 = Pc.principal(`${address}.${contractName}`).willSendLte(sendAmount).ustx();

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Tab, Card, CardBody, CardHeader, Avatar, Button } from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { IoExtensionPuzzle } from "react-icons/io5";
 import { FaWallet } from "react-icons/fa";
 import { GiWallet } from "react-icons/gi";
@@ -60,7 +60,7 @@ export default function TabsComponents({ clientConfig, setSelectedContract, send
                 }>
                     <Card className='mt-1'>
                         <CardBody>
-                            <Extension />
+                            <Extension clientConfig={clientConfig} />
                         </CardBody>
                     </Card>
                 </Tab>

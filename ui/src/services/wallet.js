@@ -16,7 +16,7 @@ export async function getAllAssets(address, network) {
                 fungible_tokens: Object.keys(fungible_tokens).map((key) => {
                     return {
                         ...testnet_ft_tokens_meta[key.split('::')[0]], ...{
-                            balance: fungible_tokens[key].balance,
+                            balance: parseInt(fungible_tokens[key].balance),
                             suggested_name: key.split('::')[1],
                             placeholder_icon: './icon-placeholder.svg',
                             contract_principal: key.split('::')[0],

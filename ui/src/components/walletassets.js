@@ -21,7 +21,8 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
         sendFtModalOnOpen(true);
     }
 
-    function formatNumber(num, op) {
+    function formatNumber(num) {
+        console.log({ num });
         if (num >= 1e9) {
             return (num / 1e9).toFixed(1).replace(/\.0$/, "") + "b"; // Billions
         }
@@ -31,7 +32,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
         if (num >= 1e3) {
             return (num / 1e3).toFixed(1).replace(/\.0$/, "") + "k"; // Thousands
         }
-        return op ? num.toString() : `micro${num.toString()}`; // Less than 1,000
+        return num;
     }
 
     function openSendNft(assetInfo) {
@@ -77,7 +78,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
         setIsDisAbled(false);
     }
 
-    console.log({ nftMeta });
+    console.log({ nftMeta, fungible_Tokens });
 
     return (
         <Tabs className='w-full' aria-label="Options" placement={'top'} >
@@ -90,7 +91,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                 <Card className='mt-1'>
                     <CardBody>
                         <div className="w-full flex flex-col gap-4">
-                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, contract_identity, tx_id, decimals }) => (
+                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, contract_identity, tx_id, decimals, symbol }) => (
                                 <div className="flex justify-between justify-center items-center">
                                     <div className='flex gap-3 justify-center items-center'>
                                         <Avatar
@@ -100,15 +101,16 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                                             src={image_uri || placeholder_icon}
                                         />
                                         <div className="flex flex-col gap-1 items-start justify-center">
-                                            <h4 className="text-small font-semibold leading-none text-default-600">{name || suggested_name}</h4>
-                                            <h5 className="text-small tracking-tight text-default-400"> {formatNumber(umicrostoActualValue(balance, decimals || 1), decimals)}</h5>
+                                            <h4 className="text-small font-semibold leading-none text-default-600">{symbol || suggested_name}</h4>
+                                            {console.log({ res: balance / decimals || 1, balance, decimals })}
+                                            <h5 className="text-small tracking-tight text-default-400 text-warning"> {formatNumber(umicrostoActualValue(balance, decimals || 1))}</h5>
                                         </div>
                                     </div>
                                     <p className='truncate p-3'>
                                         <a href={`${explorer(contract_principal || '', tx_id || '', network)}`} target='blank' className='text-primary underline'>{tx_id || contract_principal}</a>
                                     </p>
                                     <div className='flex flex-col gap-2'>
-                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendModal({ address: contract_identity, decimals, balance })}>
+                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendModal({ address: contract_identity, decimals: parseInt(decimals) || 1, balance })}>
                                             <IoMdSend />
                                         </Button>
                                     </div>
@@ -165,7 +167,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                         </div>
                     </CardBody>
                 </Card>
-            </Tab>
+            </Tab>            
         </Tabs>
     );
 }
