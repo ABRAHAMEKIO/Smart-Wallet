@@ -5,7 +5,6 @@
 history.txt
 
 node_modules/
-package.json
 pnpm-lock.yaml
 tsconfig.json
 vitest.config.js

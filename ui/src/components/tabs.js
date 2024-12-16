@@ -13,7 +13,7 @@ import { getAddress } from '../services/auth';
 
 const appOrigin = window.location.origin;
 
-export default function TabsComponents({ clientConfig, setSelectedContract, sendFtModalOnOpen }) {
+export default function TabsComponents({ clientConfig, setSelectedContract, sendFtModalOnOpen, setSendNftModalOnOpen }) {
     const [stx, setStx] = useState({});
     const [fungible_Tokens, setFungible_Tokens] = useState([]);
     const [non_Fungible_Tokens, setNon_Fungible_Tokens] = useState([]);
@@ -23,7 +23,7 @@ export default function TabsComponents({ clientConfig, setSelectedContract, send
 
     useEffect(() => {
         async function init() {
-            const balance = await getAllAssets("ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", network);
+            const balance = await getAllAssets("ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5", network);
             const { stx, fungible_tokens, non_fungible_tokens } = balance;
             console.log({ stx, fungible_tokens, non_fungible_tokens });
             setStx(stx);
@@ -48,7 +48,7 @@ export default function TabsComponents({ clientConfig, setSelectedContract, send
                 }>
                     <Card className='mt-1'>
                         <CardBody >
-                            <WalletAssets network={network} fungible_Tokens={fungible_Tokens} non_Fungible_Tokens={non_Fungible_Tokens} setSelectedContract={setSelectedContract} sendFtModalOnOpen={sendFtModalOnOpen} />
+                            <WalletAssets network={network} fungible_Tokens={fungible_Tokens} non_Fungible_Tokens={non_Fungible_Tokens} setSelectedContract={setSelectedContract} sendFtModalOnOpen={sendFtModalOnOpen} setSendNftModalOnOpen={setSendNftModalOnOpen} />
                         </CardBody>
                     </Card>
                 </Tab>

@@ -28,11 +28,12 @@ export async function getAllAssets(address, network) {
                     return {
                         name: key.split('::')[1],
                         count: non_fungible_tokens[key].count,
-                        image: '',
-                        contract_id: key
+                        contract_id: key,
+                        contract_address: key.split('::')[0]
                     }
                 })
             };
+            console.log({ balance });
         } else {
             throw res.status;
         }

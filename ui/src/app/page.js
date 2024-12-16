@@ -98,7 +98,7 @@ export default function Home() {
             <div style={{ marginTop: '4rem' }} />
 
             <div className="w-full">
-              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendFtModalOnOpen={setSendFtModalOnOpen} />
+              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendFtModalOnOpen={setSendFtModalOnOpen} setSendNftModalOnOpen={setSendNftModalOnOpen} />
             </div>
           </>
         }
@@ -106,7 +106,7 @@ export default function Home() {
         {/* Modals */}
         <SmartWalletDeployModal clientConfig={clientConfig} openSmartWalletDeploy={openSmartWalletDeploy} closeSmartWalletDeploy={() => setOpenSmartWalletDeploy(false)} />
         <SendFtModal sendFtModalOpen={sendFtModalOpen} sendFtModalOnClose={() => setSendFtModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
-        <SendNftModal sendNftModalOpen={sendNftModalOpen} setSendNftModalOnOpen={() => setSendNftModalOnOpen(false)} />
+        <SendNftModal sendNftModalOpen={sendNftModalOpen} setSendNftModalOnOpen={() => setSendNftModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
       </main>
 
     </Connect>
