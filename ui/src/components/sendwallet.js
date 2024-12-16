@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Input } from '@nextui-org/react';
 import { IoSend } from 'react-icons/io5';
+import { getAddress, userSession, network } from '../services/auth';
+import { openContractCall } from '@stacks/connect';
+import { Cl } from '@stacks/transactions';
 
-function SendWallet(props) {
+function SendWallet({ network: activeNetwork }) {
+    const [newOwner, setNewOwner] = useState('');
+
+    const authedUser = getAddress(network);
+
+    async function transferOwnership() {
+        openContractCall({
+            contractAddress: authedUser,
+            contractName: 'smart-wallet',
+            functionName: 'transfer-wallet',
+            functionArgs: [Cl.standardPrincipal(newOwner)],
+            stxAddress: authedUser,
+            userSession: userSession,
+            network: network(activeNetwork)
+        });
+    }
+
     return (
         <div className='w-full flex flex-col gap-3'>
 
@@ -13,9 +32,10 @@ function SendWallet(props) {
                 labelPlacement="outside"
                 placeholder="New owner"
                 type="text"
+                onChange={(e) => setNewOwner(e.target.value)}
             />
 
-            <Button className='p-0' color='primary'><IoSend /></Button>
+            <Button className='p-0' color='primary' onPress={transferOwnership}><IoSend /></Button>
         </div>
     );
 }

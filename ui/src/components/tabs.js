@@ -72,7 +72,7 @@ export default function TabsComponents({ clientConfig, setSelectedContract, send
                 }>
                     <Card className='mt-1'>
                         <CardBody>
-                            <SendWallet />
+                            <SendWallet network={network} />
                         </CardBody>
                     </Card>
                 </Tab>
