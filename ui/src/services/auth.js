@@ -26,10 +26,8 @@ export function isUserAuthed() {
 }
 
 export function getAddress(network) {
-    const networkVal = {
-        testnet: 'testnet', devnet: 'testnet',
-        mainnet: 'mainnet', mocknet: 'mainnet'
-    }[network];
+    const networkVal = { testnet: 'testnet', devnet: 'testnet', mainnet: 'mainnet', mocknet: 'mainnet' }[network];
+    console.log({ networkVal, network, ll: { testnet: 'testnet', devnet: 'testnet', mainnet: 'mainnet', mocknet: 'mainnet' }[network] });
     return isUserAuthed() ? userSession.loadUserData().profile.stxAddress[networkVal] : '';
 }
 

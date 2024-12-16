@@ -27,7 +27,9 @@ const Avatar = ({ clientConfig }) => {
             {
               {
                 mainnet: shortmainnet,
-                testnet: shorttestnet
+                mocknet: shortmainnet,
+                testnet: shorttestnet,
+                devnet: shorttestnet
               }[clientConfig[appOrigin]['network']] || ''
             }
           </small>

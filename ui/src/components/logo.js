@@ -48,7 +48,7 @@ function Logo({ clientConfig, setClientConfig }) {
                 </DropdownItem>
                 {stacksNetworks.map((label) => (
                     <DropdownItem key={label} startContent={<SiVitest className={`${iconClasses} ${activeNetwork === label ? 'text-success' : 'text-warning'}`} />} onPress={() => networkConfig(label)}>
-                        {label.toUpperCase()}
+                        {label.charAt(0).toUpperCase() + label.slice(1)}
                     </DropdownItem>
                 ))}
             </DropdownMenu>

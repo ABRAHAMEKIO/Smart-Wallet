@@ -7,8 +7,12 @@ import Avatar from "../components/avatar";
 import { isUserAuthed, userSession } from "../services/auth";
 import TabsComponents from "../components/tabs";
 import Logo from "../components/logo";
-import SendFtModal from "../components/modals/sendftmodal";
 import Landing from "../pages/landing";
+// Modals
+import SendFtModal from "../components/modals/sendftmodal";
+import SendNftModal from "../components/modals/sendnftmodal";
+
+
 import './globals.css';
 
 const appOrigin = window.location.origin;
@@ -19,6 +23,7 @@ export default function Home() {
 
   // Modal State
   const [sendFtModalOpen, sendFtModalOnOpen] = useState(false);
+  const [sendNftModalOpen, sendNftModalOnOpen] = useState(false);
 
   const authed = isUserAuthed();
   return (
@@ -57,6 +62,7 @@ export default function Home() {
 
         {/* Modals */}
         <SendFtModal sendFtModalOpen={sendFtModalOpen} sendFtModalOnClose={() => sendFtModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
+        <SendNftModal />
       </main>
 
     </Connect>
