@@ -9,7 +9,7 @@ import { openContractCall } from '@stacks/connect-react';
 import { getAddress, network } from '../../services/auth';
 import BaseModal from './basemodal';
 
-function SendNftModal({ sendNftModalOpen, sendNftModalOnClose, props }) {
+function SendNftModal({ sendNftModalOpen, sendFtModalOnClose, props }) {
 
     const [recipient, setRecipient] = useState('');
 
@@ -47,7 +47,7 @@ function SendNftModal({ sendNftModalOpen, sendNftModalOnClose, props }) {
     }
 
     return (
-        <BaseModal baseModalsOpen={sendFtModalOpen} baseModalOnClose={sendFtModalOnClose}>
+        <BaseModal baseModalsOpen={sendNftModalOpen} baseModalOnClose={sendFtModalOnClose}>
             <ModalHeader className="flex flex-col gap-1">Send Asset's</ModalHeader>
             <ModalBody>
                 <Form

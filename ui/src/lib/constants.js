@@ -1,6 +1,7 @@
 export const api = {
     testnet: 'https://api.testnet.hiro.so',
     mainnet: 'https://api.hiro.so',
+    devnet: 'https://localhost:3999',
     nakamototestnet: 'https://api.nakamoto.testnet.hiro.so',
 };
 

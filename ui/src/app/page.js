@@ -1,31 +1,65 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Connect } from "@stacks/connect-react";
 
 import Avatar from "../components/avatar";
-import { isUserAuthed, userSession } from "../services/auth";
+import { getAddress, isUserAuthed, userSession } from "../services/auth";
 import TabsComponents from "../components/tabs";
 import Logo from "../components/logo";
 import Landing from "../pages/landing";
 // Modals
+import SmartWalletDeployModal from "../components/modals/smartwalletdeploymodal";
 import SendFtModal from "../components/modals/sendftmodal";
 import SendNftModal from "../components/modals/sendnftmodal";
+import Alerter from "../components/alerter";
+import Advisor from "../components/advisor";
 
 
 import './globals.css';
+import axios from "axios";
+import { api } from "../lib/constants";
 
 const appOrigin = window.location.origin;
 
 export default function Home() {
+  const [contractStatus, setContractStatus] = useState(false);
   const [clientConfig, setClientConfig] = useState({ "http://localhost:3000": { network: 'testnet' } });
   const [selectedContract, setSelectedContract] = useState('');
 
   // Modal State
-  const [sendFtModalOpen, sendFtModalOnOpen] = useState(false);
-  const [sendNftModalOpen, sendNftModalOnOpen] = useState(false);
+  const [openSmartWalletDeploy, setOpenSmartWalletDeploy] = useState();
+  const [sendFtModalOpen, setSendFtModalOnOpen] = useState(false);
+  const [sendNftModalOpen, setSendNftModalOnOpen] = useState(false);
 
+  // Alert State
+  const [showAlerter, setShowAlerter] = useState(false)
+  const [props, setProps] = useState({ msg: '', reason: '', severity: '' })
+
+  const activeNetwork = clientConfig[appOrigin]['network'];
   const authed = isUserAuthed();
+  const authedUser = getAddress(activeNetwork);
+
+  async function initSmartWalletContract() {
+    try {
+      const contract = `${authedUser}.smart-wallet`;
+      const getContractStatus = await axios.get(`${api[activeNetwork]}/extended/v2/smart-contracts/status?contract_id=${contract}`);
+      if (getContractStatus.status === 200) {
+        const { found } = getContractStatus.data[contract];
+        if (!found) setOpenSmartWalletDeploy(true);
+        setContractStatus(found);
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  }
+
+  console.log({ contractStatus, openSmartWalletDeploy });
+
+  useEffect(() => {
+    initSmartWalletContract();
+  }, [clientConfig])
+
   return (
     <Connect
       authOptions={{
@@ -44,25 +78,33 @@ export default function Home() {
       <main className="w-full mymaindiv">
         {!authed && <Landing clientConfig={clientConfig} />}
 
-
         {authed &&
           <>
             <div className="w-full flex justify-between items-center">
               <Logo clientConfig={clientConfig} setClientConfig={setClientConfig} />
               <Avatar clientConfig={clientConfig} />
             </div>
+          </>
+        }
 
+        {/* AlertBox */}
+        <Alerter showAlerter={showAlerter} closeAlerter={() => setShowAlerter(false)} props={props} />
+        {(!openSmartWalletDeploy && !contractStatus) && <Advisor msg={"Seems you dont have smart wallet deployed yet."} title={"Deploy required"} action={() => setOpenSmartWalletDeploy(true)} />}
+
+        {authed &&
+          <>
             <div style={{ marginTop: '4rem' }} />
 
             <div className="w-full">
-              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendFtModalOnOpen={sendFtModalOnOpen} />
+              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendFtModalOnOpen={setSendFtModalOnOpen} />
             </div>
           </>
         }
 
         {/* Modals */}
-        <SendFtModal sendFtModalOpen={sendFtModalOpen} sendFtModalOnClose={() => sendFtModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
-        <SendNftModal />
+        <SmartWalletDeployModal clientConfig={clientConfig} openSmartWalletDeploy={openSmartWalletDeploy} closeSmartWalletDeploy={() => setOpenSmartWalletDeploy(false)} />
+        <SendFtModal sendFtModalOpen={sendFtModalOpen} sendFtModalOnClose={() => setSendFtModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
+        <SendNftModal sendNftModalOpen={sendNftModalOpen} setSendNftModalOnOpen={() => setSendNftModalOnOpen(false)} />
       </main>
 
     </Connect>
