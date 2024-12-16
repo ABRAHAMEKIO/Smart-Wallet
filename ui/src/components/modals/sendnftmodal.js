@@ -20,7 +20,7 @@ function SendNftModal({ sendNftModalOpen, setSendNftModalOnOpen, props }) {
 
         const postConditionCode = NonFungibleConditionCode.Sends;
         const nonFungibleAssetInfo = createAssetInfo(props.address.split('::')[0].split('.')[0], props.address.split('::')[0].split('.')[1], props.address.split('::')[1]);
-        const condition01 = makeContractNonFungiblePostCondition(address, contractName, postConditionCode, nonFungibleAssetInfo, assetId);
+        const condition01 = makeContractNonFungiblePostCondition(props.address.split('::')[0].split('.')[0], props.address.split('::')[0].split('.')[1], postConditionCode, nonFungibleAssetInfo, assetId);
 
         openContractCall({
             contractAddress: address,
