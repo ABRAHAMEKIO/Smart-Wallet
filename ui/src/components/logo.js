@@ -4,12 +4,14 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-o
 import { SiVitest } from "react-icons/si";
 import { IoIosArrowDown } from "react-icons/io";
 import styles from "../app/page.module.css";
+import { getNetworks } from '../services/auth';
 
 const appOrigin = window.location.origin;
 function Logo({ clientConfig, setClientConfig }) {
 
     const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
     const activeNetwork = clientConfig[appOrigin]['network'];
+    const stacksNetworks = getNetworks();
 
     function networkConfig(network) {
         console.log({ network });
@@ -22,19 +24,16 @@ function Logo({ clientConfig, setClientConfig }) {
     function getNetworkConfig() {
         const encodedName = encodeURIComponent(appOrigin) + "=";
         const cookies = document.cookie.split("; ");
-
         for (const cookie of cookies) {
             if (cookie.startsWith(encodedName)) {
                 return JSON.parse(decodeURIComponent(cookie.substring(encodedName.length)));
             }
         }
-
-        return { "http://localhost:3000": { network: 'testnet' } };
+        return { "http://localhost:3000": { network: stacksNetworks[0] } };
     }
 
     useEffect(() => {
         const config = getNetworkConfig();
-        console.log({ config });
         setClientConfig(config);
     }, [])
 
@@ -47,18 +46,11 @@ function Logo({ clientConfig, setClientConfig }) {
                 <DropdownItem key="networks" isReadOnly endContent={<IoIosArrowDown />}>
                     Stacks Networks
                 </DropdownItem>
-                <DropdownItem key="mainnet" startContent={<SiVitest className={`${iconClasses} ${activeNetwork === 'mainnet' ? 'text-success' : 'text-warning'}`} />} onPress={() => networkConfig('mainnet')}>
-                    Mainnet
-                </DropdownItem>
-                <DropdownItem key="testnet" startContent={<SiVitest className={`${iconClasses} ${activeNetwork === 'testnet' ? 'text-success' : 'text-warning'}`} />} onPress={() => networkConfig('testnet')}>
-                    Testnet
-                </DropdownItem>
-                <DropdownItem key="mocknet" startContent={<SiVitest className={`${iconClasses} ${activeNetwork === 'mocknet' ? 'text-success' : 'text-warning'}`} />} onPress={() => networkConfig('mocknet')}>
-                    Mocknet
-                </DropdownItem>
-                <DropdownItem key="devnet" startContent={<SiVitest className={`${iconClasses} ${activeNetwork === 'devnet' ? 'text-success' : 'text-warning'}`} />} onPress={() => networkConfig('devnet')}>
-                    Devnet
-                </DropdownItem>
+                {stacksNetworks.map((label) => (
+                    <DropdownItem key={label} startContent={<SiVitest className={`${iconClasses} ${activeNetwork === label ? 'text-success' : 'text-warning'}`} />} onPress={() => networkConfig(label)}>
+                        {label.toUpperCase()}
+                    </DropdownItem>
+                ))}
             </DropdownMenu>
         </Dropdown >
     );

@@ -9,12 +9,10 @@ import { umicrostoActualValue } from "../services/operator";
 import { explorer } from '../lib/constants';
 
 
-export default function WalletAssets({ network, fungible_Tokens, non_Fungible_Tokens, setSelectedContract, sendModalOnOpen }) {
-    const [] = useState();
-
+export default function WalletAssets({ network, fungible_Tokens, non_Fungible_Tokens, setSelectedContract, sendFtModalOnOpen }) {
     function openSendModal(asset) {
         setSelectedContract(asset);
-        sendModalOnOpen(true);
+        sendFtModalOnOpen(true);
     }
 
     function formatNumber(num, op) {
@@ -41,7 +39,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                 <Card className='mt-1'>
                     <CardBody>
                         <div className="w-full flex flex-col gap-4">
-                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, tx_id, decimals }) => (
+                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, contract_identity, tx_id, decimals }) => (
                                 <div className="flex justify-between justify-center items-center">
                                     <div className='flex gap-3 justify-center items-center'>
                                         <Avatar
@@ -59,7 +57,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                                         <a href={`${explorer(contract_principal || '', tx_id || '', network)}`} target='blank' className='text-primary underline'>{tx_id || contract_principal}</a>
                                     </p>
                                     <div className='flex flex-col gap-2'>
-                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendModal()}>
+                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendModal({ address: contract_identity, decimals })}>
                                             <IoMdSend />
                                         </Button>
                                         {/* <Button color="primary" radius="full" size="sm" onPress={() => openSendModal()}>

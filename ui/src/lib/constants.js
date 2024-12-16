@@ -10,7 +10,6 @@ export const explorer = (address, tx, network) => {
         testnet: `https://explorer.hiro.so/${address ? 'address' : 'txid'}/${address || tx}?chain=testnet`,
         devnet: `http://localhost:3999/${address ? 'address' : 'txid'}/${address || tx}?chain=devnet`,
     }
-    console.log({ url: explorerUrl[network], address, tx, network });
     return explorerUrl[network];
 }
 

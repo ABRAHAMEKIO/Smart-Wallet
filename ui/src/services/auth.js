@@ -1,5 +1,5 @@
 import { AppConfig, showConnect, UserSession } from "@stacks/connect";
-import { STACKS_TESTNET, STACKS_MAINNET, STACKS_MOCKNET, STACKS_DEVNET } from "@stacks/network";
+import { STACKS_TESTNET, STACKS_MAINNET, STACKS_MOCKNET, STACKS_DEVNET, StacksNetworks } from "@stacks/network";
 const appConfig = new AppConfig(["store_write", "publish_data"]);
 export const userSession = new UserSession({ appConfig });
 
@@ -30,8 +30,11 @@ export function getAddress(network) {
         testnet: 'testnet', devnet: 'testnet',
         mainnet: 'mainnet', mocknet: 'mainnet'
     }[network];
-    console.log('===================.>>>>>>>>>>>>>>>>>>>>>>',  {networkVal, network} );
     return isUserAuthed() ? userSession.loadUserData().profile.stxAddress[networkVal] : '';
+}
+
+export function getNetworks() {
+    return StacksNetworks;
 }
 
 export function network(network) {

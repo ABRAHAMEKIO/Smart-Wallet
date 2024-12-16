@@ -1,10 +1,5 @@
 import axios from "axios";
-import { api, decimals } from "../lib/constants";
-import { bufferCV, callReadOnlyFunction, createAssetInfo, cvToValue, FungibleConditionCode, makeContractFungiblePostCondition, makeContractSTXPostCondition, optionalCVOf, principalCV, uintCV } from "@stacks/transactions";
-import { Button } from "@nextui-org/react";
-import { IoMdSend } from "react-icons/io";
-import { useConnect } from "@stacks/connect-react";
-import { getAddress, network } from "./auth";
+import { api } from "../lib/constants";
 import { testnet_ft_tokens_meta } from "../lib/ft_testnet_meta";
 
 export async function getAllAssets(address, network) {
@@ -16,7 +11,6 @@ export async function getAllAssets(address, network) {
         if (res.status === 200 && res.data) {
             const { data: { stx, fungible_tokens, non_fungible_tokens } } = res
             const stxRate = (await axios.get('https://api.diadata.org/v1/assetQuotation/Stacks/0x0000000000000000000000000000000000000000')).data;
-            console.log({ stxRate });
             balance = {
                 stx: { balance: (stx?.balance / 1000000).toFixed(2), rate: (stxRate?.Price).toFixed(2) },
                 fungible_tokens: Object.keys(fungible_tokens).map((key) => {
@@ -26,7 +20,7 @@ export async function getAllAssets(address, network) {
                             suggested_name: key.split('::')[1],
                             placeholder_icon: './icon-placeholder.svg',
                             contract_principal: key.split('::')[0],
-                            contract_identifyer: key
+                            contract_identity: key
                         }
                     };
                 }),
@@ -39,7 +33,6 @@ export async function getAllAssets(address, network) {
                     }
                 })
             };
-            console.log({ balance });
         } else {
             throw res.status;
         }
@@ -48,41 +41,4 @@ export async function getAllAssets(address, network) {
     }
 
     return balance;
-}
-
-export default function SendAsset({ props }) {
-    const { doContractCall } = useConnect();
-    console.log({ props });
-    async function send() {
-        console.log("çlicked", { props });
-        let condition;
-        const address = getAddress(props.network);
-        const contractName = "smart-wallet-standard";
-        const conditionCode = FungibleConditionCode.LessEqual;
-        const amount = props.amount;
-
-        if (props.isStx) {
-            condition = makeContractSTXPostCondition(address, contractName, conditionCode, amount);
-        } else {
-            const assetInfo = createAssetInfo(props.address.split('.')[0], props.address.split('.')[1].split('::')[0], props.address.split('.')[1].split('::')[1]);
-            condition = makeContractFungiblePostCondition(address, contractName, conditionCode, amount, assetInfo);
-        }
-        doContractCall({
-            contractAddress: address,
-            contractName: contractName,
-            functionName: props.isStx ? 'stx-transfer' : 'sip010-transfer',
-            functionArgs: props.isStx
-                ? [uintCV(amount), principalCV(props.receiver), optionalCVOf(bufferCV(props.memo))]
-                : [uintCV(amount), principalCV(props.recipient), optionalCVOf(bufferCV(props.memo)), principalCV(props.address.split('::')[0])],
-            stxAddress: contractName,
-            postConditions: [condition],
-            network: network(props.network)
-        })
-    }
-
-    return (
-        <Button className="p-0" color="primary" radius="full" onPress={send}>
-            <IoMdSend />
-        </Button>
-    )
 }

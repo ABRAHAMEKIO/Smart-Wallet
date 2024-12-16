@@ -13,7 +13,7 @@ import { getAddress } from '../services/auth';
 
 const appOrigin = window.location.origin;
 
-export default function TabsComponents({ clientConfig, setSelectedContract, sendModalOnOpen }) {
+export default function TabsComponents({ clientConfig, setSelectedContract, sendFtModalOnOpen }) {
     const [stx, setStx] = useState({});
     const [fungible_Tokens, setFungible_Tokens] = useState([]);
     const [non_Fungible_Tokens, setNon_Fungible_Tokens] = useState([]);
@@ -35,7 +35,7 @@ export default function TabsComponents({ clientConfig, setSelectedContract, send
 
     return (
         <>
-            <WalletBalance stx={stx} setSelectedContract={setSelectedContract} sendModalOnOpen={sendModalOnOpen} />
+            <WalletBalance stx={stx} setSelectedContract={setSelectedContract} sendFtModalOnOpen={sendFtModalOnOpen} />
 
             <div style={{ marginTop: '2rem' }} />
 
@@ -48,7 +48,7 @@ export default function TabsComponents({ clientConfig, setSelectedContract, send
                 }>
                     <Card className='mt-1'>
                         <CardBody >
-                            <WalletAssets network={network} fungible_Tokens={fungible_Tokens} non_Fungible_Tokens={non_Fungible_Tokens} setSelectedContract={setSelectedContract} sendModalOnOpen={sendModalOnOpen} />
+                            <WalletAssets network={network} fungible_Tokens={fungible_Tokens} non_Fungible_Tokens={non_Fungible_Tokens} setSelectedContract={setSelectedContract} sendFtModalOnOpen={sendFtModalOnOpen} />
                         </CardBody>
                     </Card>
                 </Tab>

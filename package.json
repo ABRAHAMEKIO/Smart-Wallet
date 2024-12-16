@@ -17,6 +17,7 @@
     "@clarigen/core": "^2.0.6",
     "@clarigen/test": "^2.0.6",
     "@hirosystems/clarinet-sdk": "^2.6.0",
+    "@stacks/network": "^7.0.2",
     "@stacks/transactions": "^6.12.0",
     "chokidar-cli": "^3.0.0",
     "nodemon": "^3.1.7",

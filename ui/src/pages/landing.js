@@ -41,10 +41,10 @@ function Landing({ clientConfig }) {
             <div style={{ margin: '5rem' }} />
 
             <div className='w-full flex flex-col-2 gap-3 justify-center items-center'>
-                <Button color='primary'>
+                <Button color='primary' onPress={authenticate}>
                     Get started
                 </Button>
-                <p className='flex justify-center items-center gap-1'>Learn more <IoIosArrowRoundForward /></p>
+                <a href="#" className='flex justify-center items-center gap-1'>Learn more <IoIosArrowRoundForward /></a>
             </div>
         </div>
 

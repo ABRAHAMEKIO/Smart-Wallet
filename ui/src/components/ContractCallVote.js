@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { useConnect } from "@stacks/connect-react";
-// import { StacksTestnet } from "@stacks/network";
+import { StacksTestnet } from "@stacks/network";
 import {
   AnchorMode,
   PostConditionMode,
   stringUtf8CV,
 } from "@stacks/transactions";
-import { userSession } from "./avatar";
+import { userSession } from "../services/auth";
 
 const ContractCallVote = () => {
   const { doContractCall } = useConnect();
@@ -17,28 +17,28 @@ const ContractCallVote = () => {
   useEffect(() => setMounted(true), []);
 
   function vote(pick) {
-    // doContractCall({
-    //   network: new StacksTestnet(),
-    //   anchorMode: AnchorMode.Any,
-    //   contractAddress: "ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK",
-    //   contractName: "example-fruit-vote-contract",
-    //   functionName: "vote",
-    //   functionArgs: [stringUtf8CV(pick)],
-    //   postConditionMode: PostConditionMode.Deny,
-    //   postConditions: [],
-    //   onFinish: (data) => {
-    //     console.log("onFinish:", data);
-    //     window
-    //       .open(
-    //         `https://explorer.hiro.so/txid/${data.txId}?chain=testnet`,
-    //         "_blank"
-    //       )
-    //       .focus();
-    //   },
-    //   onCancel: () => {
-    //     console.log("onCancel:", "Transaction was canceled");
-    //   },
-    // });
+    doContractCall({
+      network: 'testnet',
+      anchorMode: AnchorMode.Any,
+      contractAddress: "ST39MJ145BR6S8C315AG2BD61SJ16E208P1FDK3AK",
+      contractName: "example-fruit-vote-contract",
+      functionName: "vote",
+      functionArgs: [stringUtf8CV(pick)],
+      postConditionMode: PostConditionMode.Deny,
+      postConditions: [],
+      onFinish: (data) => {
+        console.log("onFinish:", data);
+        window
+          .open(
+            `https://explorer.hiro.so/txid/${data.txId}?chain=testnet`,
+            "_blank"
+          )
+          .focus();
+      },
+      onCancel: () => {
+        console.log("onCancel:", "Transaction was canceled");
+      },
+    });
   }
 
   if (!mounted || !userSession.isUserSignedIn()) {

@@ -7,9 +7,8 @@ import Avatar from "../components/avatar";
 import { isUserAuthed, userSession } from "../services/auth";
 import TabsComponents from "../components/tabs";
 import Logo from "../components/logo";
-import SendModal from "../components/modals/sendmodal";
+import SendFtModal from "../components/modals/sendftmodal";
 import Landing from "../pages/landing";
-
 import './globals.css';
 
 const appOrigin = window.location.origin;
@@ -19,7 +18,7 @@ export default function Home() {
   const [selectedContract, setSelectedContract] = useState('');
 
   // Modal State
-  const [sendModalOpen, sendModalOnOpen] = useState(false);
+  const [sendFtModalOpen, sendFtModalOnOpen] = useState(false);
 
   const authed = isUserAuthed();
   return (
@@ -51,13 +50,13 @@ export default function Home() {
             <div style={{ marginTop: '4rem' }} />
 
             <div className="w-full">
-              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendModalOnOpen={sendModalOnOpen} />
+              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendFtModalOnOpen={sendFtModalOnOpen} />
             </div>
           </>
         }
 
         {/* Modals */}
-        <SendModal sendModalOpen={sendModalOpen} sendModalOnClose={() => sendModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], address: selectedContract }} />
+        <SendFtModal sendFtModalOpen={sendFtModalOpen} sendFtModalOnClose={() => sendFtModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
       </main>
 
     </Connect>

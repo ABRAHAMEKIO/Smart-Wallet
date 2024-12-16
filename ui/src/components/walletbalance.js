@@ -3,8 +3,17 @@ import React from 'react';
 import { IoMdSend } from 'react-icons/io';
 import { TbBrandCashapp } from "react-icons/tb";
 
-function WalletBalance({ stx, btc, setSelectedContract, sendModalOnOpen }) {
-    console.log({ stx });
+function WalletBalance({ stx, btc, setSelectedContract, sendFtModalOnOpen }) {
+
+    function send(asset) {
+        setSelectedContract(asset);
+        sendFtModalOnOpen(true);
+    }
+
+    function deposit(asset) {
+        setSelectedContract(asset);
+    }
+
     return (
         <div className="myflex">
             <div className="flex gap-3 justify-center items-center">
@@ -21,10 +30,10 @@ function WalletBalance({ stx, btc, setSelectedContract, sendModalOnOpen }) {
                     </div>
                 </div>
                 <div className='flex gap-2'>
-                    <Button color="primary" radius="full" size="sm" onPress={() => sendModalOnOpen(true)}>
+                    <Button color="primary" radius="full" size="sm" onPress={deposit}>
                         <TbBrandCashapp />
                     </Button>
-                    <Button color="primary" radius="full" size="sm" onPress={() => sendModalOnOpen(true)}>
+                    <Button color="primary" radius="full" size="sm" onPress={send}>
                         <IoMdSend />
                     </Button>
                 </div>
@@ -42,7 +51,7 @@ function WalletBalance({ stx, btc, setSelectedContract, sendModalOnOpen }) {
                         <h5 className="text-small tracking-tight text-default-400">Rate: $ { }</h5>
                     </div>
                 </div>
-                {/* <Button color="primary" radius="full" size="sm" onPress={() => sendModalOnOpen(true)}>
+                {/* <Button color="primary" radius="full" size="sm" onPress={() => sendFtModalOnOpen(true)}>
                     <IoMdSend />
                 </Button> 
             </div> */}
