@@ -10,7 +10,7 @@ import { getAddress, network } from '../../services/auth';
 import BaseModal from './basemodal';
 
 function SendNftModal({ sendNftModalOpen, sendFtModalOnClose, props }) {
-
+    console.log({ props });
     const [recipient, setRecipient] = useState('');
 
     async function send() {
@@ -27,7 +27,7 @@ function SendNftModal({ sendNftModalOpen, sendFtModalOnClose, props }) {
             contractName: contractName,
             functionName: 'sip009-transfer',
             functionArgs: [
-                Cl.uint(props.assetid),
+                Cl.uint(props.asset_id),
                 Cl.standardPrincipal(recipient),
                 Cl.contractPrincipal(props.address.split('::')[0].split('.')[0], props.address.split('::')[0].split('.')[1])
             ],
