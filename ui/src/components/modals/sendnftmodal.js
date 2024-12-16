@@ -3,7 +3,7 @@ import { ModalHeader, ModalBody, ModalFooter, Button, } from "@nextui-org/react"
 import { Form, Input } from "@nextui-org/react";
 import { IoMdSend } from 'react-icons/io';
 
-import { Cl, makeContractNonFungiblePostCondition, NonFungibleConditionCode } from '@stacks/transactions';
+import { bufferCVFromString, Cl, createAssetInfo, makeContractNonFungiblePostCondition, NonFungibleConditionCode } from '@stacks/transactions';
 import { openContractCall } from '@stacks/connect-react';
 
 import { getAddress, network } from '../../services/auth';
@@ -20,7 +20,7 @@ function SendNftModal({ sendNftModalOpen, sendFtModalOnClose, props }) {
 
         const postConditionCode = NonFungibleConditionCode.Sends;
         const nonFungibleAssetInfo = createAssetInfo(props.address.split('::')[0].split('.')[0], props.address.split('::')[0].split('.')[1], props.address.split('::')[1]);
-        const condition01 = makeContractNonFungiblePostCondition(`${address}.${contractName}`, postConditionCode, nonFungibleAssetInfo, assetId);
+        const condition01 = makeContractNonFungiblePostCondition(address, contractName, postConditionCode, nonFungibleAssetInfo, assetId);
 
         openContractCall({
             contractAddress: address,

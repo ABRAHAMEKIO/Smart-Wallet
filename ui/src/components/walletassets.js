@@ -153,7 +153,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
 
                                     </p>
                                     <div className='flex flex-col gap-2'>
-                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendNft({ name, asset_id, asset_identifier, meta, tx_id })}>
+                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendNft({ name, asset_id, address: contract_principal, asset_identifier, meta, tx_id })}>
                                             <IoMdSend />
                                         </Button>
                                     </div>
