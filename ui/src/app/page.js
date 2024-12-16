@@ -51,6 +51,8 @@ export default function Home() {
       }
     } catch (error) {
       console.log({ error });
+      setProps({ msg: error.message, severity: 'danger', reason: error.code });
+      setShowAlerter(true);
     }
   }
 
@@ -89,7 +91,7 @@ export default function Home() {
 
         {/* AlertBox */}
         <Alerter showAlerter={showAlerter} closeAlerter={() => setShowAlerter(false)} props={props} />
-        {(!openSmartWalletDeploy && !contractStatus) && <Advisor msg={"Seems you dont have smart wallet deployed yet."} title={"Deploy required"} action={() => setOpenSmartWalletDeploy(true)} />}
+        {(!showAlerter && (!openSmartWalletDeploy && !contractStatus)) && <Advisor msg={"Seems you dont have smart wallet deployed yet."} title={"Deploy required"} action={() => setOpenSmartWalletDeploy(true)} />}
 
         {authed &&
           <>

@@ -66,7 +66,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                                     </div>
                                 </div>
                             ))}
-                            {fungible_Tokens.length === 0 && <p>No Ft Asset's</p>}
+                            {fungible_Tokens.length === 0 && <p>Nothing to display.</p>}
                         </div>
                     </CardBody>
                 </Card>
@@ -104,8 +104,8 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                                         </Button>
                                     </CardFooter>
                                 </Card>
-                            ))}
-                            {non_Fungible_Tokens.length === 0 && <p>No Nft Asset's</p>} */}
+                            ))} // */}
+                            {non_Fungible_Tokens.length === 0 && <p>Nothing to display.</p>}
                         </div>
                     </CardBody>
                 </Card>
