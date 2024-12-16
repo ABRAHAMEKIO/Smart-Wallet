@@ -21,7 +21,7 @@ function SendFtModal({ sendFtModalOpen, sendFtModalOnClose, props }) {
         const address = getAddress(props.network);
         const contractName = "smart-wallet";
         const sendAmount = amount / props.decimals;
-        const condition01 = Pc.principal(`${address}.${contractName}`).willSendLte(sendAmount).ft(props.address.split('::')[0]);
+        const condition01 = Pc.principal(`${address}.${contractName}`).willSendLte(sendAmount).ft(props.address.split('::')[0], props.address.split('::')[1]);
 
         openContractCall({
             contractAddress: address,
