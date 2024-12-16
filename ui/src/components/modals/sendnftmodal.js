@@ -16,7 +16,7 @@ function SendNftModal({ sendNftModalOpen, sendFtModalOnClose, props }) {
     async function send() {
         const address = getAddress(props.network);
         const contractName = "smart-wallet";
-        const assetId = bufferCVFromString(props.assetid);
+        const assetId = bufferCVFromString(props.asset_id);
 
         const postConditionCode = NonFungibleConditionCode.Sends;
         const nonFungibleAssetInfo = createAssetInfo(props.address.split('::')[0].split('.')[0], props.address.split('::')[0].split('.')[1], props.address.split('::')[1]);
