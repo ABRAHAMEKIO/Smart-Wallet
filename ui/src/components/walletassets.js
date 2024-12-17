@@ -102,7 +102,6 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                                         />
                                         <div className="flex flex-col gap-1 items-start justify-center">
                                             <h4 className="text-small font-semibold leading-none text-default-600">{symbol || suggested_name}</h4>
-                                            {console.log({ res: balance / decimals || 1, balance, decimals })}
                                             <h5 className="text-small tracking-tight text-default-400 text-warning"> {formatNumber(umicrostoActualValue(balance, decimals || 1))}</h5>
                                         </div>
                                     </div>
@@ -139,7 +138,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                             {nftMeta.map(({ name, asset_id, meta, tx_id, placeholder_icon, asset_identifier, image_url, contract_principal, }) => (
                                 <div className="flex justify-between justify-center items-center">
                                     <div className='flex gap-3 justify-center items-center'>
-                                        <a href={`${explorer(contract_principal || '', tx_id || '', network)}`} target='blank' className='text-primary underline'>
+                                        <a href={`${explorer(contract_principal, '', network)}`} target='blank' className='text-primary underline'>
                                             <Avatar
                                                 isBordered
                                                 radius="full"
@@ -153,7 +152,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                                         </div>
                                     </div>
                                     <p className='truncate p-3'>
-
+                                        <a href={`${explorer('', tx_id, network)}`} target='blank' className='text-primary underline'>{tx_id || contract_principal}</a>
                                     </p>
                                     <div className='flex flex-col gap-2'>
                                         <Button color="primary" radius="full" size="sm" onPress={() => openSendNft({ name, asset_id, address: contract_principal, asset_identifier, meta, tx_id })}>
@@ -167,7 +166,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                         </div>
                     </CardBody>
                 </Card>
-            </Tab>            
+            </Tab>
         </Tabs>
     );
 }

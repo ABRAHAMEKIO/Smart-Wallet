@@ -29,7 +29,8 @@ export async function getAllAssets(address, network) {
                         name: key.split('::')[1],
                         count: non_fungible_tokens[key].count,
                         contract_id: key,
-                        contract_address: key.split('::')[0]
+                        contract_address: key.split('::')[0],
+                        image_url: '/nft-placeholder.svg'
                     }
                 })
             };

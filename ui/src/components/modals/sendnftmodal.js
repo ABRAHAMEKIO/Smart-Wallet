@@ -10,7 +10,6 @@ import { getAddress, network } from '../../services/auth';
 import BaseModal from './basemodal';
 
 function SendNftModal({ sendNftModalOpen, setSendNftModalOnOpen, props }) {
-    console.log({ props });
     const [recipient, setRecipient] = useState('');
 
     async function send() {

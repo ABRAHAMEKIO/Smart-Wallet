@@ -22,11 +22,12 @@ function Extension({ clientConfig }) {
             "smart-wallet": Cl.contractPrincipal(exContract.split('.')[0], exContract.split('.')[1]),
             "amount-ustx": Cl.uint(amount),
             "delegate-to": Cl.standardPrincipal(toPrincipal),
-            "until-burn-ht": Cl.some(Cl.uint(burnHeight)),
-            "pox-addr": Cl.some(Cl.tuple({
-                "version": Cl.bufferFromAscii(version),
-                "hashbytes": Cl.bufferFromAscii(hash)
-            }))
+            "until-burn-ht": burnHeight ? Cl.some(Cl.uint(burnHeight)) : Cl.none(),
+            "pox-addr": version && hash ?
+                Cl.some(Cl.tuple({
+                    "version": Cl.bufferFromAscii(version),
+                    "hashbytes": Cl.bufferFromAscii(hash)
+                })) : Cl.none()
         })
         const serializedTuple = Buffer.from(
             JSON.stringify(clarityTuple, (key, value) =>

@@ -19,7 +19,6 @@ function SendStxModal({ clientConfig, sendStxModalOpen, sendStxModalOnClose }) {
         const address = getAddress(activeNetwork);
         const contractName = "smart-wallet";
         const sendAmount = amount * 1000000;
-        console.log(sendAmount);
 
         const condition01 = Pc.principal(`${address}.${contractName}`).willSendLte(sendAmount).ustx();
 

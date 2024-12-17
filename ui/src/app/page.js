@@ -10,6 +10,7 @@ import Logo from "../components/logo";
 import Landing from "../pages/landing";
 // Modals
 import SmartWalletDeployModal from "../components/modals/smartwalletdeploymodal";
+import DepositModal from "../components/modals/depositmodal";
 import SendStxModal from "../components/modals/sendstxmodal";
 import SendFtModal from "../components/modals/sendftmodal";
 import SendNftModal from "../components/modals/sendnftmodal";
@@ -24,12 +25,14 @@ import { api } from "../lib/constants";
 const appOrigin = window.location.origin;
 
 export default function Home() {
+  const [clientLoading, setClientLoading] = useState(true);
   const [contractStatus, setContractStatus] = useState(false);
   const [clientConfig, setClientConfig] = useState({ "http://localhost:3000": { network: 'testnet' } });
   const [selectedContract, setSelectedContract] = useState('');
 
   // Modal State
   const [openSmartWalletDeploy, setOpenSmartWalletDeploy] = useState();
+  const [openDepositModal, setOpenDepositModal] = useState(false);
   const [sendStxModalOpen, sendStxModalOnClose] = useState(false);
   const [sendFtModalOpen, setSendFtModalOnOpen] = useState(false);
   const [sendNftModalOpen, setSendNftModalOnOpen] = useState(false);
@@ -58,7 +61,9 @@ export default function Home() {
     }
   }
 
-  console.log({ contractStatus, openSmartWalletDeploy });
+  useEffect(() => {
+    setClientLoading(false);
+  }, [])
 
   useEffect(() => {
     initSmartWalletContract();
@@ -93,20 +98,21 @@ export default function Home() {
 
         {/* AlertBox */}
         <Alerter showAlerter={showAlerter} closeAlerter={() => setShowAlerter(false)} props={props} />
-        {(!showAlerter && (!openSmartWalletDeploy && !contractStatus)) && <Advisor msg={"Seems you dont have smart wallet deployed yet."} title={"Deploy required"} action={() => setOpenSmartWalletDeploy(true)} />}
+        {((!clientLoading && !showAlerter) && (!openSmartWalletDeploy && !contractStatus)) && <Advisor msg={"Seems you dont have smart wallet deployed yet."} title={"Deploy required"} action={() => setOpenSmartWalletDeploy(true)} />}
 
         {authed &&
           <>
             <div style={{ marginTop: '4rem' }} />
 
             <div className="w-full">
-              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendStxModalOnClose={sendStxModalOnClose} sendFtModalOnOpen={setSendFtModalOnOpen} setSendNftModalOnOpen={setSendNftModalOnOpen} />
+              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendStxModalOnClose={sendStxModalOnClose} sendFtModalOnOpen={setSendFtModalOnOpen} setSendNftModalOnOpen={setSendNftModalOnOpen} setOpenDepositModal={setOpenDepositModal} />
             </div>
           </>
         }
 
         {/* Modals */}
         <SmartWalletDeployModal clientConfig={clientConfig} openSmartWalletDeploy={openSmartWalletDeploy} closeSmartWalletDeploy={() => setOpenSmartWalletDeploy(false)} />
+        <DepositModal openDepositModal={openDepositModal} closeDepositModal={setOpenDepositModal} clientConfig={clientConfig} />
         <SendStxModal sendStxModalOpen={sendStxModalOpen} sendStxModalOnClose={sendStxModalOnClose} clientConfig={clientConfig} />
         <SendFtModal sendFtModalOpen={sendFtModalOpen} sendFtModalOnClose={() => setSendFtModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
         <SendNftModal sendNftModalOpen={sendNftModalOpen} setSendNftModalOnOpen={() => setSendNftModalOnOpen(false)} props={{ network: clientConfig[appOrigin]['network'], ...selectedContract }} />
