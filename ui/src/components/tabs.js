@@ -25,7 +25,6 @@ export default function TabsComponents({ clientConfig, setSelectedContract, send
         async function init() {
             const balance = await getAllAssets(`${authedUser}.smart-wallet`, network);
             const { stx, fungible_tokens, non_fungible_tokens } = balance;
-            console.log({ stx, fungible_tokens, non_fungible_tokens });
             setStx(stx);
             setFungible_Tokens(fungible_tokens);
             setNon_Fungible_Tokens(non_fungible_tokens);

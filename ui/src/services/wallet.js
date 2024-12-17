@@ -34,7 +34,6 @@ export async function getAllAssets(address, network) {
                     }
                 })
             };
-            console.log({ balance });
         } else {
             throw res.status;
         }

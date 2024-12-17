@@ -22,7 +22,6 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
     }
 
     function formatNumber(num) {
-        console.log({ num });
         if (num >= 1e9) {
             return (num / 1e9).toFixed(1).replace(/\.0$/, "") + "b"; // Billions
         }
@@ -77,8 +76,6 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
         setNftMeta(nftHoldings);
         setIsDisAbled(false);
     }
-
-    console.log({ nftMeta, fungible_Tokens });
 
     return (
         <Tabs className='w-full' aria-label="Options" placement={'top'} >

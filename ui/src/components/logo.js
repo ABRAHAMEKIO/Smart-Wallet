@@ -14,7 +14,6 @@ function Logo({ clientConfig, setClientConfig }) {
     const stacksNetworks = getNetworks();
 
     function networkConfig(network) {
-        console.log({ network });
         const saveValue = { [appOrigin]: { network } }
         const serializedValue = encodeURIComponent(JSON.stringify(saveValue));
         document.cookie = `${encodeURIComponent(appOrigin)}=${serializedValue}; path=/`;

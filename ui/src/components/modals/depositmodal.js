@@ -42,7 +42,6 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
     }
 
     function formatNumber(num) {
-        console.log({ num });
         if (num >= 1e9) {
             return (num / 1e9).toFixed(1).replace(/\.0$/, "") + "b"; // Billions
         }
@@ -61,7 +60,6 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
         const address = selectedFt.contract_principal.split('.')[0]
         const contractName = selectedFt.contract_principal.split('.')[1];
         const sendAmount = amount / selectedFt.decimals;
-        console.log({ sendAmount, amount, decimals: selectedFt.decimals });
         const condition01 = Pc.principal(authedUser).willSendLte(sendAmount).ft(selectedFt.contract_principal, selectedFt.contract_identity.split('::')[1]);
 
         openContractCall({
