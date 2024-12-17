@@ -20,7 +20,6 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
     const [non_Fungible_Tokens, setNon_Fungible_Tokens] = useState([]);
     const [nftMeta, setNftMeta] = useState([]);
 
-    const [depoNftAsset, setDepoNftAsset] = useState({});
     const [targetName, setTargetName] = useState('');
     const [isDisabled, setIsDisAbled] = useState(false);
     const [selectedFt, setSelectedFt] = useState({ image_uri: '', placeholder_icon: '', balance: 0, decimals: 0, contract_principal: '', contract_identity: '' });
@@ -162,7 +161,7 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
 
     useEffect(() => {
         async function initBalance() {
-            const balance = await getAllAssets("ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5", activeNetwork);
+            const balance = await getAllAssets(authedUser, activeNetwork);
             const { stx, fungible_tokens, non_fungible_tokens } = balance;
             setStx(stx);
             setFungible_Tokens(fungible_tokens);
