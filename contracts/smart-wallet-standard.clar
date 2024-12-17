@@ -42,18 +42,6 @@
 	)
 )
 
-(define-public 
-	(delegate-call-back 
-		(amount-ustx uint)
-        (delegate-to principal)
-        (until-burn-ht (optional uint))
-        (pox-addr (optional { version: (buff 1), hashbytes: (buff 32) })) 
-	) 
-	(to-uint-response (contract-call? 'SP000000000000000000002Q6VF78.pox-4 delegate-stx amount-ustx delegate-to until-burn-ht pox-addr))
-)
-(define-read-only (to-uint-response (res (response bool int)))
-    (match res success (ok success) error (err (to-uint error))))
-
 (define-public (extension-call (extension <extension-trait>) (payload (buff 2048)))
 	(begin
 		(try! (is-allowed-extension extension payload))
@@ -103,5 +91,5 @@
 )
 
 ;; init
-(enable-admin tx-sender true)
-(enable-admin (as-contract tx-sender) true)
+(map-set admins tx-sender true)
+(map-set admins (as-contract tx-sender) true)

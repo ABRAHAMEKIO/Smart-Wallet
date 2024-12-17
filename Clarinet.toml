@@ -10,9 +10,6 @@ requirements = [
     { contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard" },
     { contract_id = "SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait" },
     { contract_id = "SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait" },
-    { contract_id = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope" },
-    { contract_id = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.napper" },
-    { contract_id = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wrapped-nothing-v8" },
     { contract_id = "SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.Wrapped-Bitcoin" },
     { contract_id = "SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition" },
     { contract_id = "SP000000000000000000002Q6VF78.pox-4" },
@@ -79,10 +76,6 @@ path = 'contracts/extensions/ext-sponsored-transfer.clar'
 clarity_version = 2
 epoch = 2.1
 
-[contracts.ext-unsafe-sip010-transfer]
-path = 'contracts/extensions/ext-unsafe-sip010-transfer.clar'
-clarity_version = 2
-epoch = 3.0
 
 [contracts.ext-delegate-stx-pox-4]
 path = 'contracts/extensions/ext-delegate-stx-pox-4.clar'
@@ -93,12 +86,3 @@ epoch = 2.5
 path = 'contracts/tests/ext-test.clar'
 clarity_version = 2
 epoch = 2.5
-
-[repl.analysis]
-passes = ['check_checker']
-
-[repl.analysis.check_checker]
-strict = false
-trusted_sender = false
-trusted_caller = false
-callee_filter = false
