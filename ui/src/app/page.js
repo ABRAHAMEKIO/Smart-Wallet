@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Connect } from "@stacks/connect-react";
+import axios from "axios";
 
 import Avatar from "../components/avatar";
 import { getAddress, isUserAuthed, userSession } from "../services/auth";
@@ -16,11 +17,8 @@ import SendFtModal from "../components/modals/sendftmodal";
 import SendNftModal from "../components/modals/sendnftmodal";
 import Alerter from "../components/alerter";
 import Advisor from "../components/advisor";
-
-
+import { useSearchParams, useParams } from "next/navigation";
 import './globals.css';
-import axios from "axios";
-import { api } from "../lib/constants";
 
 const appOrigin = window.location.origin;
 
@@ -41,14 +39,19 @@ export default function Home() {
   const [showAlerter, setShowAlerter] = useState(false)
   const [props, setProps] = useState({ msg: '', reason: '', severity: '' })
 
-  const activeNetwork = clientConfig[appOrigin]?.network;
+  // Client Configurations
+  const searchParams = useSearchParams();
+  const chain = searchParams.get('chain');
+  const network = searchParams.get('network');
+  const api = searchParams.get('api');
+
   const authed = isUserAuthed();
-  const authedUser = getAddress(activeNetwork);
+  const authedUser = getAddress(chain);
 
   async function initSmartWalletContract() {
     try {
       const contract = `${authedUser}.smart-wallet`;
-      const getContractStatus = await axios.get(`${api[activeNetwork]}/extended/v2/smart-contracts/status?contract_id=${contract}`);
+      const getContractStatus = await axios.get(`${api}/extended/v2/smart-contracts/status?contract_id=${contract}`);
       if (getContractStatus.status === 200) {
         const { found } = getContractStatus.data[contract];
         if (!found) setOpenSmartWalletDeploy(true);
@@ -67,14 +70,14 @@ export default function Home() {
 
   useEffect(() => {
     initSmartWalletContract();
-  }, [clientConfig])
+  }, [])
 
   return (
     <Connect
       authOptions={{
         appDetails: {
           name: "Stacks Next.js Template",
-          icon: window.location.origin + "/logo.png",
+          icon: window.location.origin + "/vercel.svg",
         },
         redirectTo: "/",
         onFinish: () => {
