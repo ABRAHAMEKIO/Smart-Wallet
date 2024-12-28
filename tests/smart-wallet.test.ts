@@ -1,12 +1,14 @@
 import { CoreNodeEventType, projectFactory } from "@clarigen/core";
 import { filterEvents, txErr, txOk } from "@clarigen/test";
-import { Cl, ClarityType, trueCV } from "@stacks/transactions";
+import { Cl, ClarityType, trueCV, boolCV, standardPrincipalCV } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
 import { accounts, project } from "../src/clarigen-types";
 
 const { smartWallet, smartWalletEndpoint } = projectFactory(project, "simnet");
 
 const transferAmount = 100;
+
+const ezra = accounts.wallet_1.address;
 
 // Type guard to check if data has an amount property
 function hasAmountProperty(data: any): data is { amount: string } {
@@ -75,4 +77,17 @@ describe("test `stx-transfer` public function", () => {
       throw new Error("Event data does not have amount property");
     }
   });
+});
+
+it("test the is-admin-calling public function", async () => {
+  const adminAddress = standardPrincipalCV(accounts.wallet_1.address);
+  const enableAdmin = simnet.callPublicFn(
+    'smart-wallet',
+    'enable-admin',
+    [adminAddress, boolCV(true)],
+    ezra
+  );  
+
+  console.log(enableAdmin);
+  expect(enableAdmin.result).toHaveClarityType(ClarityType.ResponseErr);
 });
