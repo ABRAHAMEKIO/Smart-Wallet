@@ -181,3 +181,31 @@ describe("test `smart-wallet-standard` public functions", () => {
     expect(transferWalletResponse.result.type).toBe(ClarityType.ResponseOk);
   });
 });
+
+it("test the enable-admin public function", async () => {
+  const adminAddress = standardPrincipalCV(accounts.wallet_1.address);
+  const enableAdmin = simnet.callPublicFn(
+    'smart-wallet',
+    'enable-admin',
+    [adminAddress, boolCV(true)],
+    ezra
+  );  
+
+  console.log(enableAdmin);
+  expect(enableAdmin.result).toHaveClarityType(ClarityType.ResponseErr);
+});
+
+it("checks that extension-call is working", async () => {
+  const smartWalletStandard = "smart-wallet-standard";
+  const extensionTrait = contractPrincipalCV(simnet.deployer, 'ext-test');
+  const payload = contractPrincipalCV(simnet.deployer,smartWalletStandard);
+  const extensionCall = simnet.callPublicFn(
+    smartWalletStandard,
+    'extension-call',
+    [extensionTrait, bufferCV(serializeCV(payload))],
+    simnet.deployer
+      );  
+
+  console.log(extensionCall);
+  expect(extensionCall.result.type).toBe(ClarityType.ResponseOk);
+});

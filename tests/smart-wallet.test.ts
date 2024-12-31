@@ -79,7 +79,7 @@ describe("test `stx-transfer` public function", () => {
   });
 });
 
-it("test the is-admin-calling public function", async () => {
+it("test the enable-admin public function", async () => {
   const adminAddress = standardPrincipalCV(accounts.wallet_1.address);
   const enableAdmin = simnet.callPublicFn(
     'smart-wallet',
@@ -91,3 +91,17 @@ it("test the is-admin-calling public function", async () => {
   console.log(enableAdmin);
   expect(enableAdmin.result).toHaveClarityType(ClarityType.ResponseErr);
 });
+
+it("checks that set-security-level is working", async () => {
+  
+  const setSecurityLevel = tx(
+    smartWallet.setSecurityLevel(1),
+    accounts.wallet_1.address
+      );  
+
+  console.log(setSecurityLevel);
+  expect(setSecurityLevel.result.type).toBe(ClarityType.ResponseErr);
+});
+
+
+
