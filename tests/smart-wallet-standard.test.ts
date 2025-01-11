@@ -1,6 +1,4 @@
-import { txOk } from "@clarigen/test";
-import { tx } from "@hirosystems/clarinet-sdk";
-import { initSimnet } from "@hirosystems/clarinet-sdk";
+import { initSimnet, tx } from "@hirosystems/clarinet-sdk";
 import {
   boolCV,
   bufferCV,
@@ -51,7 +49,16 @@ const wrappedBitcoinContract = contractPrincipalCV(
 );
 
 describe("test `smart-wallet-standard` public functions", () => {
-  it("transfers 100 stx to wallet", async () => {
+  it("transfers 100 ustx to wallet", async () => {
+    // send 1000 stx from deployer to smart wallet
+    const fundResponse = await simnet.transferSTX(
+      1000000000,
+      `${deployer}.${smartWalletStandard}`,
+      address2
+    );
+    expect(fundResponse.result).toBeOk(Cl.bool(true));
+    simnet.mineEmptyBlock();
+
     const transferResponse = await simnet.callPublicFn(
       smartWalletStandard,
       "stx-transfer",
@@ -77,6 +84,7 @@ describe("test `smart-wallet-standard` public functions", () => {
       "Extension Call Response:",
       Cl.prettyPrint(extensionResponse.result)
     );
+    console.log("Extension Call Response:", extensionResponse.events[0]);
     expect(extensionResponse.result.type).toBe(ClarityType.ResponseOk);
   });
 

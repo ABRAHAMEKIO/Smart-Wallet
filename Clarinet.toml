@@ -13,6 +13,7 @@ requirements = [
     { contract_id = "SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.Wrapped-Bitcoin" },
     { contract_id = "SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition" },
     { contract_id = "SP000000000000000000002Q6VF78.pox-4" },
+    { contract_id = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope" },
 ]
 
 

@@ -82,10 +82,10 @@
 )
 
 (define-public (transfer-wallet (new-admin principal))
-	(begin
+	(let ((old-admin contract-caller))
 		(try! (is-admin-calling))
 		(try! (enable-admin new-admin true))
-		(try! (as-contract (enable-admin contract-caller false)))
+		(try! (as-contract (enable-admin old-admin false)))
 		(ok true)
 	)
 )

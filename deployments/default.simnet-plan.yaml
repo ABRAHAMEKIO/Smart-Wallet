@@ -81,11 +81,6 @@ plan:
             path: ".cache/requirements/SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.clar"
             clarity-version: 1
         - emulated-contract-publish:
-            contract-name: wrapped-nothing-v8
-            emulated-sender: SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ
-            path: ".cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wrapped-nothing-v8.clar"
-            clarity-version: 1
-        - emulated-contract-publish:
             contract-name: ft-trait
             emulated-sender: SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR
             path: ".cache/requirements/SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.ft-trait.clar"
@@ -111,14 +106,14 @@ plan:
             path: contracts/rules/emergency-rules.clar
             clarity-version: 2
         - emulated-contract-publish:
-            contract-name: ext-sponsored-transfer
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/extensions/ext-sponsored-transfer.clar
-            clarity-version: 2
-        - emulated-contract-publish:
             contract-name: smart-wallet-trait
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/smart-wallet-trait.clar
+            clarity-version: 2
+        - emulated-contract-publish:
+            contract-name: ext-sponsored-transfer
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/extensions/ext-sponsored-transfer.clar
             clarity-version: 2
         - emulated-contract-publish:
             contract-name: inactive-observer
@@ -189,23 +184,18 @@ plan:
       transactions: []
       epoch: "2.1"
     - id: 12
-      transactions: []
-      epoch: "2.1"
-    - id: 13
-      transactions: []
-      epoch: "2.1"
-    - id: 14
       transactions:
         - emulated-contract-publish:
             contract-name: nope
             emulated-sender: SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ
             path: ".cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope.clar"
             clarity-version: 2
-        - emulated-contract-publish:
-            contract-name: napper
-            emulated-sender: SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ
-            path: ".cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.napper.clar"
-            clarity-version: 2
+      epoch: "2.4"
+    - id: 13
+      transactions: []
+      epoch: "2.4"
+    - id: 14
+      transactions: []
       epoch: "2.4"
     - id: 15
       transactions: []
@@ -229,18 +219,6 @@ plan:
       transactions: []
       epoch: "2.4"
     - id: 22
-      transactions: []
-      epoch: "2.4"
-    - id: 23
-      transactions: []
-      epoch: "2.4"
-    - id: 24
-      transactions: []
-      epoch: "2.4"
-    - id: 25
-      transactions: []
-      epoch: "2.4"
-    - id: 26
       transactions:
         - emulated-contract-publish:
             contract-name: og-bitcoin-pizza-leather-edition
@@ -258,6 +236,18 @@ plan:
             path: contracts/tests/ext-test.clar
             clarity-version: 2
       epoch: "2.5"
+    - id: 23
+      transactions: []
+      epoch: "2.5"
+    - id: 24
+      transactions: []
+      epoch: "2.5"
+    - id: 25
+      transactions: []
+      epoch: "2.5"
+    - id: 26
+      transactions: []
+      epoch: "2.5"
     - id: 27
       transactions: []
       epoch: "2.5"
@@ -273,62 +263,3 @@ plan:
     - id: 31
       transactions: []
       epoch: "2.5"
-    - id: 32
-      transactions: []
-      epoch: "2.5"
-    - id: 33
-      transactions: []
-      epoch: "2.5"
-    - id: 34
-      transactions: []
-      epoch: "2.5"
-    - id: 35
-      transactions: []
-      epoch: "2.5"
-    - id: 36
-      transactions: []
-      epoch: "2.5"
-    - id: 37
-      transactions: []
-      epoch: "2.5"
-    - id: 38
-      transactions:
-        - emulated-contract-publish:
-            contract-name: ext-unsafe-sip010-transfer
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/extensions/ext-unsafe-sip010-transfer.clar
-            clarity-version: 2
-      epoch: "3.0"
-    - id: 39
-      transactions: []
-      epoch: "3.0"
-    - id: 40
-      transactions: []
-      epoch: "3.0"
-    - id: 41
-      transactions: []
-      epoch: "3.0"
-    - id: 42
-      transactions: []
-      epoch: "3.0"
-    - id: 43
-      transactions: []
-      epoch: "3.0"
-    - id: 44
-      transactions: []
-      epoch: "3.0"
-    - id: 45
-      transactions: []
-      epoch: "3.0"
-    - id: 46
-      transactions: []
-      epoch: "3.0"
-    - id: 47
-      transactions: []
-      epoch: "3.0"
-    - id: 48
-      transactions: []
-      epoch: "3.0"
-    - id: 49
-      transactions: []
-      epoch: "3.0"
