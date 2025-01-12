@@ -1,4 +1,6 @@
-import { initSimnet, tx } from "@hirosystems/clarinet-sdk";
+import { projectFactory } from "@clarigen/core";
+import { txOk } from "@clarigen/test";
+import { tx } from "@hirosystems/clarinet-sdk";
 import {
   boolCV,
   bufferCV,
@@ -12,16 +14,18 @@ import {
   standardPrincipalCV,
   stringAsciiCV,
   trueCV,
+  tupleCV,
   uintCV,
 } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
+import { accounts, project } from "../src/clarigen-types";
 
-const simnet = await initSimnet();
+const { smartWalletStandard, smartWalletStandardEndpoint, extTest } =
+  projectFactory(project, "simnet");
 
-const accounts = simnet.getAccounts();
-const deployer = accounts.get("deployer");
-const address2 = accounts.get("wallet_2");
-const address3 = accounts.get("wallet_3");
+const deployer = accounts.deployer.address;
+const address2 = accounts.wallet_2.address;
+const address3 = accounts.wallet_3.address;
 
 if (!deployer || !address2 || !address3) {
   throw new Error("One or more required addresses are undefined.");
@@ -31,17 +35,15 @@ const transferAmount = 100;
 const amountCV = uintCV(transferAmount);
 const recipientCV = standardPrincipalCV(address2);
 const memoCV = noneCV();
-const sip010Contract = contractPrincipalCV(
-  "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ",
-  "nope"
-);
+
 const sip009Contract = contractPrincipalCV(
   "SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5",
   "og-bitcoin-pizza-leather-edition"
 );
-const extTest = contractPrincipalCV(simnet.deployer, "ext-test");
+const extTestCV = contractPrincipalCV(simnet.deployer, "ext-test");
 
-const smartWalletStandard = "smart-wallet-standard";
+const smartWalletStandardName = "smart-wallet-standard";
+const smartWalletStandardEndpointName = "smart-wallet-standard-endpoint";
 const xBTC = "Wrapped-Bitcoin";
 const wrappedBitcoinContract = contractPrincipalCV(
   "SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR",
@@ -53,18 +55,17 @@ describe("test `smart-wallet-standard` public functions", () => {
     // send 1000 stx from deployer to smart wallet
     const fundResponse = await simnet.transferSTX(
       1000000000,
-      `${deployer}.${smartWalletStandard}`,
+      `${deployer}.${smartWalletStandardName}`,
       address2
     );
     expect(fundResponse.result).toBeOk(Cl.bool(true));
     simnet.mineEmptyBlock();
 
-    const transferResponse = await simnet.callPublicFn(
-      smartWalletStandard,
-      "stx-transfer",
-      [amountCV, recipientCV, memoCV],
+    const transferResponse = txOk(
+      smartWalletStandard.stxTransfer(transferAmount, address2, null),
       deployer
     );
+
     console.log(
       "STX Transfer Response:",
       Cl.prettyPrint(transferResponse.result)
@@ -73,22 +74,34 @@ describe("test `smart-wallet-standard` public functions", () => {
   });
 
   it("calls extension with payload", async () => {
-    const payload = contractPrincipalCV(deployer, smartWalletStandard);
-    const extensionResponse = await simnet.callPublicFn(
-      smartWalletStandard,
+    const payload = contractPrincipalCV(
+      deployer,
+      smartWalletStandard.contractName
+    );
+
+    const extensionResponse = txOk(
+      smartWalletStandard.extensionCall(
+        `${deployer}.ext-test`,
+        serializeCV(payload)
+      ),
+      deployer
+    );
+
+    await simnet.callPublicFn(
+      smartWalletStandardName,
       "extension-call",
-      [extTest, bufferCV(serializeCV(payload))],
+      [extTestCV, bufferCV(serializeCV(payload))],
       deployer
     );
     console.log(
       "Extension Call Response:",
       Cl.prettyPrint(extensionResponse.result)
     );
-    console.log("Extension Call Response:", extensionResponse.events[0]);
     expect(extensionResponse.result.type).toBe(ClarityType.ResponseOk);
   });
 
-  it("transfers 100 sip10 tokens to wallet", async () => {
+  it("try to transfers 100 sip10 (unsafe) tokens to wallet", async () => {
+    // mint 100 xBTC to smart wallet
     const blocks = await simnet.mineBlock([
       tx.callPublicFn(
         cvToString(wrappedBitcoinContract),
@@ -99,7 +112,7 @@ describe("test `smart-wallet-standard` public functions", () => {
           uintCV(8),
           principalCV(deployer),
         ],
-        deployer
+        "SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR"
       ),
       tx.callPublicFn(
         cvToString(wrappedBitcoinContract),
@@ -115,13 +128,13 @@ describe("test `smart-wallet-standard` public functions", () => {
         "mint-tokens",
         [
           uintCV(100000000000000),
-          contractPrincipalCV(deployer, smartWalletStandard),
+          contractPrincipalCV(deployer, smartWalletStandardName),
         ],
         deployer
       ),
     ]);
     const sip10transfer = await simnet.callPublicFn(
-      smartWalletStandard,
+      smartWalletStandardName,
       "sip010-transfer",
       [amountCV, recipientCV, memoCV, wrappedBitcoinContract],
       deployer
@@ -131,6 +144,35 @@ describe("test `smart-wallet-standard` public functions", () => {
       Cl.prettyPrint(sip10transfer.result)
     );
     expect(sip10transfer.result).toBeErr(Cl.uint(4)); // xBTC defines that tx-sender must be token sender
+
+    // use endpoint with extension call to unsafe sip010 transfer
+    await simnet.callPublicFn(
+      smartWalletStandardName,
+      "enable-admin",
+      [
+        principalCV(`${deployer}.${smartWalletStandardEndpointName}`),
+        boolCV(true),
+      ],
+      deployer
+    );
+
+    const sip10transfer2 = await simnet.callPublicFn(
+      smartWalletStandardEndpointName,
+      "transfer-unsafe-sip-010-token",
+      [
+        tupleCV({
+          amount: amountCV,
+          to: recipientCV,
+          token: wrappedBitcoinContract,
+        }),
+      ],
+      deployer
+    );
+    console.log(
+      "SIP-10 Transfer Response:",
+      Cl.prettyPrint(sip10transfer2.result)
+    );
+    expect(sip10transfer2.result).toBeOk(Cl.bool(true));
   });
 
   it("transfers 1 Nft to wallet", async () => {
@@ -142,7 +184,7 @@ describe("test `smart-wallet-standard` public functions", () => {
       [
         NftId,
         principalCV("SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5"),
-        contractPrincipalCV(deployer, smartWalletStandard),
+        contractPrincipalCV(deployer, smartWalletStandardName),
       ],
       "SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5"
     );
@@ -150,7 +192,7 @@ describe("test `smart-wallet-standard` public functions", () => {
 
     // transfer from smart wallet
     const sip9transfer = await simnet.callPublicFn(
-      smartWalletStandard,
+      smartWalletStandardName,
       "sip009-transfer",
       [NftId, recipientCV, sip009Contract],
       deployer
@@ -162,7 +204,7 @@ describe("test `smart-wallet-standard` public functions", () => {
   it("enables admin", async () => {
     const adminAddress = standardPrincipalCV(address3);
     const enableAdminResponse = await simnet.callPublicFn(
-      smartWalletStandard,
+      smartWalletStandardName,
       "enable-admin",
       [adminAddress, boolCV(true)],
       deployer
@@ -177,7 +219,7 @@ describe("test `smart-wallet-standard` public functions", () => {
   it("transfers wallet to new admin", async () => {
     const newAdminAddress = standardPrincipalCV(address3);
     const transferWalletResponse = await simnet.callPublicFn(
-      smartWalletStandard,
+      smartWalletStandardName,
       "transfer-wallet",
       [newAdminAddress],
       deployer

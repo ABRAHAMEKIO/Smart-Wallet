@@ -60,7 +60,7 @@ epoch = 2.1
 [contracts.smart-wallet-standard-endpoint]
 path = 'contracts/smart-wallet-standard-endpoint.clar'
 clarity_version = 2
-epoch = 2.1
+epoch = 2.5
 
 [contracts.smart-wallet-trait]
 path = 'contracts/smart-wallet-trait.clar'
@@ -85,5 +85,10 @@ epoch = 2.5
 
 [contracts.ext-test]
 path = 'contracts/tests/ext-test.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.ext-unsafe-sip010-transfer]
+path = 'contracts/extensions/ext-unsafe-sip010-transfer.clar'
 clarity_version = 2
 epoch = 2.5
