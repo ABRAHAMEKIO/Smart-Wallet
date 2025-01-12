@@ -8,7 +8,7 @@ import { CiCoinInsert } from "react-icons/ci";
 import { openContractCall, openSTXTransfer } from '@stacks/connect';
 import { getAllAssets } from '../../services/wallet';
 import { umicrostoActualValue } from '../../services/operator';
-import { bufferCVFromString, callReadOnlyFunction, Cl, createAssetInfo, cvToValue, makeStandardNonFungiblePostCondition, NonFungibleConditionCode, Pc } from '@stacks/transactions';
+import { bufferCVFromString, fetchCallReadOnlyFunction, Cl, createAsset, cvToValue, makeStandardNonFungiblePostCondition, NonFungibleConditionCode, Pc } from '@stacks/transactions';
 import axios from 'axios';
 import { api, explorer } from '../../lib/constants';
 import { IoMdSend } from 'react-icons/io';
@@ -97,7 +97,7 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
 
             let nftmeta;
             try {
-                const nftmetaUrl = cvToValue(await callReadOnlyFunction({
+                const nftmetaUrl = cvToValue(await fetchCallReadOnlyFunction({
                     contractAddress: asset_identifier.split('.')[0],
                     contractName: asset_identifier.split('::')[0].split('.')[1],
                     functionName: 'get-token-uri',
@@ -130,7 +130,7 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
         const assetId = bufferCVFromString(asset_id);
 
         const postConditionCode = NonFungibleConditionCode.Sends;
-        const nonFungibleAssetInfo = createAssetInfo(address, contractname, assetname);
+        const nonFungibleAssetInfo = createAsset(address, contractname, assetname);
         const condition01 = makeStandardNonFungiblePostCondition(authedUser, postConditionCode, nonFungibleAssetInfo, assetId);
 
         openContractCall({

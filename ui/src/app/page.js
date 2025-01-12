@@ -45,21 +45,21 @@ export default function Home() {
 
   async function initSmartWalletContract(clientNetwork, clientApi) {
     console.log({ clientApi });
-    // try {
-    const authedUser = getAddress(clientNetwork);
-    const contract = `${authedUser}.smart-wallet`;
-    console.log({ authedUser, contract })
-    const getContractStatus = await axios.get(`${clientApi}/extended/v2/smart-contracts/status?contract_id=${contract}`);
-    if (getContractStatus.status === 200) {
-      const { found } = getContractStatus.data[contract];
-      if (!found) setOpenSmartWalletDeploy(true);
-      setContractStatus(found);
+    try {
+      const authedUser = getAddress(clientNetwork);
+      const contract = `${authedUser}.smart-wallet`;
+      console.log({ authedUser, contract })
+      const getContractStatus = await axios.get(`${clientApi}/extended/v2/smart-contracts/status?contract_id=${contract}`);
+      if (getContractStatus.status === 200) {
+        const { found } = getContractStatus.data[contract];
+        if (!found) setOpenSmartWalletDeploy(true);
+        setContractStatus(found);
+      }
+    } catch (error) {
+      console.log({ error });
+      setProps({ msg: error.message, severity: 'danger', reason: error.code });
+      setShowAlerter(true);
     }
-    // } catch (error) {
-    //   console.log({ error });
-    //   setProps({ msg: error.message, severity: 'danger', reason: error.code });
-    //   setShowAlerter(true);
-    // }
   }
 
   console.log({ clientConfig });
