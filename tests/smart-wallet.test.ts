@@ -1,5 +1,5 @@
-import { CoreNodeEventType, projectFactory } from "@clarigen/core";
-import { filterEvents, txErr, txOk } from "@clarigen/test";
+import { projectFactory } from "@clarigen/core";
+import { txErr, txOk } from "@clarigen/test";
 import { Cl, ClarityType, trueCV } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
 import { accounts, project } from "../src/clarigen-types";
@@ -19,7 +19,6 @@ describe("test `stx-transfer` public function", () => {
       smartWallet.stxTransfer(transferAmount, accounts.wallet_2.address, null),
       accounts.wallet_1.address
     );
-    console.log(response);
     expect(response.result.type).toBe(ClarityType.ResponseOk);
   });
 

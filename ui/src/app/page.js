@@ -38,8 +38,8 @@ export default function Home() {
   const [sendNftModalOpen, setSendNftModalOnOpen] = useState(false);
 
   // Alert State
-  const [showAlerter, setShowAlerter] = useState(false)
-  const [props, setProps] = useState({ msg: '', reason: '', severity: '' })
+  const [showAlerter, setShowAlerter] = useState(false);
+  const [props, setProps] = useState({ msg: "", reason: "", severity: "" });
 
   const authed = isUserAuthed();
 
@@ -88,39 +88,61 @@ export default function Home() {
         userSession,
       }}
     >
-
       <main className="w-full mymaindiv">
         {!authed && <Landing />}
 
         {(authed && !clientLoading) &&
           <>
             <div className="w-full flex justify-between items-center">
-              <Logo clientConfig={clientConfig} setClientConfig={setClientConfig} />
+              <Logo
+                clientConfig={clientConfig}
+                setClientConfig={setClientConfig}
+              />
               <Avatar clientConfig={clientConfig} />
             </div>
           </>
         }
 
         {/* AlertBox */}
-        {authed && !clientLoading &&
+        {(authed && !clientLoading) &&
           <>
-            <Alerter showAlerter={showAlerter} closeAlerter={() => setShowAlerter(false)} props={props} />
-            {((!clientLoading && !showAlerter) && (!openSmartWalletDeploy && !contractStatus)) && <Advisor msg={"Seems you dont have smart wallet deployed yet."} title={"Deploy required"} action={() => setOpenSmartWalletDeploy(true)} />}
+            <Alerter
+              showAlerter={showAlerter}
+              closeAlerter={() => setShowAlerter(false)}
+              props={props}
+            />
+            {!clientLoading &&
+              !showAlerter &&
+              !openSmartWalletDeploy &&
+              !contractStatus && (
+                <Advisor
+                  msg={"Seems you dont have smart wallet deployed yet."}
+                  title={"Deploy required"}
+                  action={() => setOpenSmartWalletDeploy(true)}
+                />
+              )}
           </>
         }
 
-        {authed && !clientLoading &&
+        {(authed && !clientLoading) &&
           <>
-            <div style={{ marginTop: '4rem' }} />
+            <div style={{ marginTop: "4rem" }} />
 
             <div className="w-full">
-              <TabsComponents clientConfig={clientConfig} setSelectedContract={setSelectedContract} sendStxModalOnClose={sendStxModalOnClose} sendFtModalOnOpen={setSendFtModalOnOpen} setSendNftModalOnOpen={setSendNftModalOnOpen} setOpenDepositModal={setOpenDepositModal} />
+              <TabsComponents
+                clientConfig={clientConfig}
+                setSelectedContract={setSelectedContract}
+                sendStxModalOnClose={sendStxModalOnClose}
+                sendFtModalOnOpen={setSendFtModalOnOpen}
+                setSendNftModalOnOpen={setSendNftModalOnOpen}
+                setOpenDepositModal={setOpenDepositModal}
+              />
             </div>
           </>
         }
 
         {/* Modals */}
-        {authed && !clientLoading &&
+        {(authed && !clientLoading) &&
           <>
             <SmartWalletDeployModal clientConfig={clientConfig} openSmartWalletDeploy={openSmartWalletDeploy} closeSmartWalletDeploy={() => setOpenSmartWalletDeploy(false)} />
             <DepositModal openDepositModal={openDepositModal} closeDepositModal={setOpenDepositModal} clientConfig={clientConfig} />
@@ -129,9 +151,7 @@ export default function Home() {
             <SendNftModal sendNftModalOpen={sendNftModalOpen} setSendNftModalOnOpen={() => setSendNftModalOnOpen(false)} props={{ network: clientConfig.network, ...selectedContract }} />
           </>
         }
-
       </main>
-
     </Connect>
   );
 }
