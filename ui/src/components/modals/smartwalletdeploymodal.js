@@ -5,11 +5,9 @@ import BaseModal from './basemodal';
 import { getAddress, network } from '../../services/auth';
 import { openContractDeploy } from '@stacks/connect';
 
-const appOrigin = window.location.origin;
 function SmartWalletDeployModal({ clientConfig, openSmartWalletDeploy, closeSmartWalletDeploy }) {
 
-    const activeNetwork = clientConfig[appOrigin]['network'];
-    const authedUser = getAddress();
+    const authedUser = getAddress(clientConfig.network);
     const contract = `${authedUser}.smart-wallet`;
     const contractName = "smart-wallet";
 
@@ -27,7 +25,7 @@ function SmartWalletDeployModal({ clientConfig, openSmartWalletDeploy, closeSmar
             codeBody: clarityCode,
             clarityVersion: 3,
             stxAddress: authedUser,
-            network: network(activeNetwork),
+            network: network(clientConfig.network),
             onFinish: (res) => {
                 console.log({ res });
             },

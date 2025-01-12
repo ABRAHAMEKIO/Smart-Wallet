@@ -7,7 +7,7 @@ import styles from "../app/page.module.css";
 import { Button } from '@nextui-org/react';
 
 
-function Landing({ clientConfig }) {
+function Landing() {
     return (
         <div className='w-full'>
             <div className='w-full flex flex-col-2 justify-between'>

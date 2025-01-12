@@ -30,13 +30,8 @@ export function getAddress(network) {
     return isUserAuthed() ? userSession.loadUserData().profile.stxAddress[networkVal] : '';
 }
 
-export function getNetworks(chain, network, api) {
-    const networkConfig = {
-        chain: chain || 'testnet',
-        network: network || 'testnet',
-        api: api || 'https://api.hiro.so'
-    }
-    return new StacksNetworks(networkConfig);
+export function getNetworks() {
+    return StacksNetworks;
 }
 
 export function network(network) {

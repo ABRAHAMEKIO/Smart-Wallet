@@ -4,8 +4,6 @@ import { getAddress, network, userSession } from '../services/auth';
 import { openContractCall } from '@stacks/connect';
 import { Cl } from '@stacks/transactions';
 
-const appOrigin = window.location.origin;
-
 function Extension({ clientConfig }) {
     const [exContract, setExContract] = useState('');
     const [amount, setAmount] = useState(0);
@@ -14,7 +12,7 @@ function Extension({ clientConfig }) {
     const [version, setVersion] = useState('');
     const [hash, setHash] = useState('');
 
-    const activeNetwork = clientConfig[appOrigin]['network'];
+    const activeNetwork = clientConfig.network;
     const authedUser = getAddress(activeNetwork);
 
     function execute() {

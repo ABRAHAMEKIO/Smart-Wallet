@@ -13,7 +13,6 @@ import axios from 'axios';
 import { api, explorer } from '../../lib/constants';
 import { IoMdSend } from 'react-icons/io';
 
-const appOrigin = window.location.origin;
 function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
     const [stx, setStx] = useState({ balance: 0, rate: 0 });
     const [fungible_Tokens, setFungible_Tokens] = useState([]);
@@ -27,7 +26,7 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
     const [amount, setAmount] = useState(0);
     const [memo, setMemo] = useState('');
 
-    const activeNetwork = clientConfig[appOrigin]['network'];
+    const activeNetwork = clientConfig.network;
     const authedUser = getAddress(activeNetwork);
 
     async function depoStx() {

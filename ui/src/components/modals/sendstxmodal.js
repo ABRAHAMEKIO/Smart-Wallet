@@ -4,21 +4,17 @@ import { Button, Form, ModalBody, ModalFooter, ModalHeader, Input, Avatar } from
 import { IoMdSend } from 'react-icons/io';
 import { Cl, Pc } from '@stacks/transactions';
 import { getAddress, network } from '../../services/auth';
-import { actualtoUmicroValue } from '../../services/operator';
 import { openContractCall } from '@stacks/connect';
 import { getAllAssets } from '../../services/wallet';
 
-const appOrigin = window.location.origin;
 function SendStxModal({ clientConfig, sendStxModalOpen, sendStxModalOnClose }) {
     const [stx, setStx] = useState({ balance: 0, rate: 0 });
     const [amount, setAmount] = useState(0);
     const [recipient, setRecipient] = useState('');
     const [memo, setMemo] = useState('');
 
-    const activeNetwork = clientConfig[appOrigin]['network'];
-
     async function send() {
-        const address = getAddress(activeNetwork);
+        const address = getAddress(clientConfig.network);
         const contractName = "smart-wallet";
         const sendAmount = amount * 1000000;
 
@@ -37,7 +33,7 @@ function SendStxModal({ clientConfig, sendStxModalOpen, sendStxModalOnClose }) {
             sponsored: false,
             stxAddress: address,
             postConditions: [condition01],
-            network: network(activeNetwork),
+            network: network(clientConfig.network),
             onFinish: (res) => {
                 console.log({ res });
             },
@@ -48,12 +44,11 @@ function SendStxModal({ clientConfig, sendStxModalOpen, sendStxModalOnClose }) {
 
     }
 
-    const network = clientConfig[appOrigin]['network'];
-    const authedUser = getAddress(network);
+    const authedUser = getAddress(clientConfig.network);
 
     useEffect(() => {
         async function init() {
-            const balance = await getAllAssets(`${authedUser}.smart-wallet`, network);
+            const balance = await getAllAssets(`${authedUser}.smart-wallet`, clientConfig.network);
             const { stx } = balance;
             setStx(stx);
         }

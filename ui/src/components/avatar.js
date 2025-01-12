@@ -5,7 +5,6 @@ import { CiLogin, CiLogout } from "react-icons/ci";
 import { userSession, authenticate, disconnect } from '../services/auth';
 import { User } from "@nextui-org/react";
 
-const appOrigin = window.location.origin;
 const Avatar = ({ clientConfig }) => {
   const [avatar, setAvatar] = useState('');
   const [bns, setBns] = useState('');
@@ -30,7 +29,7 @@ const Avatar = ({ clientConfig }) => {
                 mocknet: shortmainnet,
                 testnet: shorttestnet,
                 devnet: shorttestnet
-              }[clientConfig[appOrigin]['network']] || ''
+              }[clientConfig.network] || ''
             }
           </small>
           {authed
