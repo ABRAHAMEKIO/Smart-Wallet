@@ -2,6 +2,7 @@
 (define-constant err-invalid-payload (err u500))
 (define-constant err-invalid-caller (err u501))
 
+(define-data-var owner (optional principal) none)
 
 (define-public (call (payload (buff 2048)))
     (let 
@@ -17,6 +18,11 @@
                 } payload) err-invalid-payload)
             )
         )
+        (if (is-none (var-get owner))
+            (var-set owner (some contract-caller))
+            (asserts! (is-eq (var-get owner) (some contract-caller)) err-invalid-caller)
+        )
+
         (if (is-eq "delegate" (get action details))
             (begin
                 (try! (stx-transfer? (get amount-ustx details) tx-sender (as-contract tx-sender)))
