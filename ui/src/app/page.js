@@ -5,7 +5,12 @@ import { Connect } from "@stacks/connect-react";
 import axios from "axios";
 
 import Avatar from "../components/avatar";
-import { getAddress, isUserAuthed, network, userSession } from "../services/auth";
+import {
+  getAddress,
+  isUserAuthed,
+  network,
+  userSession,
+} from "../services/auth";
 import TabsComponents from "../components/tabs";
 import Logo from "../components/logo";
 import Landing from "../pages/landing";
@@ -19,16 +24,20 @@ import Alerter from "../components/alerter";
 import Advisor from "../components/advisor";
 import { useSearchParams } from "next/navigation";
 import { api } from "../lib/constants";
-import './globals.css';
+import "./globals.css";
 
 export default function Home() {
   const [clientLoading, setClientLoading] = useState(true);
   const [contractStatus, setContractStatus] = useState(false);
-  const [selectedContract, setSelectedContract] = useState('');
+  const [selectedContract, setSelectedContract] = useState("");
 
   // Client Configurations
   const searchParams = useSearchParams();
-  const [clientConfig, setClientConfig] = useState({ chain: '', network: '', api: '' });
+  const [clientConfig, setClientConfig] = useState({
+    chain: "",
+    network: "",
+    api: "",
+  });
 
   // Modal State
   const [openSmartWalletDeploy, setOpenSmartWalletDeploy] = useState();
@@ -48,8 +57,10 @@ export default function Home() {
     try {
       const authedUser = getAddress(clientNetwork);
       const contract = `${authedUser}.smart-wallet`;
-      console.log({ authedUser, contract })
-      const getContractStatus = await axios.get(`${clientApi}/extended/v2/smart-contracts/status?contract_id=${contract}`);
+      console.log({ authedUser, contract });
+      const getContractStatus = await axios.get(
+        `${clientApi}/extended/v2/smart-contracts/status?contract_id=${contract}`
+      );
       if (getContractStatus.status === 200) {
         const { found } = getContractStatus.data[contract];
         if (!found) setOpenSmartWalletDeploy(true);
@@ -57,7 +68,7 @@ export default function Home() {
       }
     } catch (error) {
       console.log({ error });
-      setProps({ msg: error.message, severity: 'danger', reason: error.code });
+      setProps({ msg: error.message, severity: "danger", reason: error.code });
       setShowAlerter(true);
     }
   }
@@ -66,20 +77,24 @@ export default function Home() {
 
   useEffect(() => {
     // Client Configurations
-    const clientChain = searchParams.get('chain') || 'testnet';
-    const clientNetwork = searchParams.get('network') || 'testnet';
-    const clientApi = searchParams.get('api') || api[clientChain];
-    setClientConfig({ chain: clientChain, network: clientNetwork, api: clientApi });
+    const clientChain = searchParams.get("chain") || "testnet";
+    const clientNetwork = searchParams.get("network") || "testnet";
+    const clientApi = searchParams.get("api") || api[clientChain];
+    setClientConfig({
+      chain: clientChain,
+      network: clientNetwork,
+      api: clientApi,
+    });
     setClientLoading(false);
     initSmartWalletContract(clientNetwork, clientApi);
-  }, [])
+  }, []);
 
   return (
     <Connect
       authOptions={{
         appDetails: {
-          name: "Stacks Next.js Template",
-          icon: window.location.origin + "/vercel.svg",
+          name: "Smart Wallet",
+          icon: window.location.origin + "/smart-wallet.svg",
         },
         redirectTo: "/",
         onFinish: () => {
@@ -91,7 +106,7 @@ export default function Home() {
       <main className="w-full mymaindiv">
         {!authed && <Landing />}
 
-        {(authed && !clientLoading) &&
+        {authed && !clientLoading && (
           <>
             <div className="w-full flex justify-between items-center">
               <Logo
@@ -101,10 +116,10 @@ export default function Home() {
               <Avatar clientConfig={clientConfig} />
             </div>
           </>
-        }
+        )}
 
         {/* AlertBox */}
-        {(authed && !clientLoading) &&
+        {authed && !clientLoading && (
           <>
             <Alerter
               showAlerter={showAlerter}
@@ -122,9 +137,9 @@ export default function Home() {
                 />
               )}
           </>
-        }
+        )}
 
-        {(authed && !clientLoading) &&
+        {authed && !clientLoading && (
           <>
             <div style={{ marginTop: "4rem" }} />
 
@@ -139,18 +154,38 @@ export default function Home() {
               />
             </div>
           </>
-        }
+        )}
 
         {/* Modals */}
-        {(authed && !clientLoading) &&
+        {authed && !clientLoading && (
           <>
-            <SmartWalletDeployModal clientConfig={clientConfig} openSmartWalletDeploy={openSmartWalletDeploy} closeSmartWalletDeploy={() => setOpenSmartWalletDeploy(false)} />
-            <DepositModal openDepositModal={openDepositModal} closeDepositModal={setOpenDepositModal} clientConfig={clientConfig} />
-            <SendStxModal sendStxModalOpen={sendStxModalOpen} sendStxModalOnClose={sendStxModalOnClose} clientConfig={clientConfig} />
-            <SendFtModal sendFtModalOpen={sendFtModalOpen} sendFtModalOnClose={() => setSendFtModalOnOpen(false)} props={{ network: clientConfig.network, ...selectedContract }} />
-            <SendNftModal sendNftModalOpen={sendNftModalOpen} setSendNftModalOnOpen={() => setSendNftModalOnOpen(false)} props={{ network: clientConfig.network, ...selectedContract }} />
+            <SmartWalletDeployModal
+              clientConfig={clientConfig}
+              openSmartWalletDeploy={openSmartWalletDeploy}
+              closeSmartWalletDeploy={() => setOpenSmartWalletDeploy(false)}
+            />
+            <DepositModal
+              openDepositModal={openDepositModal}
+              closeDepositModal={setOpenDepositModal}
+              clientConfig={clientConfig}
+            />
+            <SendStxModal
+              sendStxModalOpen={sendStxModalOpen}
+              sendStxModalOnClose={sendStxModalOnClose}
+              clientConfig={clientConfig}
+            />
+            <SendFtModal
+              sendFtModalOpen={sendFtModalOpen}
+              sendFtModalOnClose={() => setSendFtModalOnOpen(false)}
+              props={{ network: clientConfig.network, ...selectedContract }}
+            />
+            <SendNftModal
+              sendNftModalOpen={sendNftModalOpen}
+              setSendNftModalOnOpen={() => setSendNftModalOnOpen(false)}
+              props={{ network: clientConfig.network, ...selectedContract }}
+            />
           </>
-        }
+        )}
       </main>
     </Connect>
   );

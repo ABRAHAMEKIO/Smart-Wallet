@@ -1,7 +1,6 @@
 ;; title: smart-wallet-standard
-;; version:
-;; summary:
-;; description:
+;; version: 1
+;; summary: Extendible smart wallet with standard SIP-010 and SIP-009 support
 (use-trait extension-trait .extension-trait.extension-trait)
 
 (use-trait sip-010-trait 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.sip-010-trait)
@@ -76,6 +75,7 @@
 (define-public (enable-admin (admin principal) (enabled bool))
 	(begin
 		(try! (is-admin-calling))
+		(asserts! (not (is-eq admin (as-contract tx-sender))) err-forbidden)
 		(asserts! (not (is-eq admin contract-caller)) err-forbidden)
 		(ok (map-set admins admin enabled))
 	)
