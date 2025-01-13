@@ -1,0 +1,9 @@
+{
+    "builds": [
+      {
+        "src": "ui/package.json",
+        "use": "@vercel/node"
+      }
+    ],
+    "rootDirectory": "ui"
+  }
