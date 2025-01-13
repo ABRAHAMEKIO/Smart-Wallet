@@ -2,7 +2,133 @@
 import type { TypedAbiArg, TypedAbiFunction, TypedAbiMap, TypedAbiVariable, Response } from '@clarigen/core';
 
 export const contracts = {
-  commissionTrait: {
+  wrappedBitcoin: {
+  "functions": {
+    addPrincipalToRole: {"name":"add-principal-to-role","access":"public","args":[{"name":"role-to-add","type":"uint128"},{"name":"principal-to-add","type":"principal"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[roleToAdd: TypedAbiArg<number | bigint, "roleToAdd">, principalToAdd: TypedAbiArg<string, "principalToAdd">], Response<boolean, bigint>>,
+    burnTokens: {"name":"burn-tokens","access":"public","args":[{"name":"burn-amount","type":"uint128"},{"name":"burn-from","type":"principal"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[burnAmount: TypedAbiArg<number | bigint, "burnAmount">, burnFrom: TypedAbiArg<string, "burnFrom">], Response<boolean, bigint>>,
+    initialize: {"name":"initialize","access":"public","args":[{"name":"name-to-set","type":{"string-ascii":{"length":32}}},{"name":"symbol-to-set","type":{"string-ascii":{"length":32}}},{"name":"decimals-to-set","type":"uint128"},{"name":"initial-owner","type":"principal"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[nameToSet: TypedAbiArg<string, "nameToSet">, symbolToSet: TypedAbiArg<string, "symbolToSet">, decimalsToSet: TypedAbiArg<number | bigint, "decimalsToSet">, initialOwner: TypedAbiArg<string, "initialOwner">], Response<boolean, bigint>>,
+    mintTokens: {"name":"mint-tokens","access":"public","args":[{"name":"mint-amount","type":"uint128"},{"name":"mint-to","type":"principal"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[mintAmount: TypedAbiArg<number | bigint, "mintAmount">, mintTo: TypedAbiArg<string, "mintTo">], Response<boolean, bigint>>,
+    removePrincipalFromRole: {"name":"remove-principal-from-role","access":"public","args":[{"name":"role-to-remove","type":"uint128"},{"name":"principal-to-remove","type":"principal"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[roleToRemove: TypedAbiArg<number | bigint, "roleToRemove">, principalToRemove: TypedAbiArg<string, "principalToRemove">], Response<boolean, bigint>>,
+    revokeTokens: {"name":"revoke-tokens","access":"public","args":[{"name":"revoke-amount","type":"uint128"},{"name":"revoke-from","type":"principal"},{"name":"revoke-to","type":"principal"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[revokeAmount: TypedAbiArg<number | bigint, "revokeAmount">, revokeFrom: TypedAbiArg<string, "revokeFrom">, revokeTo: TypedAbiArg<string, "revokeTo">], Response<boolean, bigint>>,
+    setTokenUri: {"name":"set-token-uri","access":"public","args":[{"name":"updated-uri","type":{"string-utf8":{"length":256}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[updatedUri: TypedAbiArg<string, "updatedUri">], Response<boolean, bigint>>,
+    transfer: {"name":"transfer","access":"public","args":[{"name":"amount","type":"uint128"},{"name":"sender","type":"principal"},{"name":"recipient","type":"principal"},{"name":"memo","type":{"optional":{"buffer":{"length":34}}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[amount: TypedAbiArg<number | bigint, "amount">, sender: TypedAbiArg<string, "sender">, recipient: TypedAbiArg<string, "recipient">, memo: TypedAbiArg<Uint8Array | null, "memo">], Response<boolean, bigint>>,
+    updateBlacklisted: {"name":"update-blacklisted","access":"public","args":[{"name":"principal-to-update","type":"principal"},{"name":"set-blacklisted","type":"bool"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[principalToUpdate: TypedAbiArg<string, "principalToUpdate">, setBlacklisted: TypedAbiArg<boolean, "setBlacklisted">], Response<boolean, bigint>>,
+    detectTransferRestriction: {"name":"detect-transfer-restriction","access":"read_only","args":[{"name":"amount","type":"uint128"},{"name":"sender","type":"principal"},{"name":"recipient","type":"principal"}],"outputs":{"type":{"response":{"ok":"uint128","error":"uint128"}}}} as TypedAbiFunction<[amount: TypedAbiArg<number | bigint, "amount">, sender: TypedAbiArg<string, "sender">, recipient: TypedAbiArg<string, "recipient">], Response<bigint, bigint>>,
+    getBalance: {"name":"get-balance","access":"read_only","args":[{"name":"owner","type":"principal"}],"outputs":{"type":{"response":{"ok":"uint128","error":"none"}}}} as TypedAbiFunction<[owner: TypedAbiArg<string, "owner">], Response<bigint, null>>,
+    getDecimals: {"name":"get-decimals","access":"read_only","args":[],"outputs":{"type":{"response":{"ok":"uint128","error":"none"}}}} as TypedAbiFunction<[], Response<bigint, null>>,
+    getName: {"name":"get-name","access":"read_only","args":[],"outputs":{"type":{"response":{"ok":{"string-ascii":{"length":32}},"error":"none"}}}} as TypedAbiFunction<[], Response<string, null>>,
+    getSymbol: {"name":"get-symbol","access":"read_only","args":[],"outputs":{"type":{"response":{"ok":{"string-ascii":{"length":32}},"error":"none"}}}} as TypedAbiFunction<[], Response<string, null>>,
+    getTokenUri: {"name":"get-token-uri","access":"read_only","args":[],"outputs":{"type":{"response":{"ok":{"optional":{"string-utf8":{"length":256}}},"error":"none"}}}} as TypedAbiFunction<[], Response<string | null, null>>,
+    getTotalSupply: {"name":"get-total-supply","access":"read_only","args":[],"outputs":{"type":{"response":{"ok":"uint128","error":"none"}}}} as TypedAbiFunction<[], Response<bigint, null>>,
+    hasRole: {"name":"has-role","access":"read_only","args":[{"name":"role-to-check","type":"uint128"},{"name":"principal-to-check","type":"principal"}],"outputs":{"type":"bool"}} as TypedAbiFunction<[roleToCheck: TypedAbiArg<number | bigint, "roleToCheck">, principalToCheck: TypedAbiArg<string, "principalToCheck">], boolean>,
+    isBlacklisted: {"name":"is-blacklisted","access":"read_only","args":[{"name":"principal-to-check","type":"principal"}],"outputs":{"type":"bool"}} as TypedAbiFunction<[principalToCheck: TypedAbiArg<string, "principalToCheck">], boolean>,
+    messageForRestriction: {"name":"message-for-restriction","access":"read_only","args":[{"name":"restriction-code","type":"uint128"}],"outputs":{"type":{"response":{"ok":{"string-ascii":{"length":70}},"error":"none"}}}} as TypedAbiFunction<[restrictionCode: TypedAbiArg<number | bigint, "restrictionCode">], Response<string, null>>
+  },
+  "maps": {
+    blacklist: {"name":"blacklist","key":{"tuple":[{"name":"account","type":"principal"}]},"value":{"tuple":[{"name":"blacklisted","type":"bool"}]}} as TypedAbiMap<{
+  "account": string;
+}, {
+  "blacklisted": boolean;
+}>,
+    roles: {"name":"roles","key":{"tuple":[{"name":"account","type":"principal"},{"name":"role","type":"uint128"}]},"value":{"tuple":[{"name":"allowed","type":"bool"}]}} as TypedAbiMap<{
+  "account": string;
+  "role": number | bigint;
+}, {
+  "allowed": boolean;
+}>
+  },
+  "variables": {
+    BLACKLISTER_ROLE: {
+  name: 'BLACKLISTER_ROLE',
+  type: 'uint128',
+  access: 'constant'
+} as TypedAbiVariable<bigint>,
+    BURNER_ROLE: {
+  name: 'BURNER_ROLE',
+  type: 'uint128',
+  access: 'constant'
+} as TypedAbiVariable<bigint>,
+    MINTER_ROLE: {
+  name: 'MINTER_ROLE',
+  type: 'uint128',
+  access: 'constant'
+} as TypedAbiVariable<bigint>,
+    OWNER_ROLE: {
+  name: 'OWNER_ROLE',
+  type: 'uint128',
+  access: 'constant'
+} as TypedAbiVariable<bigint>,
+    PERMISSION_DENIED_ERROR: {
+  name: 'PERMISSION_DENIED_ERROR',
+  type: 'uint128',
+  access: 'constant'
+} as TypedAbiVariable<bigint>,
+    RESTRICTION_BLACKLIST: {
+  name: 'RESTRICTION_BLACKLIST',
+  type: 'uint128',
+  access: 'constant'
+} as TypedAbiVariable<bigint>,
+    RESTRICTION_NONE: {
+  name: 'RESTRICTION_NONE',
+  type: 'uint128',
+  access: 'constant'
+} as TypedAbiVariable<bigint>,
+    REVOKER_ROLE: {
+  name: 'REVOKER_ROLE',
+  type: 'uint128',
+  access: 'constant'
+} as TypedAbiVariable<bigint>,
+    deployerPrincipal: {
+  name: 'deployer-principal',
+  type: 'principal',
+  access: 'variable'
+} as TypedAbiVariable<string>,
+    isInitialized: {
+  name: 'is-initialized',
+  type: 'bool',
+  access: 'variable'
+} as TypedAbiVariable<boolean>,
+    tokenDecimals: {
+  name: 'token-decimals',
+  type: 'uint128',
+  access: 'variable'
+} as TypedAbiVariable<bigint>,
+    tokenName: {
+  name: 'token-name',
+  type: {
+    'string-ascii': {
+      length: 32
+    }
+  },
+  access: 'variable'
+} as TypedAbiVariable<string>,
+    tokenSymbol: {
+  name: 'token-symbol',
+  type: {
+    'string-ascii': {
+      length: 32
+    }
+  },
+  access: 'variable'
+} as TypedAbiVariable<string>,
+    uri: {
+  name: 'uri',
+  type: {
+    'string-utf8': {
+      length: 256
+    }
+  },
+  access: 'variable'
+} as TypedAbiVariable<string>
+  },
+  constants: {},
+  "non_fungible_tokens": [
+    
+  ],
+  "fungible_tokens":[{"name":"wrapped-bitcoin"}],"epoch":"Epoch21","clarity_version":"Clarity1",
+  contractName: 'Wrapped-Bitcoin',
+  },
+commissionTrait: {
   "functions": {
     
   },
@@ -40,12 +166,22 @@ emergencyRules: {
 extDelegateStxPox4: {
   "functions": {
     call: {"name":"call","access":"public","args":[{"name":"payload","type":{"buffer":{"length":2048}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[payload: TypedAbiArg<Uint8Array, "payload">], Response<boolean, bigint>>,
-    toUintResponse: {"name":"to-uint-response","access":"read_only","args":[{"name":"res","type":{"response":{"ok":"bool","error":"int128"}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[res: TypedAbiArg<Response<boolean, number | bigint>, "res">], Response<boolean, bigint>>
+    asUintResponse: {"name":"as-uint-response","access":"read_only","args":[{"name":"res","type":{"response":{"ok":"bool","error":"int128"}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[res: TypedAbiArg<Response<boolean, number | bigint>, "res">], Response<boolean, bigint>>
   },
   "maps": {
     
   },
   "variables": {
+    errInvalidCaller: {
+  name: 'err-invalid-caller',
+  type: {
+    response: {
+      ok: 'none',
+      error: 'uint128'
+    }
+  },
+  access: 'constant'
+} as TypedAbiVariable<Response<null, bigint>>,
     errInvalidPayload: {
   name: 'err-invalid-payload',
   type: {
@@ -58,6 +194,10 @@ extDelegateStxPox4: {
 } as TypedAbiVariable<Response<null, bigint>>
   },
   constants: {
+  errInvalidCaller: {
+    isOk: false,
+    value: 501n
+  },
   errInvalidPayload: {
     isOk: false,
     value: 500n
@@ -102,15 +242,43 @@ extSponsoredTransfer: {
   },
 extTest: {
   "functions": {
-    call: {"name":"call","access":"public","args":[{"name":"payload","type":{"buffer":{"length":2048}}}],"outputs":{"type":{"response":{"ok":"principal","error":"none"}}}} as TypedAbiFunction<[payload: TypedAbiArg<Uint8Array, "payload">], Response<string, null>>
+    call: {"name":"call","access":"public","args":[{"name":"payload","type":{"buffer":{"length":2048}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[payload: TypedAbiArg<Uint8Array, "payload">], Response<boolean, bigint>>
   },
   "maps": {
     
   },
   "variables": {
-    
+    errInvalidPayload: {
+  name: 'err-invalid-payload',
+  type: {
+    response: {
+      ok: 'none',
+      error: 'uint128'
+    }
   },
-  constants: {},
+  access: 'constant'
+} as TypedAbiVariable<Response<null, bigint>>,
+    errUnauthorised: {
+  name: 'err-unauthorised',
+  type: {
+    response: {
+      ok: 'none',
+      error: 'uint128'
+    }
+  },
+  access: 'constant'
+} as TypedAbiVariable<Response<null, bigint>>
+  },
+  constants: {
+  errInvalidPayload: {
+    isOk: false,
+    value: 500n
+  },
+  errUnauthorised: {
+    isOk: false,
+    value: 401n
+  }
+},
   "non_fungible_tokens": [
     
   ],
@@ -145,7 +313,7 @@ extUnsafeSip010Transfer: {
   "non_fungible_tokens": [
     
   ],
-  "fungible_tokens":[],"epoch":"Epoch30","clarity_version":"Clarity2",
+  "fungible_tokens":[],"epoch":"Epoch25","clarity_version":"Clarity2",
   contractName: 'ext-unsafe-sip010-transfer',
   },
 extensionTrait: {
@@ -164,6 +332,23 @@ extensionTrait: {
   ],
   "fungible_tokens":[],"epoch":"Epoch21","clarity_version":"Clarity2",
   contractName: 'extension-trait',
+  },
+ftTrait: {
+  "functions": {
+    
+  },
+  "maps": {
+    
+  },
+  "variables": {
+    
+  },
+  constants: {},
+  "non_fungible_tokens": [
+    
+  ],
+  "fungible_tokens":[],"epoch":"Epoch21","clarity_version":"Clarity1",
+  contractName: 'ft-trait',
   },
 inactiveObserver: {
   "functions": {
@@ -495,6 +680,23 @@ ogBitcoinPizzaLeatherEdition: {
   "fungible_tokens":[],"epoch":"Epoch25","clarity_version":"Clarity2",
   contractName: 'og-bitcoin-pizza-leather-edition',
   },
+restrictedTokenTrait: {
+  "functions": {
+    
+  },
+  "maps": {
+    
+  },
+  "variables": {
+    
+  },
+  constants: {},
+  "non_fungible_tokens": [
+    
+  ],
+  "fungible_tokens":[],"epoch":"Epoch21","clarity_version":"Clarity1",
+  contractName: 'restricted-token-trait',
+  },
 ruleSetTrait: {
   "functions": {
     
@@ -720,6 +922,11 @@ smartWalletStandardEndpoint: {
   "amount": number | bigint;
   "fees": number | bigint;
   "to": string;
+}, "details">], Response<boolean, bigint>>,
+    transferUnsafeSip010Token: {"name":"transfer-unsafe-sip-010-token","access":"public","args":[{"name":"details","type":{"tuple":[{"name":"amount","type":"uint128"},{"name":"to","type":"principal"},{"name":"token","type":"trait_reference"}]}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[details: TypedAbiArg<{
+  "amount": number | bigint;
+  "to": string;
+  "token": string;
 }, "details">], Response<boolean, bigint>>
   },
   "maps": {
@@ -746,7 +953,7 @@ smartWalletStandardEndpoint: {
   "non_fungible_tokens": [
     
   ],
-  "fungible_tokens":[],"epoch":"Epoch21","clarity_version":"Clarity2",
+  "fungible_tokens":[],"epoch":"Epoch25","clarity_version":"Clarity2",
   contractName: 'smart-wallet-standard-endpoint',
   },
 smartWalletTrait: {
@@ -812,9 +1019,9 @@ standardRules: {
   }
 } as const;
 
-export const accounts = {"deployer":{"address":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM","balance":"99999999998000"},"faucet":{"address":"STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6","balance":"100000000000000"},"wallet_1":{"address":"ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5","balance":"100000000000000"},"wallet_2":{"address":"ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG","balance":"100000000000000"},"wallet_3":{"address":"ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC","balance":"100000000000000"},"wallet_4":{"address":"ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND","balance":"100000000000000"},"wallet_5":{"address":"ST2REHHS5J3CERCRBEPMGH7921Q6PYKAADT7JP2VB","balance":"100000000000000"},"wallet_6":{"address":"ST3AM1A56AK2C1XAFJ4115ZSV26EB49BVQ10MGCS0","balance":"100000000000000"},"wallet_7":{"address":"ST3PF13W7Z0RRM42A8VZRVFQ75SV1K26RXEP8YGKJ","balance":"100000000000000"},"wallet_8":{"address":"ST3NBRSFKX28FQ2ZJ1MAKX58HKHSDGNV5N7R21XCP","balance":"100000000000000"}} as const;
+export const accounts = {"deployer":{"address":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM","balance":"99999999999000"},"faucet":{"address":"STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6","balance":"100000000000000"},"wallet_1":{"address":"ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5","balance":"100000000000000"},"wallet_2":{"address":"ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG","balance":"100000000000000"},"wallet_3":{"address":"ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC","balance":"100000000000000"},"wallet_4":{"address":"ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND","balance":"100000000000000"},"wallet_5":{"address":"ST2REHHS5J3CERCRBEPMGH7921Q6PYKAADT7JP2VB","balance":"100000000000000"},"wallet_6":{"address":"ST3AM1A56AK2C1XAFJ4115ZSV26EB49BVQ10MGCS0","balance":"100000000000000"},"wallet_7":{"address":"ST3PF13W7Z0RRM42A8VZRVFQ75SV1K26RXEP8YGKJ","balance":"100000000000000"},"wallet_8":{"address":"ST3NBRSFKX28FQ2ZJ1MAKX58HKHSDGNV5N7R21XCP","balance":"100000000000000"}} as const;
 
-export const identifiers = {"commissionTrait":"SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335.commission-trait","emergencyRules":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.emergency-rules","extDelegateStxPox4":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-delegate-stx-pox-4","extSponsoredTransfer":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-sponsored-transfer","extTest":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-test","extUnsafeSip010Transfer":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-unsafe-sip010-transfer","extensionTrait":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.extension-trait","inactiveObserver":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.inactive-observer","microNthng":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.micro-nthng","nftTrait":"SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait","noRules":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.no-rules","nope":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope","ogBitcoinPizzaLeatherEdition":"SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition","ruleSetTrait":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.rule-set-trait","sip010TraitFtStandard":"SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard","sip013SemiFungibleTokenTrait":"SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait","smartWallet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet","smartWalletEndpoint":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-endpoint","smartWalletStandard":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard","smartWalletStandardEndpoint":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard-endpoint","smartWalletTrait":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-trait","standardRules":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.standard-rules"} as const
+export const identifiers = {"wrappedBitcoin":"SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.Wrapped-Bitcoin","commissionTrait":"SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335.commission-trait","emergencyRules":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.emergency-rules","extDelegateStxPox4":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-delegate-stx-pox-4","extSponsoredTransfer":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-sponsored-transfer","extTest":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-test","extUnsafeSip010Transfer":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-unsafe-sip010-transfer","extensionTrait":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.extension-trait","ftTrait":"SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.ft-trait","inactiveObserver":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.inactive-observer","microNthng":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.micro-nthng","nftTrait":"SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait","noRules":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.no-rules","nope":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope","ogBitcoinPizzaLeatherEdition":"SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition","restrictedTokenTrait":"SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.restricted-token-trait","ruleSetTrait":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.rule-set-trait","sip010TraitFtStandard":"SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard","sip013SemiFungibleTokenTrait":"SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait","smartWallet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet","smartWalletEndpoint":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-endpoint","smartWalletStandard":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard","smartWalletStandardEndpoint":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard-endpoint","smartWalletTrait":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-trait","standardRules":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.standard-rules"} as const
 
 export const simnet = {
   accounts,
@@ -823,7 +1030,7 @@ export const simnet = {
 } as const;
 
 
-export const deployments = {"commissionTrait":{"devnet":"SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335.commission-trait","simnet":"SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335.commission-trait","testnet":null,"mainnet":null},"emergencyRules":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.emergency-rules","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.emergency-rules","testnet":null,"mainnet":null},"extDelegateStxPox4":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-delegate-stx-pox-4","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-delegate-stx-pox-4","testnet":null,"mainnet":null},"extSponsoredTransfer":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-sponsored-transfer","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-sponsored-transfer","testnet":null,"mainnet":null},"extTest":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-test","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-test","testnet":null,"mainnet":null},"extUnsafeSip010Transfer":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-unsafe-sip010-transfer","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-unsafe-sip010-transfer","testnet":null,"mainnet":null},"extensionTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.extension-trait","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.extension-trait","testnet":null,"mainnet":"SP28AJ75697ZM2A8819A5WTTZSZZWNXN4JB3JQRC1.extension-trait"},"inactiveObserver":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.inactive-observer","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.inactive-observer","testnet":null,"mainnet":null},"microNthng":{"devnet":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.micro-nthng","simnet":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.micro-nthng","testnet":null,"mainnet":null},"nftTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.nft-trait","simnet":"SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait","testnet":null,"mainnet":"SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait"},"noRules":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.no-rules","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.no-rules","testnet":null,"mainnet":null},"nope":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.nope","simnet":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope","testnet":null,"mainnet":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope"},"ogBitcoinPizzaLeatherEdition":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.og-bitcoin-pizza-leather-edition","simnet":"SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition","testnet":null,"mainnet":"SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition"},"ruleSetTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.rule-set-trait","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.rule-set-trait","testnet":null,"mainnet":null},"sip010TraitFtStandard":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip-010-trait-ft-standard","simnet":"SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard","testnet":null,"mainnet":"SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard"},"sip013SemiFungibleTokenTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip013-semi-fungible-token-trait","simnet":"SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait","testnet":null,"mainnet":"SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait"},"smartWallet":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet","testnet":null,"mainnet":"SP28AJ75697ZM2A8819A5WTTZSZZWNXN4JB3JQRC1.smart-wallet"},"smartWalletEndpoint":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-endpoint","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-endpoint","testnet":null,"mainnet":"SP28AJ75697ZM2A8819A5WTTZSZZWNXN4JB3JQRC1.smart-wallet-endpoint"},"smartWalletStandard":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard","testnet":null,"mainnet":null},"smartWalletStandardEndpoint":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard-endpoint","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard-endpoint","testnet":null,"mainnet":null},"smartWalletTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-trait","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-trait","testnet":null,"mainnet":null},"standardRules":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.standard-rules","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.standard-rules","testnet":null,"mainnet":null}} as const;
+export const deployments = {"wrappedBitcoin":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.Wrapped-Bitcoin","simnet":"SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.Wrapped-Bitcoin","testnet":null,"mainnet":"SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.Wrapped-Bitcoin"},"commissionTrait":{"devnet":"SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335.commission-trait","simnet":"SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335.commission-trait","testnet":null,"mainnet":null},"emergencyRules":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.emergency-rules","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.emergency-rules","testnet":null,"mainnet":null},"extDelegateStxPox4":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-delegate-stx-pox-4","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-delegate-stx-pox-4","testnet":null,"mainnet":null},"extSponsoredTransfer":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-sponsored-transfer","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-sponsored-transfer","testnet":null,"mainnet":null},"extTest":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-test","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-test","testnet":null,"mainnet":null},"extUnsafeSip010Transfer":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-unsafe-sip010-transfer","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.ext-unsafe-sip010-transfer","testnet":null,"mainnet":null},"extensionTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.extension-trait","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.extension-trait","testnet":null,"mainnet":"SP28AJ75697ZM2A8819A5WTTZSZZWNXN4JB3JQRC1.extension-trait"},"ftTrait":{"devnet":"SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.ft-trait","simnet":"SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.ft-trait","testnet":null,"mainnet":null},"inactiveObserver":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.inactive-observer","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.inactive-observer","testnet":null,"mainnet":null},"microNthng":{"devnet":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.micro-nthng","simnet":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.micro-nthng","testnet":null,"mainnet":null},"nftTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.nft-trait","simnet":"SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait","testnet":null,"mainnet":"SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait"},"noRules":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.no-rules","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.no-rules","testnet":null,"mainnet":null},"nope":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.nope","simnet":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope","testnet":null,"mainnet":"SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope"},"ogBitcoinPizzaLeatherEdition":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.og-bitcoin-pizza-leather-edition","simnet":"SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition","testnet":null,"mainnet":"SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition"},"restrictedTokenTrait":{"devnet":"SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.restricted-token-trait","simnet":"SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.restricted-token-trait","testnet":null,"mainnet":null},"ruleSetTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.rule-set-trait","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.rule-set-trait","testnet":null,"mainnet":null},"sip010TraitFtStandard":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip-010-trait-ft-standard","simnet":"SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard","testnet":null,"mainnet":"SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard"},"sip013SemiFungibleTokenTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip013-semi-fungible-token-trait","simnet":"SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait","testnet":null,"mainnet":"SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait"},"smartWallet":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet","testnet":null,"mainnet":"SP28AJ75697ZM2A8819A5WTTZSZZWNXN4JB3JQRC1.smart-wallet"},"smartWalletEndpoint":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-endpoint","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-endpoint","testnet":null,"mainnet":"SP28AJ75697ZM2A8819A5WTTZSZZWNXN4JB3JQRC1.smart-wallet-endpoint"},"smartWalletStandard":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard","testnet":null,"mainnet":null},"smartWalletStandardEndpoint":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard-endpoint","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-standard-endpoint","testnet":null,"mainnet":null},"smartWalletTrait":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-trait","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.smart-wallet-trait","testnet":null,"mainnet":null},"standardRules":{"devnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.standard-rules","simnet":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.standard-rules","testnet":null,"mainnet":null}} as const;
 
 export const project = {
   contracts,

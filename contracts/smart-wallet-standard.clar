@@ -1,7 +1,6 @@
 ;; title: smart-wallet-standard
-;; version:
-;; summary:
-;; description:
+;; version: 1
+;; summary: Extendible smart wallet with standard SIP-010 and SIP-009 support
 (use-trait extension-trait .extension-trait.extension-trait)
 
 (use-trait sip-010-trait 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.sip-010-trait)
@@ -15,19 +14,19 @@
 )
 
 (define-private (is-allowed-stx (amount uint) (recipient principal) (memo (optional (buff 34))))
-	(is-admin-calling)
+	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
 )
 
 (define-private (is-allowed-extension (extension <extension-trait>) (payload (buff 2048)))
-	(is-admin-calling)
+	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
 )
 
 (define-private (is-allowed-sip010 (sip010 <sip-010-trait>) (amount uint) (recipient principal) (memo (optional (buff 34))))
-	(is-admin-calling)
+		(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
 )
 
 (define-private (is-allowed-sip009 (sip009 <sip-009-trait>) (amount uint) (recipient principal))
-	(is-admin-calling)
+		(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
 )
 ;;
 ;; calls with context switching
@@ -76,16 +75,17 @@
 (define-public (enable-admin (admin principal) (enabled bool))
 	(begin
 		(try! (is-admin-calling))
+		(asserts! (not (is-eq admin (as-contract tx-sender))) err-forbidden)
 		(asserts! (not (is-eq admin contract-caller)) err-forbidden)
 		(ok (map-set admins admin enabled))
 	)
 )
 
 (define-public (transfer-wallet (new-admin principal))
-	(begin
+	(let ((old-admin contract-caller))
 		(try! (is-admin-calling))
 		(try! (enable-admin new-admin true))
-		(map-set admins contract-caller false)
+		(try! (as-contract (enable-admin old-admin false)))
 		(ok true)
 	)
 )
@@ -93,5 +93,3 @@
 ;; init
 (map-set admins tx-sender true)
 (map-set admins (as-contract tx-sender) true)
-;; send 1000 ustx to the smart wallet
-(stx-transfer? u1000 tx-sender (as-contract tx-sender))
