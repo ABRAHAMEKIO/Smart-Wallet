@@ -94,7 +94,7 @@ export default function Home() {
       authOptions={{
         appDetails: {
           name: "Smart Wallet",
-          icon: window.location.origin + "/smart-wallet.svg",
+          icon: "https://smart-wallet-blond.vercel.app/smart-wallet.svg",
         },
         redirectTo: "/",
         onFinish: () => {
