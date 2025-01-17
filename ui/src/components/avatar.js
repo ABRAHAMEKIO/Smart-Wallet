@@ -6,8 +6,8 @@ import { userSession, authenticate, disconnect } from '../services/auth';
 import { User } from "@nextui-org/react";
 
 const Avatar = ({ clientConfig }) => {
-  const [avatar, setAvatar] = useState('');
-  const [bns, setBns] = useState('');
+  const [avatar] = useState('');
+  const [bns] = useState('');
 
   const authed = userSession.isUserSignedIn();
   const testnet = authed ? userSession.loadUserData().profile.stxAddress.testnet : '';

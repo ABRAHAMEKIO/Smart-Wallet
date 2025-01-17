@@ -8,7 +8,6 @@ import { openContractCall } from '@stacks/connect-react';
 
 import { getAddress, network } from '../../services/auth';
 import BaseModal from './basemodal';
-import { actualtoUmicroValue } from '../../services/operator';
 
 
 function SendFtModal({ sendFtModalOpen, sendFtModalOnClose, props }) {
@@ -50,7 +49,7 @@ function SendFtModal({ sendFtModalOpen, sendFtModalOnClose, props }) {
 
     return (
         <BaseModal baseModalsOpen={sendFtModalOpen} baseModalOnClose={sendFtModalOnClose}>
-            <ModalHeader className="flex flex-col gap-1">Send Asset's</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">Send Assets</ModalHeader>
             <ModalBody>
                 <Form
                     className="w-full justify-center items-center w-full space-y-4"

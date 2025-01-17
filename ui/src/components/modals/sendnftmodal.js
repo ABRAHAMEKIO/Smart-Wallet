@@ -47,7 +47,7 @@ function SendNftModal({ sendNftModalOpen, setSendNftModalOnOpen, props }) {
 
     return (
         <BaseModal baseModalsOpen={sendNftModalOpen} baseModalOnClose={setSendNftModalOnOpen}>
-            <ModalHeader className="flex flex-col gap-1">Send Asset's</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">Send Assets</ModalHeader>
             <ModalBody>
                 <Form
                     className="w-full justify-center items-center w-full space-y-4"

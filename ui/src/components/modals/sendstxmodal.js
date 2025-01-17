@@ -57,7 +57,7 @@ function SendStxModal({ clientConfig, sendStxModalOpen, sendStxModalOnClose }) {
 
     return (
         <BaseModal baseModalsOpen={sendStxModalOpen} baseModalOnClose={sendStxModalOnClose}>
-            <ModalHeader className="flex flex-col gap-1">Send Asset's</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">Send Assets</ModalHeader>
             <ModalBody>
                 <Form
                     className="w-full w-full space-y-4"

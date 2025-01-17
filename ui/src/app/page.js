@@ -7,8 +7,7 @@ import axios from "axios";
 import Avatar from "../components/avatar";
 import {
   getAddress,
-  isUserAuthed,
-  network,
+  isUserAuthed,  
   userSession,
 } from "../services/auth";
 import TabsComponents from "../components/tabs";

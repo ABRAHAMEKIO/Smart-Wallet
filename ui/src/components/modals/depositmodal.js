@@ -106,7 +106,7 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
                     network: network
                 }))?.value?.value;
                 nftmeta = (await axios.get(nftmetaUrl)).data;
-            } catch (error) { }
+            } catch (error) { console.log({ error }) }
 
             return {
                 name: asset_identifier.split('::')[1],
@@ -254,7 +254,7 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
                                     <div className="w-full flex flex-col gap-4 bg-pink-200">
 
                                         <Select label="" placeholder='Available ft tokens' startContent={<Avatar size='sm' src={selectedFt.image_uri || selectedFt.placeholder_icon} />}>
-                                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, contract_identity, tx_id, decimals, symbol }, i) => (
+                                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, contract_identity, decimals }, i) => (
                                                 <SelectItem key={i}
                                                     startContent={<Avatar src={image_uri || placeholder_icon} />}
                                                     endContent={
@@ -333,7 +333,7 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
                                         </Select>
 
                                         <div style={{ maxHeight: '400px', padding: '1rem', overflowY: 'auto' }} className='w-full flex flex-col gap-3'>
-                                            {nftMeta.map(({ name, asset_id, meta, tx_id, placeholder_icon, asset_identifier, image_url, contract_principal, }, i) => (
+                                            {nftMeta.map(({ name, asset_id, tx_id, placeholder_icon, asset_identifier, image_url, contract_principal, }, i) => (
                                                 <div className="w-full flex justify-between justify-center items-center" key={i}>
                                                     <div className='flex gap-3 justify-center items-center'>
                                                         <a href={`${explorer(contract_principal || '', tx_id || '', network)}`} target='blank' className='text-primary underline'>
