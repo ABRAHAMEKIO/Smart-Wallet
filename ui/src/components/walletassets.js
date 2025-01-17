@@ -8,7 +8,7 @@ import { TbBrandCashapp } from 'react-icons/tb';
 import { umicrostoActualValue } from "../services/operator";
 import { api, explorer } from '../lib/constants';
 import axios from 'axios';
-import { callReadOnlyFunction, Cl, cvToJSON, cvToString, cvToValue } from '@stacks/transactions';
+import { fetchCallReadOnlyFunction, Cl, cvToValue } from '@stacks/transactions';
 
 
 export default function WalletAssets({ network, fungible_Tokens, non_Fungible_Tokens, setSelectedContract, sendFtModalOnOpen, setSendNftModalOnOpen }) {
@@ -51,7 +51,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
 
             let nftmeta;
             try {
-                const nftmetaUrl = cvToValue(await callReadOnlyFunction({
+                const nftmetaUrl = cvToValue(await fetchCallReadOnlyFunction({
                     contractAddress: asset_identifier.split('.')[0],
                     contractName: asset_identifier.split('::')[0].split('.')[1],
                     functionName: 'get-token-uri',
