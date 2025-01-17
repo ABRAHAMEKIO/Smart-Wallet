@@ -14,6 +14,11 @@ const Avatar = ({ clientConfig }) => {
   const mainnet = authed ? userSession.loadUserData().profile.stxAddress.mainnet : '';
   const shorttestnet = authed ? `${testnet.slice(0, 4)}...${testnet.slice(-4)}` : '';
   const shortmainnet = authed ? `${mainnet.slice(0, 4)}...${mainnet.slice(-4)}` : '';
+  let clientWindow;
+
+  useEffect(() => {
+    clientWindow = window;
+  }, [])
 
 
   return (
@@ -34,7 +39,7 @@ const Avatar = ({ clientConfig }) => {
           </small>
           {authed
             ? <CiLogout onClick={disconnect} className="text-danger" />
-            : <CiLogin onClick={authenticate} className="tesxt-success" />
+            : <CiLogin onClick={() => authenticate(clientWindow)} className="tesxt-success" />
           }
         </div>
       }

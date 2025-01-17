@@ -50,6 +50,8 @@ export default function Home() {
   const [showAlerter, setShowAlerter] = useState(false);
   const [props, setProps] = useState({ msg: "", reason: "", severity: "" });
 
+  let clientWindow;
+
   const authed = isUserAuthed();
 
   async function initSmartWalletContract(clientNetwork, clientApi) {
@@ -76,6 +78,7 @@ export default function Home() {
   console.log({ clientConfig });
 
   useEffect(() => {
+    clientWindow = window;
     // Client Configurations
     const clientChain = searchParams.get("chain") || "testnet";
     const clientNetwork = searchParams.get("network") || "testnet";
@@ -94,11 +97,11 @@ export default function Home() {
       authOptions={{
         appDetails: {
           name: "Smart Wallet",
-          icon: window.location.origin + "/smart-wallet.svg",
+          icon: clientWindow?.location?.origin + "/smart-wallet.svg",
         },
         redirectTo: "/",
         onFinish: () => {
-          window.location.reload();
+          clientWindow?.location?.reload();
         },
         userSession,
       }}

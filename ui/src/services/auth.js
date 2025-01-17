@@ -9,15 +9,15 @@ import {
 const appConfig = new AppConfig(["store_write", "publish_data"]);
 export const userSession = new UserSession({ appConfig });
 
-export function authenticate() {
+export function authenticate(clientWindow) {
   return showConnect({
     appDetails: {
       name: "Smart Wallet",
-      icon: window.location.origin + "/logo512.png",
+      icon: clientWindow?.location?.origin + "/logo512.png",
     },
     redirectTo: "/",
     onFinish: () => {
-      window.location.reload();
+      clientWindow?.location?.reload();
     },
     userSession,
   });

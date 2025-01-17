@@ -3,7 +3,7 @@ import React from 'react';
 import { IoMdSend } from 'react-icons/io';
 import { TbBrandCashapp } from "react-icons/tb";
 
-function WalletBalance({ stx, btc, sendStxModalOnClose, setOpenDepositModal }) {
+function WalletBalance({ stx, sendStxModalOnClose, setOpenDepositModal }) {
 
     function send() {
         sendStxModalOnClose(true);

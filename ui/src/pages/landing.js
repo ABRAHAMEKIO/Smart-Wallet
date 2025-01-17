@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { CiLogin } from "react-icons/ci";
 import { IoIosArrowRoundForward } from "react-icons/io";
@@ -7,6 +8,12 @@ import styles from "../app/page.module.css";
 import { Button } from "@nextui-org/react";
 
 function Landing() {
+  let clientWindow;
+
+  useEffect(() => {
+    clientWindow = window;
+  }, [])
+
   return (
     <div className="w-full">
       <div className="w-full flex flex-col-2 justify-between">
@@ -23,7 +30,7 @@ function Landing() {
         </div>
         <div
           className="flex items-center justify-center gap-2"
-          onClick={authenticate}
+          onClick={() => authenticate(clientWindow)}
         >
           Log in <CiLogin className="tesxt-success" />
         </div>
@@ -45,7 +52,7 @@ function Landing() {
             Deploy Smart Wallets with <br /> Ease and Confidence
           </b>
         </h1>
-        <p class="text-6xl md:text-8xl font-extrabold tracking-tight leading-tight">
+        <p className="text-6xl md:text-8xl font-extrabold tracking-tight leading-tight">
           Seamless. Secure. Scalable. <br /> Start your blockchain journey with
           tools designed to empower every user.
         </p>
@@ -54,7 +61,7 @@ function Landing() {
       <div style={{ margin: "5rem" }} />
 
       <div className="w-full flex flex-col-2 gap-3 justify-center items-center">
-        <Button color="primary" onPress={authenticate}>
+        <Button color="primary" onPress={() => authenticate(clientWindow)}>
           Get started
         </Button>
         <a href="#" className="flex justify-center items-center gap-1">

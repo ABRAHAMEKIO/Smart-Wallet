@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Chip, Select, SelectItem, Spinner } from "@nextui-org/react";
-import { Tabs, Tab, Card, CardHeader, CardFooter, Image, CardBody, Button, Avatar, useDisclosure } from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody, Button, Avatar, } from "@nextui-org/react";
 import { RiNftFill } from "react-icons/ri";
 import { MdGeneratingTokens } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
-import { TbBrandCashapp } from 'react-icons/tb';
 import { umicrostoActualValue } from "../services/operator";
 import { api, explorer } from '../lib/constants';
 import axios from 'axios';
@@ -60,7 +59,7 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                     network: network
                 }))?.value?.value;
                 nftmeta = (await axios.get(nftmetaUrl)).data;
-            } catch (error) { }
+            } catch (err) { console.log(err) }
 
             return {
                 name: asset_identifier.split('::')[1],
@@ -88,8 +87,8 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                 <Card className='mt-1'>
                     <CardBody>
                         <div className="w-full flex flex-col gap-4">
-                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, contract_identity, tx_id, decimals, symbol }) => (
-                                <div className="flex justify-between justify-center items-center">
+                            {fungible_Tokens.map(({ suggested_name, placeholder_icon, image_uri, balance, contract_principal, contract_identity, tx_id, decimals, symbol }, i) => (
+                                <div className="flex justify-between justify-center items-center" key={i}>
                                     <div className='flex gap-3 justify-center items-center'>
                                         <Avatar
                                             isBordered
@@ -127,13 +126,13 @@ export default function WalletAssets({ network, fungible_Tokens, non_Fungible_To
                     <CardBody>
                         <div className="w-full">
                             <Select label="Assets List">
-                                {non_Fungible_Tokens.map(({ name, count, contract_address, contract_id }) => (
-                                    <SelectItem startContent={<Avatar src='/icon-placeholder.svg' />} endContent={(isDisabled && name === targetName) ? <Spinner color="warning" /> : <Chip color="success" variant="dot">{count}</Chip>} onPress={() => selectNft({ name, contract_address, count, contract_id })} isReadOnly={isDisabled}>{name}</SelectItem>
+                                {non_Fungible_Tokens.map(({ name, count, contract_address, contract_id }, i) => (
+                                    <SelectItem key={i} startContent={<Avatar src='/icon-placeholder.svg' />} endContent={(isDisabled && name === targetName) ? <Spinner color="warning" /> : <Chip color="success" variant="dot">{count}</Chip>} onPress={() => selectNft({ name, contract_address, count, contract_id })} isReadOnly={isDisabled}>{name}</SelectItem>
                                 ))}
                             </Select>
 
-                            {nftMeta.map(({ name, asset_id, meta, tx_id, placeholder_icon, asset_identifier, image_url, contract_principal, }) => (
-                                <div className="flex justify-between justify-center items-center">
+                            {nftMeta.map(({ name, asset_id, meta, tx_id, placeholder_icon, asset_identifier, image_url, contract_principal }, i) => (
+                                <div className="flex justify-between justify-center items-center" key={i}>
                                     <div className='flex gap-3 justify-center items-center'>
                                         <a href={`${explorer(contract_principal, '', network)}`} target='blank' className='text-primary underline'>
                                             <Avatar

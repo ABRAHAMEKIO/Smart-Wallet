@@ -254,8 +254,8 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
                                     <div className="w-full flex flex-col gap-4 bg-pink-200">
 
                                         <Select label="" placeholder='Available ft tokens' startContent={<Avatar size='sm' src={selectedFt.image_uri || selectedFt.placeholder_icon} />}>
-                                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, contract_identity, tx_id, decimals, symbol }) => (
-                                                <SelectItem
+                                            {fungible_Tokens.map(({ name, suggested_name, placeholder_icon, image_uri, balance, contract_principal, contract_identity, tx_id, decimals, symbol }, i) => (
+                                                <SelectItem key={i}
                                                     startContent={<Avatar src={image_uri || placeholder_icon} />}
                                                     endContent={
                                                         (isDisabled && name === targetName)
@@ -327,14 +327,14 @@ function DepositModal({ clientConfig, openDepositModal, closeDepositModal }) {
                                     <div className="w-full flex flex-col gap-4 bg-pink-200">
 
                                         <Select label="Assets List">
-                                            {non_Fungible_Tokens.map(({ name, count, contract_address, contract_id, image_url }) => (
-                                                <SelectItem startContent={<Avatar src={image_url} />} endContent={(isDisabled && name === targetName) ? <Spinner color="warning" /> : <Chip color="success" variant="dot">{count}</Chip>} onPress={() => selectNft({ name, contract_address, count, contract_id, image_url })} isReadOnly={isDisabled}>{name}</SelectItem>
+                                            {non_Fungible_Tokens.map(({ name, count, contract_address, contract_id, image_url }, i) => (
+                                                <SelectItem key={i} startContent={<Avatar src={image_url} />} endContent={(isDisabled && name === targetName) ? <Spinner color="warning" /> : <Chip color="success" variant="dot">{count}</Chip>} onPress={() => selectNft({ name, contract_address, count, contract_id, image_url })} isReadOnly={isDisabled}>{name}</SelectItem>
                                             ))}
                                         </Select>
 
                                         <div style={{ maxHeight: '400px', padding: '1rem', overflowY: 'auto' }} className='w-full flex flex-col gap-3'>
-                                            {nftMeta.map(({ name, asset_id, meta, tx_id, placeholder_icon, asset_identifier, image_url, contract_principal, }) => (
-                                                <div className="w-full flex justify-between justify-center items-center">
+                                            {nftMeta.map(({ name, asset_id, meta, tx_id, placeholder_icon, asset_identifier, image_url, contract_principal, }, i) => (
+                                                <div className="w-full flex justify-between justify-center items-center" key={i}>
                                                     <div className='flex gap-3 justify-center items-center'>
                                                         <a href={`${explorer(contract_principal || '', tx_id || '', network)}`} target='blank' className='text-primary underline'>
                                                             <Avatar
