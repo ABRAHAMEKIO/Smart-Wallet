@@ -209,3 +209,41 @@ it("checks that extension-call is working", async () => {
   console.log(extensionCall);
   expect(extensionCall.result.type).toBe(ClarityType.ResponseOk);
 });
+
+it("test the is-allowed-stx function", async () => {
+  const IsAllowedStx = simnet.callPrivateFn(
+    smartWalletStandard,
+    "is-allowed-stx",
+    [amountCV, recipientCV, memoCV,],
+    deployer
+  );
+  console.log(IsAllowedStx);
+  expect(IsAllowedStx.result).toBeOk(Cl.bool(true));
+  });
+  
+  it("test the transfer-wallet public function", async () => {
+    const newAdminAddress = standardPrincipalCV(address3);
+    const transferWallet = simnet.callPublicFn(
+      smartWalletStandard,
+      'transfer-wallet',
+      [newAdminAddress],
+      deployer
+    );  
+  
+    console.log(transferWallet);
+    expect(transferWallet.result).toHaveClarityType(ClarityType.ResponseOk);
+  });
+  
+  it("test the is-allowed-extension function", async () => {
+    const payload = contractPrincipalCV(simnet.deployer,smartWalletStandard);
+    const extensionTrait = contractPrincipalCV(simnet.deployer, 'ext-test');
+    const IsAllowedExtension = simnet.callPrivateFn(
+      smartWalletStandard,
+      "is-allowed-extension",
+      [extensionTrait, bufferCV(serializeCV(payload))],
+      deployer
+    );
+    console.log(IsAllowedExtension);
+    expect(IsAllowedExtension.result).toBeOk(Cl.bool(true));
+    });
+    

@@ -103,5 +103,13 @@ it("checks that set-security-level is working", async () => {
   expect(setSecurityLevel.result.type).toBe(ClarityType.ResponseErr);
 });
 
+it("checks that is-admin-calling is working", async () => {
+  const isAdminCalling = rovOk(
+    smartWallet.isAdminCalling())
+    accounts.wallet_1.address
+  ;  
 
+  console.log(isAdminCalling);
+  expect(isAdminCalling).toBeOk;
+  });
 
