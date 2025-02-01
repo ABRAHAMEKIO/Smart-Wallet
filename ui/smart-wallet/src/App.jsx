@@ -1,12 +1,15 @@
 import { HeroUIProvider } from "@heroui/react";
 import AppRoutes from "./routes";
+import { BrowserRouter } from "react-router-dom";
 
 
 function App() {
 
   return (
     <HeroUIProvider>
-      <AppRoutes />
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </HeroUIProvider>
 
   );
