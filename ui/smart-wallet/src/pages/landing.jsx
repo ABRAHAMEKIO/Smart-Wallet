@@ -4,6 +4,7 @@ import { CiLogin } from 'react-icons/ci'
 import { IoIosArrowRoundForward } from 'react-icons/io'
 import { FaDiscord, FaYoutube } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
+import { authenticate } from '../services/auth'
 
 function Landing() {
 
@@ -16,10 +17,9 @@ function Landing() {
                     src="/smart-wallet.svg"
                     alt="Vercel Logo"
                     width="80px"
-                    priority
                 />
                 <div className="flex items-center justify-center font-semibold gap-2" >
-                    <Button>Log in <CiLogin className="text-success" /></Button>
+                    <Button onPress={authenticate}>Log in <CiLogin className="text-success" /></Button>
                 </div>
             </div>
 
@@ -41,7 +41,7 @@ function Landing() {
             </div>
 
             <div className="w-full flex justify-center mt-8 items-center gap-4">
-                <Button color="primary">
+                <Button color="primary" onPress={authenticate}>
                     Get started
                 </Button>
                 <a href="#" className="flex justify-center items-center gap-1">
