@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { isAuthed } from '../../user-session'
+import React from 'react'
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link } from '@heroui/react'
 import { GrMenu } from 'react-icons/gr'
 import { IoIosArrowDown } from 'react-icons/io'
@@ -17,7 +16,7 @@ function Logo({ clientConfig, setClientConfig }) {
     return (
         <Dropdown>
             <DropdownTrigger>
-                <Button variant="outlined"><GrMenu /></Button>
+                <Button variant="bordered"><GrMenu /></Button>
             </DropdownTrigger>
 
             <DropdownMenu aria-label="Dropdown menu with icons" variant="faded">
@@ -33,7 +32,7 @@ function Logo({ clientConfig, setClientConfig }) {
                         }
                         onPress={() => networkConfig(val)}
                     >
-                        <Link href={`?network=${val}&chain=${val}&api=${api[val]}`}>
+                        <Link href={`/?network=${val}&chain=${val}&api=${api[val]}`}>
                             {val.charAt(0).toUpperCase() + val.slice(1)}
                         </Link>
                     </DropdownItem>
