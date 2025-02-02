@@ -3,6 +3,7 @@ import Header from '../components/header'
 import SmartWalletContractAdvisory from '../components/alert/smartWalletContractAdvisory'
 import { GrDeploy } from 'react-icons/gr';
 import SmartWalletBalance from '../components/smartwalletbalance';
+import Tabs from '../components/tabs';
 
 function Wallet({ clientConfig, setClientConfig }) {
     const [showAdvisory, setShowAdvisory] = useState(true);
@@ -32,6 +33,8 @@ function Wallet({ clientConfig, setClientConfig }) {
                 />
 
                 <SmartWalletBalance />
+
+                <Tabs />
 
             </div>
 
