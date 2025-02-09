@@ -16,7 +16,7 @@ function Logo({ clientConfig, setClientConfig }) {
     return (
         <Dropdown>
             <DropdownTrigger>
-                <Button variant="bordered"><GrMenu /></Button>
+                <Button variant="faded"><GrMenu color='primary' /></Button>
             </DropdownTrigger>
 
             <DropdownMenu aria-label="Dropdown menu with icons" variant="faded">

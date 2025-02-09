@@ -1,45 +1,55 @@
-import { Card, CardBody, Tab } from '@heroui/react'
+import { Card, CardBody, Tab, Tabs } from '@heroui/react'
 import React from 'react'
 import { FaWallet } from 'react-icons/fa'
 import { GiWallet } from 'react-icons/gi'
 import { IoExtensionPuzzle } from 'react-icons/io5'
+import Walletassets from './walletassets'
 
-function Tabs() {
+function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken }) {
     return (
         <div className="flex w-full flex-col">
             <div className="flex w-full flex-col">
-                <Tabs aria-label="Options">
-                    <Tab key="photos" title="Photos">
-                        <Card>
-                            <CardBody>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                <Tabs className='w-full mt-1' aria-label="Options" placement={'top'}>
+                    <Tab className='w-full p-0' key="wallet" title={
+                        <div className="flex items-center gap-1 space-x-2 p-2">
+                            <FaWallet color='#FFA500' />
+                            <span>Wallet</span>
+                        </div>
+                    }>
+                        <Card className='mt-1'>
+                            <CardBody >
+                                <Walletassets clientConfig={clientConfig} fungibleToken={fungibleToken} nonFungibleToken={nonFungibleToken} />
                             </CardBody>
                         </Card>
                     </Tab>
-                    <Tab key="music" title="Music">
-                        <Card>
+                    <Tab className='w-full p-0' key="extension" title={
+                        <div className="flex items-center gap-1  space-x-2 p-2">
+                            <IoExtensionPuzzle color='#FFA500' />
+                            <span>Extension</span>
+                        </div>
+                    }>
+                        <Card className='mt-1'>
                             <CardBody>
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur.
+                                {/* <Extension clientConfig={clientConfig} /> */}
                             </CardBody>
                         </Card>
                     </Tab>
-                    <Tab key="videos" title="Videos">
-                        <Card>
+                    <Tab className='w-full p-0' key="sendwallet" title={
+                        <div className="flex items-center  gap-1 space-x-2 p-2">
+                            <GiWallet color='#FFA500' />
+                            <span>Send Wallet</span>
+                        </div>
+                    }>
+                        <Card className='mt-1'>
                             <CardBody>
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum.
+                                {/* <SendWallet network={network} /> */}
                             </CardBody>
                         </Card>
                     </Tab>
                 </Tabs>
             </div>
         </div>
-
     )
 }
 
-export default Tabs
+export default TabsComponent
