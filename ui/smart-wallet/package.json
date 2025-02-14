@@ -16,6 +16,7 @@
     "@stacks/network": "^7.0.2",
     "@stacks/transactions": "^7.0.2",
     "axios": "^1.7.9",
+    "buffer": "^6.0.3",
     "framer-motion": "^11.18.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

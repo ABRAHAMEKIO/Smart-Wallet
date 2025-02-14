@@ -1,11 +1,34 @@
-import React, { } from 'react';
-import { Tabs, Tab, Card, CardBody, Button, Avatar } from "@heroui/react";
+import React, { useState } from 'react';
+import { Tabs, Tab, Card, CardBody, Button, Avatar, Select, SelectItem, Chip } from "@heroui/react";
 import { RiLuggageDepositFill, RiNftFill } from "react-icons/ri";
 import { MdGeneratingTokens } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
 import { umicrostoActualValue, actualtoUmicroValue } from '../lib/operator';
+import { default_token_icon } from '../pages/wallet';
+import { getNftWallet } from '../services/wallet';
 
 const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
+
+    const [selectedToken, setSelectedToken] = useState();
+    function handleSelectFt(e) {
+        const { value } = e.target;
+        if (value === '$.0') {
+            setSelectedToken({ image_uri: '/stx-logo.svg', ...stx });
+            return
+        }
+        setSelectedToken(fungibleToken[value])
+    }
+
+    const [assetMeta, setAssetMeta] = useState();
+    const [selectedNft, setSelectedNft] = useState();
+    async function handleSelectNft(e) {
+        const { value } = e.target;
+        let metaData = await getNftWallet(nonFungibleToken[value]?.asset_identifier, nonFungibleToken[value]?.value, clientConfig);
+        console.log({ metaData });
+        setAssetMeta(metaData);
+        console.log({ hkhkh: nonFungibleToken[value] });
+        setSelectedNft(nonFungibleToken[value]);
+    }
 
     function formatNumber(num) {
         if (isNaN(num)) return 0.0;
@@ -22,7 +45,6 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
         return num;
     }
 
-
     return (
         <Tabs className='w-full' aria-label="Options" placement={'top'} >
             <Tab key="token" title={
@@ -33,44 +55,26 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
             }>
                 <Card className='mt-1'>
                     <CardBody>
-                        <div className="w-full flex flex-col gap-2">
-                            {fungibleToken.map((
-                                { suggested_name, placeholder_icon,
-                                    image_uri, balance,
-                                    contract_principal, contract_identity,
-                                    tx_id, decimals,
-                                    symbol
-                                }, i) => (
-                                <div className="flex justify-between justify-center items-center bg-gray-100 rounded-xl p-2" key={i}>
-                                    <div className='flex gap-3 justify-center items-center'>
-                                        <Avatar
-                                            isBordered
-                                            radius="full"
-                                            size="md"
-                                            src={image_uri || placeholder_icon}
-                                        />
-                                        <div className="flex flex-col gap-1 items-start justify-center">
-                                            <h4 className="text-small font-semibold leading-none text-default-600">{symbol || suggested_name}</h4>
-                                            <h5 className="text-small tracking-tight text-default-400 text-warning"> {formatNumber(umicrostoActualValue(balance, decimals || 1))}</h5>
-                                        </div>
-                                    </div>
-                                    <p className='truncate p-3'>
-                                        <a href={`${clientConfig?.explorer}/${contract_principal ? 'address' : 'txid'}/${contract_principal || tx_id}/?chain=${clientConfig?.chain}`} target='blank' className='text-primary underline'>
-                                            {
-                                                `${String(tx_id).slice(0, 4)}...${String(tx_id).slice(String(tx_id).length - 5, String(tx_id).length)}` ||
-                                                `${String(contract_principal).slice(0, 4)}...${String(contract_principal).slice(String(contract_principal).length - 5, String(contract_principal).length)}`
-                                            }
-                                        </a>
-                                    </p>
-                                    <div className='flex flex-col gap-2'>
-                                        <Button color="primary" radius="full" size="sm" onPress={() => openSendModal({ address: contract_identity, decimals: parseInt(decimals) || 1, balance })}>
-                                            <IoMdSend />
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))}
-                            {!(fungibleToken.length > 0) && <p>Nothing to display.</p>}
-                        </div>
+                        {(fungibleToken.length > 0)
+                            ? <div className="w-full flex flex-col gap-2">
+                                <Select label="Available Fungible token"
+                                    placeholder='Select token...'
+                                    endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, 6))}</Chip>}
+                                    onChange={handleSelectFt}
+                                >
+                                    {fungibleToken.map(({ name, balance, decimals }, i) => (
+                                        <SelectItem key={i}
+                                            className='uppercase'
+                                            value={i}
+                                            startContent={<Avatar src={default_token_icon} />}
+                                            endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(balance, parseInt(decimals) || 1))}</Chip>}>
+                                            {name}
+                                        </SelectItem>
+                                    ))}
+
+                                </Select>
+                            </div>
+                            : <p>Nothing to display.</p>}
                     </CardBody>
                 </Card>
             </Tab>
@@ -82,42 +86,27 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
             }>
                 <Card fullWidth>
                     <CardBody>
-                        <div className="w-full">
-                            {/* <Select label="Assets List">
-                            {non_Fungible_Tokens.map(({ name, count, contract_address, contract_id }, i) => (
-                                <SelectItem key={i} startContent={<Avatar src='/icon-placeholder.svg' />} endContent={(isDisabled && name === targetName) ? <Spinner color="warning" /> : <Chip color="success" variant="dot">{count}</Chip>} onPress={() => selectNft({ name, contract_address, count, contract_id })} isReadOnly={isDisabled}>{name}</SelectItem>
-                            ))}
-                        </Select>
-
-                        {nftMeta.map(({ name, asset_id, meta, tx_id, placeholder_icon, asset_identifier, image_url, contract_principal }, i) => (
-                            <div className="flex justify-between justify-center items-center" key={i}>
-                                <div className='flex gap-3 justify-center items-center'>
-                                    <a href={`${explorer(contract_principal, '', network)}`} target='blank' className='text-primary underline'>
-                                        <Avatar
-                                            isBordered
-                                            radius="full"
-                                            size="md"
-                                            src={image_url || placeholder_icon}
-                                        />
-                                    </a>
-                                    <div className="flex flex-col gap-1 items-start justify-center">
-                                        <h4 className="text-small font-semibold leading-none text-default-600">{name}</h4>
-                                        <h5 className="text-small tracking-tight text-default-400">{asset_id}</h5>
-                                    </div>
-                                </div>
-                                <p className='truncate p-3'>
-                                    <a href={`${explorer('', tx_id, network)}`} target='blank' className='text-primary underline'>{tx_id || contract_principal}</a>
-                                </p>
-                                <div className='flex flex-col gap-2'>
-                                    <Button color="primary" radius="full" size="sm" onPress={() => openSendNft({ name, asset_id, address: contract_principal, asset_identifier, meta, tx_id })}>
-                                        <IoMdSend />
-                                    </Button>
-                                </div>
+                        {(nonFungibleToken.length > 0)
+                            ? <div className="w-full">
+                                <Select
+                                    label="Available NoneFungible token"
+                                    placeholder='Select asset...'
+                                    endContent={<Chip color="success" variant="dot">{selectedNft?.value}</Chip>}
+                                    onChange={handleSelectNft}
+                                >
+                                    {nonFungibleToken.map(({ name, value }, i) => (
+                                        <SelectItem key={i}
+                                            value={i}
+                                            startContent={<Avatar src='/icon-placeholder.svg' />}
+                                            endContent={<Chip color="success" variant="dot">{value}</Chip>}
+                                        >
+                                            {name}
+                                        </SelectItem>
+                                    ))}
+                                </Select>
                             </div>
-                        ))}
-
-                        {non_Fungible_Tokens.length === 0 && <p>Nothing to display.</p>} */}
-                        </div>
+                            : <p>Nothing to display.</p>
+                        }
                     </CardBody>
                 </Card>
             </Tab>

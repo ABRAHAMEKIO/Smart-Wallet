@@ -4,20 +4,26 @@ import SmartWalletContractAdvisory from '../components/alert/smartWalletContract
 import { GrDeploy } from 'react-icons/gr';
 import SmartWalletBalance from '../components/smartwalletbalance';
 import Tabs from '../components/tabs';
-import { getBalance, getWalletContractInfo } from '../services/wallet';
+import { getSmartWalletBalance, getUserBalance, getWalletContractInfo } from '../services/wallet';
 import DepositModal from '../components/modal/depositModal';
+
+export const default_token_icon = "/icon-placeholder.svg";
 
 function Wallet({ clientConfig, setClientConfig }) {
     const [showAdvisory, setShowAdvisory] = useState(false);
     const [advisoryMessage, setAdvisoryMessage] = useState({ title: '', msg: '', reason: '', severity: '' });
     const [showLaunchPad, setShowLaunchPad] = useState(false);
 
-    const [fungibleToken, setFungible] = useState([]);
-    const [stx, setStx] = useState({});
-    const [nonFungibleToken, setNoneFungible] = useState([]);
+    const [userStx, setUserStx] = useState({});
+    const [userFungibleToken, setUserFungible] = useState([]);
+    const [userNonFungibleToken, setUserNoneFungible] = useState([]);
+
+    const [smartWalletStx, setSmartWalletStx] = useState({});
+    const [smartWalletFungibleToken, setSmartWalletFungible] = useState([]);
+    const [smartWalletNonFungibleToken, setSmartWalletNoneFungible] = useState([]);
 
     // Modals State
-    const [showDepositModal, setShowDepositModal] = useState(true);
+    const [showDepositModal, setShowDepositModal] = useState(false);
 
     function formatNumber(num) {
         if (isNaN(num)) return 0.0;
@@ -39,11 +45,18 @@ function Wallet({ clientConfig, setClientConfig }) {
     }
 
     async function initWalletbalance() {
-        const { stx, fungibleTokens, nonFungibleTokens } = await getBalance(clientConfig);
-        console.log({ stx, fungibleTokens, nonFungibleTokens });
-        setStx(stx);
-        setFungible(fungibleTokens);
-        setNoneFungible(nonFungibleTokens);
+        const { stx: smartwallet_stx, fungibleTokens: smartwallet_fungibleTokens, nonFungibleTokens: smartwallet_nonFungibleTokens } = await getSmartWalletBalance(clientConfig);
+        const { stx: user_stx, fungibleTokens: user_fungibleTokens, nonFungibleTokens: user_nonFungibleTokens } = await getUserBalance(clientConfig);
+
+        console.log({ smartwallet_stx, smartwallet_fungibleTokens, smartwallet_nonFungibleTokens, user_stx, user_fungibleTokens, user_nonFungibleTokens });
+
+        setSmartWalletStx(smartwallet_stx);
+        setSmartWalletFungible(smartwallet_fungibleTokens);
+        setSmartWalletNoneFungible(smartwallet_nonFungibleTokens);
+
+        setUserStx(user_stx);
+        setUserFungible(user_fungibleTokens);
+        setUserNoneFungible(user_nonFungibleTokens);
     }
     async function initWalletInstance() {
         const contract_info = await getWalletContractInfo(clientConfig);
@@ -66,21 +79,16 @@ function Wallet({ clientConfig, setClientConfig }) {
                 <Header clientConfig={clientConfig} setClientConfig={setClientConfig} />
 
                 {/* Advisory Box */}
-                <SmartWalletContractAdvisory
-                    show={showAdvisory}
-                    props={advisoryMessage}
-                    icon={<GrDeploy />}
-                    action={openLaunchPad}
-                />
+                <SmartWalletContractAdvisory show={showAdvisory} props={advisoryMessage} icon={<GrDeploy />} action={openLaunchPad} />
 
-                <SmartWalletBalance balance={formatNumber(parseFloat(stx?.balance) / 1000000)} stx={stx} />
+                <SmartWalletBalance balance={formatNumber(parseFloat(smartWalletStx?.balance) / 1000000)} stx={smartWalletStx} setShowDepositModal={setShowDepositModal} />
 
-                <Tabs clientConfig={clientConfig} fungibleToken={fungibleToken} nonFungibleToken={nonFungibleToken} />
+                <Tabs clientConfig={clientConfig} fungibleToken={smartWalletFungibleToken} nonFungibleToken={smartWalletNonFungibleToken} />
 
             </div>
 
             {/* Modals */}
-            <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={stx} fungibleToken={fungibleToken} />
+            <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={userStx} fungibleToken={userFungibleToken} nonFungibleToken={userNonFungibleToken} clientConfig={clientConfig} />
         </>
     )
 }
