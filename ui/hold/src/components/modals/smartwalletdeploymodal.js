@@ -5,11 +5,7 @@ import BaseModal from "./basemodal";
 import { getAddress, network } from "../../services/auth";
 import { openContractDeploy } from "@stacks/connect";
 
-function SmartWalletDeployModal({
-  clientConfig,
-  openSmartWalletDeploy,
-  closeSmartWalletDeploy,
-}) {
+function SmartWalletDeployModal({ clientConfig, show, close }) {
   const authedUser = getAddress(clientConfig.network);
   const contractName = "smart-wallet-standard";
 
@@ -48,10 +44,7 @@ function SmartWalletDeployModal({
   }, []);
 
   return (
-    <BaseModal
-      baseModalsOpen={openSmartWalletDeploy}
-      baseModalOnClose={closeSmartWalletDeploy}
-    >
+    <BaseModal baseModalsOpen={show} baseModalOnClose={close}>
       <ModalHeader className="flex flex-col gap-1">
         Welcome to Smart Wallet!
       </ModalHeader>
@@ -75,12 +68,7 @@ function SmartWalletDeployModal({
               >
                 <GrDeploy />
               </Button>
-              <Button
-                className="p-0"
-                color="secondary"
-                radius="full"
-                onPress={closeSmartWalletDeploy}
-              >
+              <Button className="p-0" color="secondary" radius="full" onPress={close}>
                 Continue
               </Button>
             </div>

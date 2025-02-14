@@ -6,6 +6,7 @@ import SmartWalletBalance from '../components/smartwalletbalance';
 import Tabs from '../components/tabs';
 import { getSmartWalletBalance, getUserBalance, getWalletContractInfo } from '../services/wallet';
 import DepositModal from '../components/modal/depositModal';
+import SmartWalletDeployModal from '../components/modal/smartwalletdeploymodal';
 
 export const default_token_icon = "/icon-placeholder.svg";
 
@@ -24,6 +25,7 @@ function Wallet({ clientConfig, setClientConfig }) {
 
     // Modals State
     const [showDepositModal, setShowDepositModal] = useState(false);
+    const [showSmartWalletModal, setShowSmartWallettModal] = useState(false);
 
     function formatNumber(num) {
         if (isNaN(num)) return 0.0;
@@ -41,7 +43,7 @@ function Wallet({ clientConfig, setClientConfig }) {
     }
 
     async function openLaunchPad() {
-
+        setShowSmartWallettModal(true);
     }
 
     async function initWalletbalance() {
@@ -88,7 +90,8 @@ function Wallet({ clientConfig, setClientConfig }) {
             </div>
 
             {/* Modals */}
-            <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={userStx} fungibleToken={userFungibleToken} nonFungibleToken={userNonFungibleToken} clientConfig={clientConfig} />
+            {showDepositModal && <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={userStx} fungibleToken={userFungibleToken} nonFungibleToken={userNonFungibleToken} clientConfig={clientConfig} />}
+            {showSmartWalletModal && <SmartWalletDeployModal show={showSmartWalletModal} close={() => setShowSmartWallettModal(false)} />}
         </>
     )
 }
