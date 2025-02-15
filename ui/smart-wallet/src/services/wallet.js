@@ -1,13 +1,12 @@
 import axios from "axios";
 import { userSession } from "../user-session";
-import { testnet_ft_tokens_meta } from "../lib/supported_ft_token";
-import { bufferCV, cvToValue, fetchCallReadOnlyFunction, hexToCV, Pc, uintCV } from "@stacks/transactions";
+import { cvToValue, fetchCallReadOnlyFunction, hexToCV, uintCV } from "@stacks/transactions";
 import { Buffer } from "buffer";
 import { network } from "../lib/constants";
 import { clientFromNetwork } from "@stacks/network";
 
 export async function getSmartWalletBalance(clientConfig) {
-    const userAddress = 'SP2EX5XP57Q02WV8VT0SAE849Z0GCA9D2X12ERFX6'; //userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
+    const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
     const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${userAddress}/balances`);
     const { fungible_tokens, non_fungible_tokens, stx } = data;
 
@@ -32,7 +31,7 @@ export async function getSmartWalletBalance(clientConfig) {
 }
 
 export async function getUserBalance(clientConfig) {
-    const userAddress = 'SP2EX5XP57Q02WV8VT0SAE849Z0GCA9D2X12ERFX6'; //userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
+    const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
     const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${userAddress}/balances`);
     const { fungible_tokens, non_fungible_tokens, stx } = data;
 
@@ -58,7 +57,7 @@ export async function getUserBalance(clientConfig) {
 
 export async function getWalletContractInfo(clientConfig) {
     let result;
-    const userAddress = 'SPQZF23W7SEYBFG5JQ496NMY0G7379SRYEDREMSV';//userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
+    const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
     // const contract_id = `${userAddress}.smartwallet`;
     const contract_id = `${userAddress}.smart-wallet`;
 
