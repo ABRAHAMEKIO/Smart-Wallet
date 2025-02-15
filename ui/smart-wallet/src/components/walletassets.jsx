@@ -170,7 +170,9 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                     <Divider />
                                     <CardFooter>
                                         <div className='w-full flex justify-end'>
-                                            <Button color='warning'><IoMdSend color='white' style={{ transform: "rotate(-45deg)" }} /></Button>
+                                            <Button color='warning'>
+                                                <IoMdSend color='white' style={{ transform: "rotate(-45deg)" }} />
+                                            </Button>
                                         </div>
                                     </CardFooter>
                                 </Card>

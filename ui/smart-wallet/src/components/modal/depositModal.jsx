@@ -49,8 +49,6 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
         setSelectedNftToken(nonFungibleToken[value]);
     }
 
-    console.log({ selectedToken });
-
     return (
         <BaseModal baseModalsOpen={show} baseModalOnClose={close}>
             <ModalHeader className="flex flex-col gap-1">Fund Smart Wallet</ModalHeader>
@@ -105,13 +103,6 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                     : <>
                         <Select label=""
                             placeholder='Available ft tokens'
-                            startContent={
-                                <Avatar
-                                    style={{ width: '60px' }}
-                                    key={selectedToken?.image_uri || selectedToken?.placeholder_icon}
-                                    src={default_token_icon}
-                                />
-                            }
                             endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, 6))}</Chip>}
                             onChange={handleSelectToken}
                         >
