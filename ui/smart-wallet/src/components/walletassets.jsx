@@ -61,14 +61,15 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
 
                                 <Select label="Available Fungible token"
                                     placeholder='Select token...'
-                                    endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, 6))}</Chip>}
+                                    startContent={<MdGeneratingTokens color='#FFA500' />}
+                                    endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, 1))}</Chip>}
                                     onChange={handleSelectFt}
                                 >
                                     {fungibleToken.map(({ name, balance, decimals }, i) => (
                                         <SelectItem key={i}
                                             className='uppercase'
                                             value={i}
-                                            startContent={<Avatar src={default_token_icon} />}
+                                            startContent={<MdGeneratingTokens color='#FFA500' />}
                                             endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(balance, parseInt(decimals) || 1))}</Chip>}>
                                             {name}
                                         </SelectItem>
@@ -100,13 +101,14 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                 <Select
                                     label="Available NoneFungible token"
                                     placeholder='Select asset...'
+                                    startContent={<RiNftFill color='#FFA500' />}
                                     endContent={<Chip color="success" variant="dot">{selectedNft?.value}</Chip>}
                                     onChange={handleSelectNft}
                                 >
                                     {nonFungibleToken.map(({ name, value }, i) => (
                                         <SelectItem key={i}
                                             value={i}
-                                            startContent={<Avatar src='/icon-placeholder.svg' />}
+                                            startContent={<RiNftFill color='#FFA500' />}
                                             endContent={<Chip color="success" variant="dot">{value}</Chip>}
                                         >
                                             {name}
@@ -136,31 +138,31 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
 
                                             <Accordion>
                                                 <AccordionItem key="1" className='bg-secondary-100 rounded' variant='splitted' aria-label="Accordion 1" title={<Chip color="secondary" className='uppercase' variant="dot">Description</Chip>}>
-                                                    <p className='bg-default-200 rounded break-words p-2'>
+                                                    <div className='bg-default-200 rounded break-words pl-5'>
                                                         {assetMeta?.description}
-                                                    </p>
+                                                    </div>
                                                 </AccordionItem>
                                             </Accordion>
 
                                             <Accordion>
-                                                <AccordionItem key="2" className='bg-secondary-100 rounded' variant='splitted' aria-label="Accordion 1" title={<Chip color="secondary" className='uppercase' variant="dot">Attributes</Chip>}>
+                                                <AccordionItem key="2" className='bg-secondary-100 rounded' variant='splitted' aria-label="Accordion 2" title={<Chip color="secondary" className='uppercase' variant="dot">Attributes</Chip>}>
                                                     {(Array.isArray(assetMeta?.attributes)) && assetMeta?.attributes.map((attr, i) => (
-                                                        <p className='flex flex-col gap-1 bg-default-200 rounded-lg' key={i}>
+                                                        <div className='flex flex-col gap-1 bg-default-200 rounded-lg' key={i}>
                                                             {Object.keys(attr).map((key) => (
-                                                                <Code className='flex gap-1 items-center' key={key}><Chip color='primary' variant='dot'>{key}: </Chip>{attr[key]}</Code>
+                                                                <Code className='flex gap-1 items-center pl-5' key={key}><Chip color='primary' variant='dot'>{key}: </Chip>{attr[key]}</Code>
                                                             ))}
-                                                        </p>
+                                                        </div>
                                                     ))}
                                                 </AccordionItem>
                                             </Accordion>
 
                                             <Accordion>
-                                                <AccordionItem key="3" className='bg-secondary-100 rounded' variant='splitted' aria-label="Accordion 1" title={<Chip color="secondary" className='uppercase' variant="dot">Properties</Chip>}>
-                                                    <p className='flex flex-col gap-1 bg-default-200 rounded-lg'>
+                                                <AccordionItem key="3" className='bg-secondary-100 rounded' variant='splitted' aria-label="Accordion 3" title={<Chip color="secondary" className='uppercase' variant="dot">Properties</Chip>}>
+                                                    <div className='flex flex-col gap-1 bg-default-200 rounded-lg'>
                                                         {assetMeta && Object.keys(assetMeta?.properties).map((k) => (
-                                                            <Code className='flex gap-1 items-center' key={k}><Chip color='primary' variant='dot'>{k}: </Chip>{assetMeta?.properties[k]}</Code>
+                                                            <Code className='flex gap-1 items-center pl-5' key={k}><Chip color='primary' variant='dot'>{k}: </Chip>{assetMeta?.properties[k]}</Code>
                                                         ))}
-                                                    </p>
+                                                    </div>
                                                 </AccordionItem>
                                             </Accordion>
 

@@ -7,6 +7,7 @@ import Tabs from '../components/tabs';
 import { getSmartWalletBalance, getUserBalance, getWalletContractInfo } from '../services/wallet';
 import DepositModal from '../components/modal/depositModal';
 import SmartWalletDeployModal from '../components/modal/smartwalletdeploymodal';
+import StxSendModal from '../components/modal/stxsendmodal';
 
 export const default_token_icon = "/icon-placeholder.svg";
 
@@ -26,6 +27,7 @@ function Wallet({ clientConfig, setClientConfig }) {
     // Modals State
     const [showDepositModal, setShowDepositModal] = useState(false);
     const [showSmartWalletModal, setShowSmartWallettModal] = useState(false);
+    const [showStxSendModal, setShowStxSendModal] = useState(false);
 
     function formatNumber(num) {
         if (isNaN(num)) return 0.0;
@@ -84,7 +86,7 @@ function Wallet({ clientConfig, setClientConfig }) {
                 {/* Advisory Box */}
                 <SmartWalletContractAdvisory show={showAdvisory} props={advisoryMessage} icon={<GrDeploy />} action={openLaunchPad} />
 
-                <SmartWalletBalance balance={formatNumber(parseFloat(smartWalletStx?.balance) / 1000000)} stx={smartWalletStx} setShowDepositModal={setShowDepositModal} />
+                <SmartWalletBalance balance={formatNumber(parseFloat(smartWalletStx?.balance) / 1000000)} stx={smartWalletStx} setShowDepositModal={setShowDepositModal} setShowStxSendModal={setShowStxSendModal} />
 
                 <Tabs clientConfig={clientConfig} fungibleToken={smartWalletFungibleToken} nonFungibleToken={smartWalletNonFungibleToken} />
 
@@ -92,7 +94,8 @@ function Wallet({ clientConfig, setClientConfig }) {
 
             {/* Modals */}
             {showDepositModal && <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={userStx} fungibleToken={userFungibleToken} nonFungibleToken={userNonFungibleToken} clientConfig={clientConfig} />}
-            {showSmartWalletModal && <SmartWalletDeployModal show={showSmartWalletModal} close={() => setShowSmartWallettModal(false)} />}
+            {showSmartWalletModal && <SmartWalletDeployModal show={showSmartWalletModal} close={() => setShowSmartWallettModal(false)} clientConfig={clientConfig} />}
+            {showStxSendModal && <StxSendModal show={showStxSendModal} close={() => setShowStxSendModal(false)} stx={smartWalletStx} />}
         </>
     )
 }

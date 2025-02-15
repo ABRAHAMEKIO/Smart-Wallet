@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
-import { Button, Form, ModalBody, ModalHeader } from "@heroui/react";
 import { openContractDeploy } from "@stacks/connect";
+import { Alert, Button, Chip, ModalBody, ModalHeader } from "@heroui/react";
 import { GrDeploy } from "react-icons/gr";
+import { IoClose } from "react-icons/io5";
 import BaseModal from "./basemodal";
 import { userSession } from "../../user-session";
-import { GiCancel } from "react-icons/gi";
-import { IoClose } from "react-icons/io5";
+import { network } from "../../lib/constants";
 
 function SmartWalletDeployModal({ clientConfig, show, close }) {
     const authedUser = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet-standard";
 
     async function checkMemPool() {
-        console.log("fired");
+        console.log("Mempool check");
     }
 
     async function deployContract() {
@@ -28,9 +28,9 @@ function SmartWalletDeployModal({ clientConfig, show, close }) {
             codeBody: clarityCode,
             clarityVersion: 3,
             stxAddress: authedUser,
-            network: network(clientConfig.network),
+            network: network(clientConfig?.chain),
             onFinish: (res) => {
-                console.log({ res });
+                close();
             },
             onCancel: (res) => {
                 console.log({ res });
@@ -51,13 +51,16 @@ function SmartWalletDeployModal({ clientConfig, show, close }) {
                 Welcome to Smart Wallet!
             </ModalHeader>
             <ModalBody>
-                <Form className="w-full justify-center items-center w-full space-y-4" validationBehavior="native">
-                    <div className="w-full flex flex-col gap-4 justify-center items-center">
-                        <p>
-                            🚀 Smart Wallet is a secure 🔒 and intuitive solution for managing your digital assets.
-                            Effortlessly deploy your contract 📜 and take full control of your finances 💰 with a seamless and streamlined experience.
-                        </p>
-                    </div>
+                <div className="w-full justify-center items-center w-full space-y-4" validationBehavior="native">
+                    <Alert
+                        hideIcon
+                        className="text-justify"
+                        color="secondary"
+                        description="🚀 Smart Wallet is a secure 🔒 and intuitive solution for managing your digital assets. Effortlessly deploy your contract 📜 and take full control of your finances 💰 with a seamless and streamlined experience.                            "
+                        title={<Chip color="danger" variant="faded">Note:</Chip>}
+                        variant="flat"
+                    />
+
                     <div className="w-full flex justify-between gap-4">
                         <Button className="p-0" color="default" radius="full" onPress={close}>
                             <IoClose className="text-danger" />
@@ -66,7 +69,7 @@ function SmartWalletDeployModal({ clientConfig, show, close }) {
                             <GrDeploy />
                         </Button>
                     </div>
-                </Form>
+                </div>
             </ModalBody>
         </BaseModal>
     );

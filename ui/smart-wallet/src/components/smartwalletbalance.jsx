@@ -3,9 +3,9 @@ import React from 'react'
 import { IoMdSend } from 'react-icons/io'
 import { RiLuggageDepositFill } from 'react-icons/ri'
 
-function SmartWalletBalance({ balance, stx, setShowDepositModal }) {
+function SmartWalletBalance({ balance, stx, setShowDepositModal, setShowStxSendModal }) {
 
-    
+
     return (
         <div className='w-full gap-3 flex flex-col-3 items-center mt-3'>
             <Avatar
@@ -19,10 +19,10 @@ function SmartWalletBalance({ balance, stx, setShowDepositModal }) {
                 <h3 className='text-small tracking-tight text-default-500'>Rate: <small className='text-primary'>${stx?.rate?.Price.toFixed(3)}</small></h3>
             </div>
             <div className='flex gap-1'>
-                <Button color="warning" radius="full" size="sm" onPress={()=>setShowDepositModal(true)}>
+                <Button color="warning" radius="full" size="sm" onPress={() => setShowDepositModal(true)}>
                     <RiLuggageDepositFill color='white' />
                 </Button>
-                <Button color="warning" radius="full" size="sm">
+                <Button color="warning" radius="full" size="sm" onPress={() => setShowStxSendModal(true)}>
                     <IoMdSend color='white' />
                 </Button>
             </div>

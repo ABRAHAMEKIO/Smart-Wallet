@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BaseModal from './basemodal';
-import { Alert, Avatar, Button, Chip, Input, ModalBody, ModalHeader, Select, SelectItem, Spinner, Switch } from '@heroui/react';
+import { Alert, Avatar, Button, Chip, Image, Input, ModalBody, ModalHeader, Select, SelectItem, Spinner, Switch } from '@heroui/react';
 import { umicrostoActualValue } from '../../lib/operator';
 import { RiLuggageDepositFill, RiNftFill } from 'react-icons/ri';
 import { MdGeneratingTokens } from 'react-icons/md';
@@ -51,10 +51,10 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
 
     return (
         <BaseModal baseModalsOpen={show} baseModalOnClose={close}>
-            <ModalHeader className="flex flex-col gap-1">Fund Smart Wallet</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">Credit Smart Wallet</ModalHeader>
             <ModalBody className='p-5 gap-4'>
                 <Alert
-                    color="warning"
+                    color="success"
                     description="Transactions move from your wallet 💼 to your smart wallet 🤖. Verify on Leathal Wallet 🔒."
                     title=""
                     variant="faded"
@@ -68,7 +68,7 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                     ? <>
                         <Select label=""
                             placeholder='Available nft asset'
-                            startContent={<MdGeneratingTokens color='#FFA500' />}
+                            startContent={<RiNftFill color='#FFA500' />}
                             endContent={<Chip color="success" variant="dot">{selectedNftToken?.value}</Chip>}
                             onChange={handleSelectNftToken}
                         >
@@ -76,7 +76,7 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                                 <SelectItem key={i}
                                     className='capitalize'
                                     value={i}
-                                    startContent={<MdGeneratingTokens color='#FFA500' />}
+                                    startContent={<RiNftFill color='#FFA500' />}
                                     endContent={<Chip color="success" variant="dot">{value}</Chip>}
                                     isReadOnly={isNaN(parseInt(value))}>
                                     {name}
@@ -86,7 +86,7 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                         </Select>
 
                         <div className='w-full flex flex-row-2 gap-5 items-center p-4'>
-                            <Avatar alt={assetMeta?.name} key={assetMeta?.name} style={{ width: '50%', height: '50%' }} src={assetMeta?.image || '/nft-holder.png'} isBordered />
+                            <Image alt={assetMeta?.name} key={assetMeta?.name} style={{ maxWidth: '160px', height: '90px' }} src={assetMeta?.image || '/nft-holder.png'} isBordered />
                             <div className='flex flex-col'>
                                 <div className='flex gap-1 items-center'>
                                     <h4>Name:</h4>
@@ -103,12 +103,13 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                     : <>
                         <Select label=""
                             placeholder='Available ft tokens'
+                            startContent={<MdGeneratingTokens color='#FFA500' />}
                             endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, 6))}</Chip>}
                             onChange={handleSelectToken}
                         >
                             <SelectItem
                                 className='uppercase'
-                                startContent={<Avatar src={'/stx-logo.svg'} />}
+                                startContent={<MdGeneratingTokens color='#FFA500' />}
                                 value={'stx'}
                                 endContent={
                                     (isDisabled && 'stx' === targetName)
@@ -126,7 +127,7 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                                 <SelectItem key={i}
                                     className='uppercase'
                                     value={i}
-                                    startContent={<Avatar src={default_token_icon} />}
+                                    startContent={<MdGeneratingTokens color='#FFA500' />}
                                     endContent={
                                         (isDisabled && name === targetName)
                                             ? <Spinner color="warning" />
