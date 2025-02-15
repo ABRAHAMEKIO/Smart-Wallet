@@ -20,7 +20,6 @@ export async function getSmartWalletBalance(clientConfig) {
         asset = asset?.map((values) => {
             const hexvals = hexToCV(values?.value?.hex);
             const buffValue = hexvals?.value?.name ? Buffer.from(hexvals?.value?.name?.value, "hex").toString() : values?.value?.repr.slice(1);
-            console.log({ buffValue });
             return {
                 ...values,
                 name: values?.asset_identifier.split('::')[1],
@@ -46,7 +45,6 @@ export async function getUserBalance(clientConfig) {
         asset = asset?.map((values) => {
             const hexvals = hexToCV(values?.value?.hex);
             const buffValue = hexvals?.value?.name ? Buffer.from(hexvals?.value?.name?.value, "hex").toString() : values?.value?.repr.slice(1);
-            console.log({ buffValue });
             return {
                 ...values,
                 name: values?.asset_identifier.split('::')[1],

@@ -79,7 +79,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                 <Input label="Amount" placeholder='Enter amount...' type='number' />
 
                                 <Button color='warning'>
-                                    <IoSend size="20px" className='text-secondary' />
+                                    <IoSend size="20px" className='text-white' />
                                 </Button>
 
                             </div>

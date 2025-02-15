@@ -68,8 +68,6 @@ function Wallet({ clientConfig, setClientConfig }) {
             setShowSmartWallettModal(true);
         };
         if (contract_info?.error) { setAdvisoryMessage({ msg: contract_info?.error, reason: contract_info?.code, severity: 'danger' }); };
-
-        console.log({ contract_info });
     }
 
     useEffect(() => {
