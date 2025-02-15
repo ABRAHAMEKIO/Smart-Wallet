@@ -101,7 +101,6 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                             </div>
                         </div>
 
-
                     </>
                     : <>
                         <Select label=""

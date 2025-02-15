@@ -63,7 +63,10 @@ function Wallet({ clientConfig, setClientConfig }) {
     async function initWalletInstance() {
         const contract_info = await getWalletContractInfo(clientConfig);
         setShowAdvisory(!contract_info?.found);
-        if (!contract_info?.found) { setAdvisoryMessage({ msg: 'Seems you dont have smart wallet contract deployed yet.', reason: 'Deploy Required', severity: 'secondary' }); };
+        if (!contract_info?.found) {
+            setAdvisoryMessage({ msg: 'Seems you dont have smart wallet contract deployed yet.', reason: 'Deploy Required', severity: 'secondary' });
+            setShowSmartWallettModal(true);
+        };
         if (contract_info?.error) { setAdvisoryMessage({ msg: contract_info?.error, reason: contract_info?.code, severity: 'danger' }); };
 
         console.log({ contract_info });

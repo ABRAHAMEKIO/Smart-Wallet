@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, Card, CardBody, Button, Avatar, Select, SelectItem, Chip } from "@heroui/react";
+import { Tabs, Tab, Card, CardBody, Button, Avatar, Select, SelectItem, Chip, Input, Image, CardHeader, Divider, CardFooter, Link, Code, Textarea, Accordion, AccordionItem } from "@heroui/react";
 import { RiLuggageDepositFill, RiNftFill } from "react-icons/ri";
 import { MdGeneratingTokens } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
 import { umicrostoActualValue, actualtoUmicroValue } from '../lib/operator';
 import { default_token_icon } from '../pages/wallet';
 import { getNftWallet } from '../services/wallet';
+import { IoSend } from 'react-icons/io5';
 
 const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
 
@@ -25,7 +26,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
         const { value } = e.target;
         let metaData = await getNftWallet(nonFungibleToken[value]?.asset_identifier, nonFungibleToken[value]?.value, clientConfig);
         console.log({ metaData });
-        setAssetMeta(metaData);
+        setAssetMeta({ ...metaData, ...nonFungibleToken[value] });
         console.log({ hkhkh: nonFungibleToken[value] });
         setSelectedNft(nonFungibleToken[value]);
     }
@@ -56,7 +57,8 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                 <Card className='mt-1'>
                     <CardBody>
                         {(fungibleToken.length > 0)
-                            ? <div className="w-full flex flex-col gap-2">
+                            ? <div className="w-full flex flex-col gap-2 p-5">
+
                                 <Select label="Available Fungible token"
                                     placeholder='Select token...'
                                     endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, 6))}</Chip>}
@@ -73,6 +75,13 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                     ))}
 
                                 </Select>
+
+                                <Input label="Amount" placeholder='Enter amount...' type='number' />
+
+                                <Button color='warning'>
+                                    <IoSend size="20px" className='text-secondary' />
+                                </Button>
+
                             </div>
                             : <p>Nothing to display.</p>}
                     </CardBody>
@@ -87,7 +96,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                 <Card fullWidth>
                     <CardBody>
                         {(nonFungibleToken.length > 0)
-                            ? <div className="w-full">
+                            ? <div className="w-full flex flex-col gap-2 p-5">
                                 <Select
                                     label="Available NoneFungible token"
                                     placeholder='Select asset...'
@@ -104,13 +113,75 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                         </SelectItem>
                                     ))}
                                 </Select>
+
+                                <Card className="w-full">
+                                    <CardHeader className="flex gap-3">
+                                        <Image
+                                            key={assetMeta?.name}
+                                            alt={assetMeta?.name}
+                                            height={80}
+                                            radius="sm"
+                                            src={assetMeta?.image}
+                                            width={80}
+                                        />
+                                        <div className="flex flex-col">
+                                            <p className="text-md">Name: {assetMeta?.name}</p>
+                                            <p className="text-small text-default-500">Id: {assetMeta?.value}</p>
+                                        </div>
+                                    </CardHeader>
+                                    <Divider />
+
+                                    <CardBody className='flex flex-col gap-2'>
+                                        <div className='flex flex-col gap-1'>
+
+                                            <Accordion>
+                                                <AccordionItem key="1" className='bg-secondary-100 rounded' variant='splitted' aria-label="Accordion 1" title={<Chip color="secondary" className='uppercase' variant="dot">Description</Chip>}>
+                                                    <p className='bg-default-200 rounded break-words p-2'>
+                                                        {assetMeta?.description}
+                                                    </p>
+                                                </AccordionItem>
+                                            </Accordion>
+
+                                            <Accordion>
+                                                <AccordionItem key="2" className='bg-secondary-100 rounded' variant='splitted' aria-label="Accordion 1" title={<Chip color="secondary" className='uppercase' variant="dot">Attributes</Chip>}>
+                                                    {(Array.isArray(assetMeta?.attributes)) && assetMeta?.attributes.map((attr, i) => (
+                                                        <p className='flex flex-col gap-1 bg-default-200 rounded-lg' key={i}>
+                                                            {Object.keys(attr).map((key) => (
+                                                                <Code className='flex gap-1 items-center' key={key}><Chip color='primary' variant='dot'>{key}: </Chip>{attr[key]}</Code>
+                                                            ))}
+                                                        </p>
+                                                    ))}
+                                                </AccordionItem>
+                                            </Accordion>
+
+                                            <Accordion>
+                                                <AccordionItem key="3" className='bg-secondary-100 rounded' variant='splitted' aria-label="Accordion 1" title={<Chip color="secondary" className='uppercase' variant="dot">Properties</Chip>}>
+                                                    <p className='flex flex-col gap-1 bg-default-200 rounded-lg'>
+                                                        {assetMeta && Object.keys(assetMeta?.properties).map((k) => (
+                                                            <Code className='flex gap-1 items-center' key={k}><Chip color='primary' variant='dot'>{k}: </Chip>{assetMeta?.properties[k]}</Code>
+                                                        ))}
+                                                    </p>
+                                                </AccordionItem>
+                                            </Accordion>
+
+                                        </div>
+                                    </CardBody>
+
+                                    <Divider />
+                                    <CardFooter>
+                                        <div className='w-full flex justify-end'>
+                                            <Button color='warning'><IoMdSend color='white' style={{ transform: "rotate(-45deg)" }} /></Button>
+                                        </div>
+                                    </CardFooter>
+                                </Card>
+
                             </div>
                             : <p>Nothing to display.</p>
                         }
                     </CardBody>
                 </Card>
             </Tab>
-        </Tabs>
+        </Tabs >
     );
 }
 
