@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Tabs, Tab, Card, CardBody, Button, Select, SelectItem, Chip, Input, Image, CardHeader, Divider, CardFooter, Code, Accordion, AccordionItem } from "@heroui/react";
 import { RiNftFill } from "react-icons/ri";
 import { MdGeneratingTokens } from "react-icons/md";
-import { IoMdSend } from "react-icons/io";
 import { umicrostoActualValue, actualtoUmicroValue } from '../lib/operator';
 import { getNftWallet } from '../services/wallet';
 import { IoSend } from 'react-icons/io5';
@@ -264,7 +263,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                         <Input label="Address" placeholder='Enter address' type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
 
                                         <Button color='warning' className='w-full' isDisabled={isNftDisabled} onPress={sendNFt}>
-                                            <IoMdSend color='white' />
+                                            <IoSend size="20px" className='text-white' />
                                         </Button>
 
                                         <Divider />
