@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Tab, Card, CardBody, Button, Select, SelectItem, Chip, Input, Image, CardHeader, Divider, CardFooter, Link, Code, Textarea, Accordion, AccordionItem } from "@heroui/react";
+import { Tabs, Tab, Card, CardBody, Button, Select, SelectItem, Chip, Input, Image, CardHeader, Divider, CardFooter, Code, Accordion, AccordionItem } from "@heroui/react";
 import { RiNftFill } from "react-icons/ri";
 import { MdGeneratingTokens } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
@@ -114,10 +114,6 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
             }
         });
     }
-
-    useEffect(() => {
-        console.log({ selectedToken, selectedNft });
-    }, [selectedToken, selectedNft])
 
     useEffect(() => {
         if (amount > umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal)) {
