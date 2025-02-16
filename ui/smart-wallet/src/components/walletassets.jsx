@@ -19,7 +19,8 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
     const [selectedToken, setSelectedToken] = useState();
     const [assetMeta, setAssetMeta] = useState();
     const [selectedNft, setSelectedNft] = useState();
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [isFtDisabled, setIsFtDisabled] = useState(false);
+    const [isNftDisabled, setIsNftDisabled] = useState(false);
 
     const [amount, setAmount] = useState(0);
     const [address, setAddress] = useState(userAddress);
@@ -101,9 +102,9 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
 
     useEffect(() => {
         if (amount > umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal)) {
-            setIsDisabled(true);
+            setIsFtDisabled(true);
         } else {
-            setIsDisabled(false);
+            setIsFtDisabled(false);
         }
     }, [selectedToken, amount])
 
@@ -142,14 +143,14 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                 <Input label="Address" placeholder='Enter address...' type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
                                 <Input label="Memo" placeholder='Enter memo...' type='text' maxLength={34} value={memo} onChange={(e) => setMemo(e.target.value)} />
 
-                                <Button color='warning' onPress={sendFt} isDisabled={isDisabled}>
+                                <Button color='warning' onPress={sendFt} isDisabled={isFtDisabled}>
                                     <IoSend size="20px" className='text-white' />
                                 </Button>
                                 <Divider />
 
                                 <div className='w-full flex flex-col gap-2'>
 
-                                    <Code className='w-full flex items-center gap-5'><Chip>Receipient:</Chip> <small>{`${address.slice(0, 4)}...${address.slice(address.length - 20, address.length)}`}</small></Code>
+                                    <Code className='w-full flex items-center gap-5'><Chip>Receipient:</Chip> <small>{`${address.slice(0, 4)}...${address.slice(address.length - 5, address.length)}`}</small></Code>
                                     <Code className='w-full flex items-center gap-5'><Chip>Amount:</Chip> {`${formatNumber(amount)} ${selectedToken?.name || 'NA'}`}</Code>
 
                                 </div>
@@ -236,12 +237,18 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                     </CardBody>
 
                                     <Divider />
-                                    <CardFooter>
-                                        <div className='w-full flex justify-end'>
-                                            <Button color='warning'>
-                                                <IoMdSend color='white' style={{ transform: "rotate(-45deg)" }} />
-                                            </Button>
+                                    <CardFooter className='flex flex-col gap-2'>
+                                        <Input label="Address" placeholder='Enter address' type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
+
+                                        <Button color='warning' className='w-full' isDisabled={isNftDisabled} onPress={sendNFt}>
+                                            <IoMdSend color='white' />
+                                        </Button>
+
+                                        <Divider />
+                                        <div className='w-full flex flex-col gap-2'>
+                                            <Code className='w-full flex items-center gap-5'><Chip>Receipient:</Chip> <small>{`${address.slice(0, 4)}...${address.slice(address.length - 5, address.length)}`}</small></Code>
                                         </div>
+
                                     </CardFooter>
                                 </Card>
 
