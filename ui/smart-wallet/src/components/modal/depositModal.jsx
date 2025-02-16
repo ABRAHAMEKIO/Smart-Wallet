@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import BaseModal from './basemodal';
+import { bufferCVFromString, cvToValue, fetchCallReadOnlyFunction, noneCV, Pc, PostConditionMode, principalCV, someCV, uintCV } from '@stacks/transactions';
 import { Alert, Avatar, Button, Chip, Image, Input, ModalBody, ModalHeader, Select, SelectItem, Spinner, Switch } from '@heroui/react';
-import { umicrostoActualValue } from '../../lib/operator';
+import { actualtoUmicroValue, umicrostoActualValue } from '../../lib/operator';
 import { RiLuggageDepositFill, RiNftFill } from 'react-icons/ri';
 import { MdGeneratingTokens } from 'react-icons/md';
 import { default_token_icon } from '../../pages/wallet';
 import { getNftWallet } from '../../services/wallet';
-import { storageProvider } from '../../lib/constants';
+import { network, storageProvider } from '../../lib/constants';
+import { userSession } from '../../user-session';
+import { openContractCall, openSTXTransfer } from '@stacks/connect';
 
 const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clientConfig }) => {
     const [isDisabled, setIsDisabled] = useState(false);
@@ -16,6 +19,13 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
     const [assetMeta, setAssetmet] = useState();
 
     const [assetSwitch, setAssetSwitch] = useState(false);
+
+    const [amount, setAmount] = useState(0);
+    const [memo, setMemo] = useState('');
+    const [assetId, setAssetId] = useState(0);
+
+    const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
+    const walletAddress = `${userAddress}.smart-wallet-standared`;
 
     function formatNumber(num) {
         if (isNaN(num)) return 0.0;
@@ -32,13 +42,22 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
         return num;
     }
 
-    function handleSelectToken(e) {
+    async function handleSelectToken(e) {
         const { value } = e.target;
         if (value === '$.0') {
-            setSelectedToken({ image_uri: '/stx-logo.svg', ...stx });
+            setSelectedToken({ name: 'stx', decimal: 6, image_uri: '/stx-logo.svg', ...stx });
             return
         }
-        setSelectedToken(fungibleToken[value])
+        const { contract_id } = fungibleToken[value];
+        const getDecimal = await fetchCallReadOnlyFunction({
+            contractAddress: contract_id.split('.')[0],
+            contractName: contract_id.split('::')[0].split('.')[1],
+            functionName: 'get-decimals',
+            functionArgs: [],
+            network: network(clientConfig?.chain),
+            senderAddress: userAddress
+        });
+        setSelectedToken({ decimal: parseInt(cvToValue(getDecimal)?.value), ...fungibleToken[value] })
     }
 
     async function handleSelectNftToken(e) {
@@ -49,13 +68,65 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
         setSelectedNftToken(nonFungibleToken[value]);
     }
 
+    async function depositFt() {
+        const { name, contract_id } = selectedToken;
+
+        if (name === 'stx') {
+            const stxTxAmount = actualtoUmicroValue(amount, selectedToken?.decimal);
+            console.log({ stxTxAmount })
+            const condition0 = Pc.principal(userAddress).willSendLte(stxTxAmount).ustx();
+            openSTXTransfer({
+                amount: stxTxAmount,
+                recipient: walletAddress,
+                memo: memo,
+                stxAddress: userAddress,
+                network: network(clientConfig?.chain),
+                postConditions: [condition0],
+                postConditionMode: PostConditionMode.Deny
+            })
+            return;
+        }
+
+        const ftTxAmount = actualtoUmicroValue(amount, selectedToken?.decimal);
+        const mem = memo ? someCV(bufferCVFromString(memo)) : noneCV();
+        const condition1 = Pc.principal(userAddress).willSendLte(ftTxAmount).ft(contract_id.split('::')[0], contract_id.split('::')[1]);
+        openContractCall({
+            contractAddress: contract_id.split('.')[0],
+            contractName: contract_id.split('::')[0].split('.')[1],
+            functionName: 'transfer',
+            functionArgs: [uintCV(ftTxAmount), principalCV(userAddress), principalCV(walletAddress), mem],
+            network: network(clientConfig?.chain),
+            stxAddress: userAddress,
+            postConditions: [condition1],
+            postConditionMode: PostConditionMode.Deny
+        })
+
+    }
+
+    async function depositNft() {
+
+    }
+
+    useEffect(() => {
+        console.log({ selectedToken, selectedNftToken });
+    }, [selectedToken, selectedNftToken])
+
+    useEffect(() => {
+        if (amount > umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal)) {
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false);
+        }
+    }, [selectedToken, amount])
+
     return (
         <BaseModal baseModalsOpen={show} baseModalOnClose={close}>
             <ModalHeader className="flex flex-col gap-1">Credit Smart Wallet</ModalHeader>
             <ModalBody className='p-5 gap-4'>
                 <Alert
+                    className='flex items-center'
                     color="success"
-                    description="Transactions move from your wallet 💼 to your smart wallet 🤖. Verify on Leathal Wallet 🔒."
+                    description="Transactions are transfered from your wallet 💼 to your smart wallet 🤖. Verify on Leathal Wallet 🔒."
                     title=""
                     variant="faded"
                 />
@@ -86,9 +157,9 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                         </Select>
 
                         <div className='w-full flex flex-row-2 gap-5 items-center p-4'>
-                            <Image alt={assetMeta?.name} key={assetMeta?.name} style={{ maxWidth: '160px', height: '90px' }} src={assetMeta?.image || '/nft-holder.png'} isBordered />
-                            <div className='flex flex-col'>
-                                <div className='flex gap-1 items-center'>
+                            <Image key={assetMeta?.name} alt={assetMeta?.name} width={'100%'} height={'100%'} src={assetMeta?.image || '/nft-holder.png'} />
+                            <div className='flex flex-col gap-2'>
+                                <div>
                                     <h4>Name:</h4>
                                     <small className='uppercase'>{assetMeta?.name}</small>
                                 </div>
@@ -101,23 +172,18 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
 
                     </>
                     : <>
+
                         <Select label=""
                             placeholder='Available ft tokens'
                             startContent={<MdGeneratingTokens color='#FFA500' />}
-                            endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, 6))}</Chip>}
+                            endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal))}</Chip>}
                             onChange={handleSelectToken}
                         >
                             <SelectItem
                                 className='uppercase'
                                 startContent={<MdGeneratingTokens color='#FFA500' />}
                                 value={'stx'}
-                                endContent={
-                                    (isDisabled && 'stx' === targetName)
-                                        ? <Spinner color="warning" />
-                                        : <Chip color="success" variant="dot">
-                                            {formatNumber(umicrostoActualValue(stx?.balance, 6))}
-                                        </Chip>
-                                }
+                                endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(stx?.balance, 6))}</Chip>}
                                 isReadOnly={isDisabled}
                             >
                                 Stx
@@ -128,26 +194,20 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                                     className='uppercase'
                                     value={i}
                                     startContent={<MdGeneratingTokens color='#FFA500' />}
-                                    endContent={
-                                        (isDisabled && name === targetName)
-                                            ? <Spinner color="warning" />
-                                            : <Chip color="success" variant="dot">
-                                                {formatNumber(umicrostoActualValue(balance, parseInt(decimals) || 1))}
-                                            </Chip>
-                                    }
+                                    endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(balance, parseInt(decimals) || 1))}</Chip>}
                                     isReadOnly={isDisabled}>
                                     {name}
                                 </SelectItem>
                             ))}
 
                         </Select>
-
-                        <Input label="Amount" placeholder="Enter amount" type="number" />
+                        <Input errorMessage={`Value must be less than or equal to ${formatNumber(umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal))}`} label="Amount" placeholder="Enter amount" type="number" max={umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal)} value={amount} onChange={(e) => setAmount(e.target.value)} />
+                        <Input label="Memo" placeholder="Enter memo" type="text" maxLength={34} value={memo} onChange={(e) => setMemo(e.target.value)} />
 
                     </>
                 }
 
-                <Button color="warning" variant="shadow">
+                <Button color="warning" variant="shadow" onPress={assetSwitch ? depositNft : depositFt} disabled={isDisabled} isDisabled={isDisabled}>
                     <RiLuggageDepositFill color='white' />
                 </Button>
 

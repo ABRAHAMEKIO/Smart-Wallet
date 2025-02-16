@@ -118,14 +118,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
 
                                 <Card className="w-full">
                                     <CardHeader className="flex gap-3">
-                                        <Image
-                                            key={assetMeta?.name}
-                                            alt={assetMeta?.name}
-                                            height={80}
-                                            radius="sm"
-                                            src={assetMeta?.image}
-                                            width={80}
-                                        />
+                                        <Image key={assetMeta?.name} alt={assetMeta?.name} width={'100%'} height={'100%'} radius="sm" src={assetMeta?.image} />
                                         <div className="flex flex-col">
                                             <p className="text-md">Name: {assetMeta?.name}</p>
                                             <p className="text-small text-default-500">Id: {assetMeta?.value}</p>

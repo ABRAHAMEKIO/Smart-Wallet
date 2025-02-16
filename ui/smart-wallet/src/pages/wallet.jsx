@@ -8,6 +8,7 @@ import { getSmartWalletBalance, getUserBalance, getWalletContractInfo } from '..
 import DepositModal from '../components/modal/depositModal';
 import SmartWalletDeployModal from '../components/modal/smartwalletdeploymodal';
 import StxSendModal from '../components/modal/stxsendmodal';
+import ConfirmedModal from '../components/modal/confirmedmodal';
 
 export const default_token_icon = "/icon-placeholder.svg";
 
@@ -28,6 +29,9 @@ function Wallet({ clientConfig, setClientConfig }) {
     const [showDepositModal, setShowDepositModal] = useState(false);
     const [showSmartWalletModal, setShowSmartWallettModal] = useState(false);
     const [showStxSendModal, setShowStxSendModal] = useState(false);
+    const [showConfirmationModal, setConfirmationModal] = useState(false);
+
+    const [tx, setTx] = useState('');
 
     function formatNumber(num) {
         if (isNaN(num)) return 0.0;
@@ -93,9 +97,10 @@ function Wallet({ clientConfig, setClientConfig }) {
             </div>
 
             {/* Modals */}
-            {showDepositModal && <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={userStx} fungibleToken={userFungibleToken} nonFungibleToken={userNonFungibleToken} clientConfig={clientConfig} />}
-            {showSmartWalletModal && <SmartWalletDeployModal show={showSmartWalletModal} close={() => setShowSmartWallettModal(false)} clientConfig={clientConfig} />}
-            {showStxSendModal && <StxSendModal show={showStxSendModal} close={() => setShowStxSendModal(false)} stx={smartWalletStx} />}
+            {showDepositModal && <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={userStx} fungibleToken={userFungibleToken} nonFungibleToken={userNonFungibleToken} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} />}
+            {showSmartWalletModal && <SmartWalletDeployModal show={showSmartWalletModal} close={() => setShowSmartWallettModal(false)} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} />}
+            {showStxSendModal && <StxSendModal show={showStxSendModal} close={() => setShowStxSendModal(false)} stx={smartWalletStx} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} />}
+            {showConfirmationModal && <ConfirmedModal show={showConfirmationModal} close={() => setConfirmationModal(false)} tx={tx} />}
         </>
     )
 }

@@ -7,7 +7,7 @@ import BaseModal from "./basemodal";
 import { userSession } from "../../user-session";
 import { network } from "../../lib/constants";
 
-function SmartWalletDeployModal({ clientConfig, show, close }) {
+function SmartWalletDeployModal({ clientConfig, show, close, setTx, setConfirmationModal }) {
     const authedUser = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet-standard";
 
@@ -30,10 +30,12 @@ function SmartWalletDeployModal({ clientConfig, show, close }) {
             stxAddress: authedUser,
             network: network(clientConfig?.chain),
             onFinish: (res) => {
+                setTx(res?.txId);
+                setConfirmationModal(true);
                 close();
             },
             onCancel: (res) => {
-                console.log({ res });
+                console.log('transaction cancelled', { res });
             },
         });
     }
@@ -51,7 +53,7 @@ function SmartWalletDeployModal({ clientConfig, show, close }) {
                 Welcome to Smart Wallet!
             </ModalHeader>
             <ModalBody>
-                <div className="w-full justify-center items-center w-full space-y-4" validationBehavior="native">
+                <div className="w-full justify-center items-center w-full space-y-4">
                     <Alert
                         hideIcon
                         className="text-justify"

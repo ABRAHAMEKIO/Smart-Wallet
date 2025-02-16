@@ -4,5 +4,6 @@ export function umicrostoActualValue(number, decimals) {
 }
 
 export function actualtoUmicroValue(number, decimals) {
-    return number * decimals;
+    const multiplier = Math.pow(10, decimals);
+    return number * multiplier;
 }

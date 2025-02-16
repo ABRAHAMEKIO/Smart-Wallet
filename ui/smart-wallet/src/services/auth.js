@@ -10,7 +10,7 @@ export function authenticate() {
     showConnect({
         appDetails: {
             name: "Stacks React Starter",
-            icon: window.location.origin + "/logo512.png",
+            icon: `${window.location.origin}/vite.svg`,
         },
         redirectTo: "/",
         onFinish: () => {
