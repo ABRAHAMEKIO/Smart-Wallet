@@ -8,23 +8,27 @@ import { userSession } from '../../user-session';
 import { network } from '../../lib/constants';
 
 const StxSendModal = ({ show, close, stx, clientConfig }) => {
-    const [amount, setAmount] = useState(0);
-    const [memo, setMemo] = useState('');
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet-standared";
     const smartWalletAddress = `${userAddress}.${contractName}`;
 
+    const [amount, setAmount] = useState(0);
+    const [address, setAddress] = useState(userAddress);
+    const [memo, setMemo] = useState('');
+
+
     function sendStx() {
         const txAmount = amount * 1000000;
-        const postConditions = [Pc.principal(`${userAddress}.${contractName}`).willSendLte(txAmount).ustx()];
+        const postConditions = [Pc.principal(smartWalletAddress).willSendLte(txAmount).ustx()];
 
         openSTXTransfer({
-            recipient: userAddress,
+            recipient: address,
             amount: txAmount,
             memo,
             network: network(clientConfig?.chain),
             postConditions,
-            postConditionMode: PostConditionMode.Deny
+            postConditionMode: PostConditionMode.Deny,
+            stxAddress: userAddress
         })
     }
 
@@ -50,20 +54,22 @@ const StxSendModal = ({ show, close, stx, clientConfig }) => {
                 <Alert
                     color="danger"
                     className='flex items-center text-justify'
-                    description="STX 💰 will be transferred from your Smart Wallet 🤖  to your wallet 💼. Verify the transaction on Leathal Window 🔒."
+                    description="STX 💰 will be transferred from your Smart Wallet 🤖  to any designated address 💼. Verify the transaction on Leathal Window 🔒."
                     title=""
                     variant="faded"
                 />
 
-                <Input label="Amount" placeholder="Enter amount" type="number" onChange={(e) => setAmount(e.target.value)} />
+                <Input label="Amount" placeholder="Enter amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
 
-                <Input label="Memo" placeholder="Enter amount" type="text" onChange={(e) => setMemo(e.target.value)} />
+                <Input label="Address" placeholder="Enter address" type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+
+                <Input label="Memo" placeholder="Enter amount" type="text" value={memo} onChange={(e) => setMemo(e.target.value)} />
 
                 <div className='w-full flex flex-col gap-2'>
 
                     <Code className='w-full flex items-center gap-5'><Chip>Sender:</Chip> <small>{`${smartWalletAddress.slice(0, 4)}...${smartWalletAddress.slice(smartWalletAddress.length - 20, smartWalletAddress.length)}`}</small></Code>
                     <Code className='w-full flex items-center gap-5'><Chip>Receipient:</Chip> <small>{`${userAddress.slice(0, 4)}...${userAddress.slice(userAddress.length - 20, userAddress.length)}`}</small></Code>
-                    <Code className='w-full flex items-center gap-5'><Chip>Amount:</Chip> {amount}</Code>
+                    <Code className='w-full flex items-center gap-5'><Chip>Amount:</Chip> {formatNumber(amount)}</Code>
 
                 </div>
 

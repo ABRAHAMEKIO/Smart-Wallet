@@ -11,7 +11,10 @@ import { network, storageProvider } from '../../lib/constants';
 import { userSession } from '../../user-session';
 import { openContractCall, openSTXTransfer } from '@stacks/connect';
 
-const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clientConfig }) => {
+const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungibleToken, setTx, setConfirmationModal }) => {
+    const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
+    const walletAddress = `${userAddress}.smart-wallet-standared`;
+
     const [isDisabled, setIsDisabled] = useState(false);
     const [selectedToken, setSelectedToken] = useState();
 
@@ -24,8 +27,6 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
     const [memo, setMemo] = useState('');
     const [assetId, setAssetId] = useState(0);
 
-    const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
-    const walletAddress = `${userAddress}.smart-wallet-standared`;
 
     function formatNumber(num) {
         if (isNaN(num)) return 0.0;
@@ -70,7 +71,6 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
 
     async function depositFt() {
         const { name, contract_id } = selectedToken;
-
         if (name === 'stx') {
             const stxTxAmount = actualtoUmicroValue(amount, selectedToken?.decimal);
             console.log({ stxTxAmount })
@@ -82,7 +82,12 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                 stxAddress: userAddress,
                 network: network(clientConfig?.chain),
                 postConditions: [condition0],
-                postConditionMode: PostConditionMode.Deny
+                postConditionMode: PostConditionMode.Deny,
+                onFinish: (res) => {
+                    setTx(res?.txId);
+                    setConfirmationModal(true);
+                    close();
+                }
             })
             return;
         }
@@ -98,7 +103,12 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
             network: network(clientConfig?.chain),
             stxAddress: userAddress,
             postConditions: [condition1],
-            postConditionMode: PostConditionMode.Deny
+            postConditionMode: PostConditionMode.Deny,
+            onFinish: (res) => {
+                setTx(res?.txId);
+                setConfirmationModal(true);
+                close();
+            }
         })
 
     }
@@ -125,7 +135,7 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
             <ModalBody className='p-5 gap-4'>
                 <Alert
                     className='flex items-center'
-                    color="success"
+                    color="secondary"
                     description="Transactions are transfered from your wallet 💼 to your smart wallet 🤖. Verify on Leathal Wallet 🔒."
                     title=""
                     variant="faded"
@@ -201,7 +211,7 @@ const DepositModal = ({ show, close, stx, fungibleToken, nonFungibleToken, clien
                             ))}
 
                         </Select>
-                        <Input errorMessage={`Value must be less than or equal to ${formatNumber(umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal))}`} label="Amount" placeholder="Enter amount" type="number" max={umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal)} value={amount} onChange={(e) => setAmount(e.target.value)} />
+                        <Input errorMessage={`Value must be less than or equal to ${formatNumber(umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal))}`} label="Amount" placeholder="Enter amount" type="number" max={umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal) || 0} value={amount} onChange={(e) => setAmount(e.target.value)} />
                         <Input label="Memo" placeholder="Enter memo" type="text" maxLength={34} value={memo} onChange={(e) => setMemo(e.target.value)} />
 
                     </>
