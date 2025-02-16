@@ -1,33 +1,53 @@
-import React, { useState } from 'react';
-import { Tabs, Tab, Card, CardBody, Button, Avatar, Select, SelectItem, Chip, Input, Image, CardHeader, Divider, CardFooter, Link, Code, Textarea, Accordion, AccordionItem } from "@heroui/react";
-import { RiLuggageDepositFill, RiNftFill } from "react-icons/ri";
+import React, { useEffect, useState } from 'react';
+import { Tabs, Tab, Card, CardBody, Button, Select, SelectItem, Chip, Input, Image, CardHeader, Divider, CardFooter, Link, Code, Textarea, Accordion, AccordionItem } from "@heroui/react";
+import { RiNftFill } from "react-icons/ri";
 import { MdGeneratingTokens } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
 import { umicrostoActualValue, actualtoUmicroValue } from '../lib/operator';
-import { default_token_icon } from '../pages/wallet';
 import { getNftWallet } from '../services/wallet';
 import { IoSend } from 'react-icons/io5';
+import { userSession } from '../user-session';
+import { bufferCVFromString, cvToValue, fetchCallReadOnlyFunction, noneCV, Pc, PostConditionMode, principalCV, someCV, uintCV } from '@stacks/transactions';
+import { network } from '../lib/constants';
+import { openContractCall } from '@stacks/connect';
 
 const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
+    const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
+    const contractName = "smart-wallet-standared";
+    const smartWalletAddress = `${userAddress}.${contractName}`;
 
     const [selectedToken, setSelectedToken] = useState();
-    function handleSelectFt(e) {
+    const [assetMeta, setAssetMeta] = useState();
+    const [selectedNft, setSelectedNft] = useState();
+    const [isDisabled, setIsDisabled] = useState(false);
+
+    const [amount, setAmount] = useState(0);
+    const [address, setAddress] = useState(userAddress);
+    const [memo, setMemo] = useState('');
+
+    async function handleSelectFt(e) {
         const { value } = e.target;
         if (value === '$.0') {
             setSelectedToken({ image_uri: '/stx-logo.svg', ...stx });
             return
         }
-        setSelectedToken(fungibleToken[value])
+
+        const { contract_id } = fungibleToken[value];
+        const getDecimal = await fetchCallReadOnlyFunction({
+            contractAddress: contract_id.split('.')[0],
+            contractName: contract_id.split('::')[0].split('.')[1],
+            functionName: 'get-decimals',
+            functionArgs: [],
+            network: network(clientConfig?.chain),
+            senderAddress: userAddress
+        });
+        setSelectedToken({ decimal: parseInt(cvToValue(getDecimal)?.value), ...fungibleToken[value] })
     }
 
-    const [assetMeta, setAssetMeta] = useState();
-    const [selectedNft, setSelectedNft] = useState();
     async function handleSelectNft(e) {
         const { value } = e.target;
         let metaData = await getNftWallet(nonFungibleToken[value]?.asset_identifier, nonFungibleToken[value]?.value, clientConfig);
-        console.log({ metaData });
         setAssetMeta({ ...metaData, ...nonFungibleToken[value] });
-        console.log({ hkhkh: nonFungibleToken[value] });
         setSelectedNft(nonFungibleToken[value]);
     }
 
@@ -46,6 +66,47 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
         return num;
     }
 
+    function sendFt() {
+        const { contract_id } = selectedToken;
+        const ftTxAmount = actualtoUmicroValue(amount, selectedToken?.decimal);
+        const mem = memo ? someCV(bufferCVFromString(memo)) : noneCV();
+        const condition1 = Pc.principal(smartWalletAddress).willSendLte(ftTxAmount).ft(contract_id.split('::')[0], contract_id.split('::')[1]);
+        openContractCall({
+            contractAddress: contract_id.split('.')[0],
+            contractName: contract_id.split('::')[0].split('.')[1],
+            functionName: 'transfer',
+            functionArgs: [uintCV(ftTxAmount), principalCV(smartWalletAddress), principalCV(address), mem],
+            network: network(clientConfig?.chain),
+            stxAddress: userAddress,
+            postConditions: [condition1],
+            postConditionMode: PostConditionMode.Deny,
+            onFinish: (res) => {
+                setTx(res?.txId);
+                setConfirmationModal(true);
+                close();
+            },
+            onCancel: (res) => {
+                console.log('transaction cancelled', { res });
+            }
+        })
+    }
+
+    function sendNFt() {
+
+    }
+
+    useEffect(() => {
+        console.log({ selectedToken, selectedNft });
+    }, [selectedToken, selectedNft])
+
+    useEffect(() => {
+        if (amount > umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal)) {
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false);
+        }
+    }, [selectedToken, amount])
+
     return (
         <Tabs className='w-full' aria-label="Options" placement={'top'} >
             <Tab key="token" title={
@@ -62,7 +123,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                 <Select label="Available Fungible token"
                                     placeholder='Select token...'
                                     startContent={<MdGeneratingTokens color='#FFA500' />}
-                                    endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, 1))}</Chip>}
+                                    endContent={<Chip color="success" variant="dot">{formatNumber(umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal))}</Chip>}
                                     onChange={handleSelectFt}
                                 >
                                     {fungibleToken.map(({ name, balance, decimals }, i) => (
@@ -77,11 +138,23 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
 
                                 </Select>
 
-                                <Input label="Amount" placeholder='Enter amount...' type='number' />
+                                <Input label="Amount" placeholder='Enter amount...' type='number' max={umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal) || 0} onChange={(e) => setAmount(e.target.value)} />
+                                <Input label="Address" placeholder='Enter address...' type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
+                                <Input label="Memo" placeholder='Enter memo...' type='text' maxLength={34} value={memo} onChange={(e) => setMemo(e.target.value)} />
 
-                                <Button color='warning'>
+                                <Button color='warning' onPress={sendFt} isDisabled={isDisabled}>
                                     <IoSend size="20px" className='text-white' />
                                 </Button>
+                                <Divider />
+
+                                <div className='w-full flex flex-col gap-2'>
+
+                                    <Code className='w-full flex items-center gap-5'><Chip>Receipient:</Chip> <small>{`${address.slice(0, 4)}...${address.slice(address.length - 20, address.length)}`}</small></Code>
+                                    <Code className='w-full flex items-center gap-5'><Chip>Amount:</Chip> {`${formatNumber(amount)} ${selectedToken?.name || 'NA'}`}</Code>
+
+                                </div>
+
+
 
                             </div>
                             : <p>Nothing to display.</p>}

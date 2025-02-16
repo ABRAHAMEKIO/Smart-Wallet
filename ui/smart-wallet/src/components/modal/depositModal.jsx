@@ -143,10 +143,6 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
     }
 
     useEffect(() => {
-        console.log({ selectedToken, selectedNftToken });
-    }, [selectedToken, selectedNftToken])
-
-    useEffect(() => {
         if (amount > umicrostoActualValue(selectedToken?.balance, selectedToken?.decimal)) {
             setIsDisabled(true);
         } else {
