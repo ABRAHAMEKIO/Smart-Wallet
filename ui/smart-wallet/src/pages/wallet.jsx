@@ -15,7 +15,6 @@ export const default_token_icon = "/icon-placeholder.svg";
 function Wallet({ clientConfig, setClientConfig }) {
     const [showAdvisory, setShowAdvisory] = useState(false);
     const [advisoryMessage, setAdvisoryMessage] = useState({ title: '', msg: '', reason: '', severity: '' });
-    const [showLaunchPad, setShowLaunchPad] = useState(false);
 
     const [userStx, setUserStx] = useState({});
     const [userFungibleToken, setUserFungible] = useState([]);

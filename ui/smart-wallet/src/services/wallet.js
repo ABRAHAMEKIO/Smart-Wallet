@@ -7,7 +7,8 @@ import { clientFromNetwork } from "@stacks/network";
 
 export async function getSmartWalletBalance(clientConfig) {
     const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
-    const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${userAddress}/balances`);
+    const contractAddress = `${userAddress}.smart-wallet-standared`;
+    const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${contractAddress}/balances`);
     const { fungible_tokens, non_fungible_tokens, stx } = data;
 
     const rate = (await axios.get(`https://api.diadata.org/v1/assetQuotation/Stacks/0x0000000000000000000000000000000000000000`)).data;
@@ -58,12 +59,11 @@ export async function getUserBalance(clientConfig) {
 export async function getWalletContractInfo(clientConfig) {
     let result;
     const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
-    // const contract_id = `${userAddress}.smartwallet`;
-    const contract_id = `${userAddress}.smart-wallet`;
+    const smartWalletAddress = `${userAddress}.smart-wallet-standared`;
 
     try {
-        const contractInfoData = await (await axios.get(`${clientConfig?.api}/extended/v2/smart-contracts/status?contract_id=${contract_id}`)).data
-        const contractInfo = contractInfoData[contract_id];
+        const contractInfoData = await (await axios.get(`${clientConfig?.api}/extended/v2/smart-contracts/status?contract_id=${smartWalletAddress}`)).data
+        const contractInfo = contractInfoData[smartWalletAddress];
         result = { found: contractInfo?.found, ...contractInfo?.result };
     } catch (error) {
         result = { found: false, error: error.message, code: error?.code };
@@ -91,7 +91,7 @@ export async function getNftWallet(targetAssetAddress, assetId, clientConfig) {
         result = {
             attributes: [],
             description: error?.message,
-            image: "https://nft-ad-2.aibtc.dev/aibtcdev-2.png",
+            image: "nft-holder.png",
             name: error?.code,
             properties: {}
         }

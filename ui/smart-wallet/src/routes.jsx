@@ -7,9 +7,9 @@ import Wallet from './pages/wallet'
 function AppRoutes() {
     // Client config values
     const [searchParams] = useSearchParams();
-    const chain = searchParams.get("chain") || 'testnet';
-    const network = searchParams.get("network") || 'testnet';
-    const api = searchParams.get("api") || 'https://api.testnet.hiro.so/';
+    const chain = searchParams.get("chain") || 'mainnet';
+    const network = searchParams.get("network") || 'mainnet';
+    const api = searchParams.get("api") || 'https://api.hiro.so/';
     const explorer = searchParams.get("explorer") || 'https://explorer.stacks.co/';
 
     const [clientConfig, setClientConfig] = useState({ chain: chain, network: network, api: api, explorer: explorer });
