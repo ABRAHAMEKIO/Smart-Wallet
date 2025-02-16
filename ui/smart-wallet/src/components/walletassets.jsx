@@ -108,6 +108,14 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
         }
     }, [selectedToken, amount])
 
+    useEffect(() => {
+        if (!selectedNft || !address) {
+            setIsNftDisabled(true);
+        } else {
+            setIsNftDisabled(false);
+        }
+    }, [selectedNft, address])
+
     return (
         <Tabs className='w-full' aria-label="Options" placement={'top'} >
             <Tab key="token" title={
@@ -216,7 +224,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                                     {(Array.isArray(assetMeta?.attributes)) && assetMeta?.attributes.map((attr, i) => (
                                                         <div className='flex flex-col gap-1 bg-default-200 rounded-lg' key={i}>
                                                             {Object.keys(attr).map((key) => (
-                                                                <Code className='flex gap-1 items-center pl-5' key={key}><Chip color='primary' variant='dot'>{key}: </Chip>{attr[key]}</Code>
+                                                                <Code className='flex gap-1 items-center pl-5 overflow-x-auto' key={key}><Chip color='primary' variant='dot'>{key}: </Chip>{attr[key]}</Code>
                                                             ))}
                                                         </div>
                                                     ))}
@@ -227,7 +235,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                                 <AccordionItem key="3" className='bg-secondary-100 rounded' variant='splitted' aria-label="Accordion 3" title={<Chip color="secondary" className='uppercase' variant="dot">Properties</Chip>}>
                                                     <div className='flex flex-col gap-1 bg-default-200 rounded-lg'>
                                                         {assetMeta && Object.keys(assetMeta?.properties).map((k) => (
-                                                            <Code className='flex gap-1 items-center pl-5' key={k}><Chip color='primary' variant='dot'>{k}: </Chip>{assetMeta?.properties[k]}</Code>
+                                                            <Code className='flex gap-1 items-center pl-5 overflow-x-auto ' key={k}><Chip color='primary' variant='dot'>{k}: </Chip>{assetMeta?.properties[k]}</Code>
                                                         ))}
                                                     </div>
                                                 </AccordionItem>
