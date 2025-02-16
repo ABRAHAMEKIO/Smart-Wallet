@@ -93,7 +93,26 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
     }
 
     function sendNFt() {
-
+        const { asset_identifier, value } = selectedNft;
+        const condition = Pc.principal(smartWalletAddress).willSendAsset().nft(asset_identifier, uintCV(value));
+        openContractCall({
+            contractAddress: asset_identifier.split('.')[0],
+            contractName: asset_identifier.split('::')[0].split(".")[1],
+            functionName: 'transfer',
+            functionArgs: [uintCV(value), principalCV(smartWalletAddress), principalCV(userAddress)],
+            network: network(clientConfig?.chain),
+            postConditions: [condition],
+            postConditionMode: PostConditionMode.Deny,
+            stxAddress: userAddress,
+            onFinish: (res) => {
+                setTx(res?.txId);
+                setConfirmationModal(true);
+                close();
+            },
+            onCancel: (res) => {
+                console.log('transaction cancelled', { res });
+            }
+        });
     }
 
     useEffect(() => {
