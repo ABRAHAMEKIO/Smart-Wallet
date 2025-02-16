@@ -114,7 +114,18 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
     }
 
     async function depositNft() {
-
+        const { asset_identifier, value } = selectedNftToken;
+        const condition = Pc.principal(userAddress).willSendAsset().nft(asset_identifier, uintCV(value));
+        openContractCall({
+            contractAddress: asset_identifier.split('.')[0],
+            contractName: asset_identifier.split('::')[0].split(".")[1],
+            functionName: 'transfer',
+            functionArgs: [uintCV(value), principalCV(userAddress), principalCV(walletAddress)],
+            network: network(clientConfig?.chain),
+            postConditions: [condition],
+            postConditionMode: PostConditionMode.Deny,
+            stxAddress: userAddress
+        });
     }
 
     useEffect(() => {
