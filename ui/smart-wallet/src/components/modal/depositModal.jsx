@@ -87,6 +87,9 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
                     setTx(res?.txId);
                     setConfirmationModal(true);
                     close();
+                },
+                onCancel: (res) => {
+                    console.log('transaction cancelled', { res });
                 }
             })
             return;
@@ -108,6 +111,9 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
                 setTx(res?.txId);
                 setConfirmationModal(true);
                 close();
+            },
+            onCancel: (res) => {
+                console.log('transaction cancelled', { res });
             }
         })
 
@@ -124,7 +130,15 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
             network: network(clientConfig?.chain),
             postConditions: [condition],
             postConditionMode: PostConditionMode.Deny,
-            stxAddress: userAddress
+            stxAddress: userAddress,
+            onFinish: (res) => {
+                setTx(res?.txId);
+                setConfirmationModal(true);
+                close();
+            },
+            onCancel: (res) => {
+                console.log('transaction cancelled', { res });
+            }
         });
     }
 
