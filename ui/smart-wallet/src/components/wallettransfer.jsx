@@ -1,11 +1,23 @@
-import { Accordion, AccordionItem, Button, Code, Listbox, ListboxItem, Switch, Textarea } from '@heroui/react';
+import { Accordion, AccordionItem, Button, Code, Input, Listbox, ListboxItem, Switch, Textarea } from '@heroui/react';
+import { openContractCall } from '@stacks/connect';
 import React, { useState } from 'react';
+import { userSession } from '../user-session';
+import { principalCV } from '@stacks/transactions';
 
 const Wallettransfer = ({ clientConfig }) => {
     const [agree, setAgree] = useState(false);
+    const [address, setAdress] = useState('');
+
+    const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
+    const contractName = 'smartwallet';
 
     function transferWalletOwnerShip() {
-
+        openContractCall({
+            contractAddress: userAddress,
+            contractName,
+            functionName: 'transfer-wallet',
+            functionArgs: [principalCV()]
+        })
     }
 
     return (
@@ -103,7 +115,8 @@ const Wallettransfer = ({ clientConfig }) => {
                 <Switch value={agree} size="sm" onChange={() => setAgree(!agree)}>
                     I agree to the privacy policy.
                 </Switch>
-                <Button isDisabled={!agree} color='warning'>Transfer Wallet</Button>
+                <Input label='Address' placeholder='Enter address' value={address} onChange={(e) => setAdress(e.target.value)} />
+                <Button isDisabled={!agree || !address} color='warning' onPress={transferWalletOwnerShip}>Transfer Wallet</Button>
             </div>
 
         </div>
