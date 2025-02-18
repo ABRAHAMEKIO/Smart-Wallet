@@ -5,7 +5,7 @@ import { userSession } from '../user-session';
 import { PostConditionMode, principalCV } from '@stacks/transactions';
 import { network } from '../lib/constants';
 
-const Wallettransfer = ({ clientConfig }) => {
+const Wallettransfer = ({ clientConfig, contractState }) => {
     const [agree, setAgree] = useState(false);
     const [address, setAdress] = useState('');
 
@@ -120,7 +120,7 @@ const Wallettransfer = ({ clientConfig }) => {
                     I agree to the privacy policy.
                 </Switch>
                 <Input label='Address' placeholder='Enter address' value={address} onChange={(e) => setAdress(e.target.value)} />
-                <Button isDisabled={!agree || !address} color='warning' onPress={transferWalletOwnerShip}>Transfer Wallet</Button>
+                <Button isDisabled={(!agree || !address) && contractState} color='warning' onPress={transferWalletOwnerShip}>Transfer Wallet</Button>
             </div>
 
         </div>

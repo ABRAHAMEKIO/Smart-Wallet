@@ -15,6 +15,7 @@ export const default_token_icon = "/icon-placeholder.svg";
 function Wallet({ clientConfig, setClientConfig }) {
     const [showAdvisory, setShowAdvisory] = useState(false);
     const [advisoryMessage, setAdvisoryMessage] = useState({ title: '', msg: '', reason: '', severity: '' });
+    const [contractState, setContractState] = useState(false);
 
     const [userStx, setUserStx] = useState({});
     const [userFungibleToken, setUserFungible] = useState([]);
@@ -68,6 +69,7 @@ function Wallet({ clientConfig, setClientConfig }) {
     async function initWalletInstance() {
         const contract_info = await getWalletContractInfo(clientConfig);
         setShowAdvisory(!contract_info?.found);
+        setContractState(!contract_info?.found);
         if (!contract_info?.found) {
             setAdvisoryMessage({ msg: 'Seems you dont have smart wallet contract deployed yet.', reason: 'Deploy Required', severity: 'secondary' });
             setShowSmartWallettModal(true);
