@@ -5,12 +5,15 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { getNetworks } from '../../services/auth'
 import { SiVitest } from 'react-icons/si'
 import { api } from '../../lib/constants'
+import { useNavigate } from 'react-router-dom'
 
 function Logo({ clientConfig, setClientConfig }) {
+    const nav = useNavigate();
 
     const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
-    function networkConfig(label) {
-        setClientConfig({ chain: label, network: label, api: api[label] });
+    function navigate(label) {
+        nav(`/?network=${label}&chain=${label}&api=${api[label]}`);
+        window.location.reload();
     }
 
     return (
@@ -30,11 +33,9 @@ function Logo({ clientConfig, setClientConfig }) {
                         startContent={
                             <SiVitest className={`${iconClasses} ${clientConfig.network === val ? "text-success" : "text-warning"}`} />
                         }
-                        onPress={() => networkConfig(val)}
+                        onPress={() => navigate(val)}
                     >
-                        <Link href={`/?network=${val}&chain=${val}&api=${api[val]}`}>
-                            {val.charAt(0).toUpperCase() + val.slice(1)}
-                        </Link>
+                        {val.charAt(0).toUpperCase() + val.slice(1)}
                     </DropdownItem>
                 ))}
 
