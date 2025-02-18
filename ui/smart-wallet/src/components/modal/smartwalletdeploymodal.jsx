@@ -67,7 +67,7 @@ function SmartWalletDeployModal({ clientConfig, show, close, setTx, setConfirmat
                         <Button className="p-0" color="default" radius="full" onPress={close}>
                             <IoClose className="text-danger" />
                         </Button>
-                        <Button isDisabled={!contractState} className="p-0" color="warning" radius="full" onPress={deployContract}>
+                        <Button isDisabled={contractState} className="p-0" color="warning" radius="full" onPress={deployContract}>
                             <GrDeploy />
                         </Button>
                     </div>
