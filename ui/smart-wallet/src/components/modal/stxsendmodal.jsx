@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import BaseModal from './basemodal';
-import { Alert, Avatar, Button, Chip, Code, Input, ModalBody, ModalHeader, Select, SelectItem, Spinner, Switch } from '@heroui/react';
-import { RiLuggageDepositFill, RiNftFill } from 'react-icons/ri';
-import { openContractCall, openSTXTransfer } from '@stacks/connect';
+import { Alert, Button, Chip, Code, Input, ModalBody, ModalHeader } from '@heroui/react';
+import { RiLuggageDepositFill } from 'react-icons/ri';
+import { openSTXTransfer } from '@stacks/connect';
 import { Pc, PostConditionMode } from '@stacks/transactions';
 import { userSession } from '../../user-session';
 import { network } from '../../lib/constants';
 
-const StxSendModal = ({ show, close, stx, clientConfig }) => {
+const StxSendModal = ({ show, close, stx, clientConfig, contractState }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet-standared";
     const smartWalletAddress = `${userAddress}.${contractName}`;
@@ -59,11 +59,11 @@ const StxSendModal = ({ show, close, stx, clientConfig }) => {
                     variant="faded"
                 />
 
-                <Input label="Amount" placeholder="Enter amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                <Input label="Amount" placeholder="Enter amount" type="number" max={stx?.balance} value={amount} onChange={(e) => setAmount(e.target.value)} />
 
                 <Input label="Address" placeholder="Enter address" type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
 
-                <Input label="Memo" placeholder="Enter amount" type="text" value={memo} onChange={(e) => setMemo(e.target.value)} />
+                <Input label="Memo" placeholder="Enter memo" type="text" maxLength={32} value={memo} onChange={(e) => setMemo(e.target.value)} />
 
                 <div className='w-full flex flex-col gap-2'>
 
@@ -73,7 +73,7 @@ const StxSendModal = ({ show, close, stx, clientConfig }) => {
 
                 </div>
 
-                <Button color="warning" variant="shadow" onPress={sendStx}>
+                <Button color="warning" variant="shadow" isDisabled={!contractState} onPress={sendStx}>
                     <RiLuggageDepositFill color='white' />
                 </Button>
 

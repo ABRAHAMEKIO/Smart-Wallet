@@ -6,7 +6,7 @@ import { IoExtensionPuzzle } from 'react-icons/io5'
 import Walletassets from './walletassets'
 import Wallettransfer from './wallettransfer'
 
-function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken }) {
+function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken, contractState }) {
     return (
         <div className="flex w-full flex-col">
             <div className="flex w-full flex-col">
@@ -19,7 +19,7 @@ function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken }) {
                     }>
                         <Card className='mt-1'>
                             <CardBody >
-                                <Walletassets clientConfig={clientConfig} fungibleToken={fungibleToken} nonFungibleToken={nonFungibleToken} />
+                                <Walletassets clientConfig={clientConfig} fungibleToken={fungibleToken} nonFungibleToken={nonFungibleToken} contractState={contractState} />
                             </CardBody>
                         </Card>
                     </Tab>
@@ -43,7 +43,7 @@ function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken }) {
                     }>
                         <Card className='mt-1'>
                             <CardBody>
-                                <Wallettransfer clientConfig={clientConfig} />
+                                <Wallettransfer clientConfig={clientConfig} contractState={contractState} />
                             </CardBody>
                         </Card>
                     </Tab>

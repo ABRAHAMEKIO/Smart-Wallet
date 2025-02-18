@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import BaseModal from './basemodal';
 import { bufferCVFromString, cvToValue, fetchCallReadOnlyFunction, noneCV, Pc, PostConditionMode, principalCV, someCV, uintCV } from '@stacks/transactions';
-import { Alert, Avatar, Button, Chip, Image, Input, ModalBody, ModalHeader, Select, SelectItem, Spinner, Switch } from '@heroui/react';
+import { Alert, Button, Chip, Image, Input, ModalBody, ModalHeader, Select, SelectItem, Switch } from '@heroui/react';
 import { actualtoUmicroValue, umicrostoActualValue } from '../../lib/operator';
 import { RiLuggageDepositFill, RiNftFill } from 'react-icons/ri';
 import { MdGeneratingTokens } from 'react-icons/md';
-import { default_token_icon } from '../../pages/wallet';
 import { getNftWallet } from '../../services/wallet';
-import { network, storageProvider } from '../../lib/constants';
+import { network } from '../../lib/constants';
 import { userSession } from '../../user-session';
 import { openContractCall, openSTXTransfer } from '@stacks/connect';
 
-const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungibleToken, setTx, setConfirmationModal }) => {
+const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungibleToken, setTx, setConfirmationModal, contractState }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const walletAddress = `${userAddress}.smart-wallet-standared`;
 
@@ -25,7 +24,6 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
 
     const [amount, setAmount] = useState(0);
     const [memo, setMemo] = useState('');
-    const [assetId, setAssetId] = useState(0);
 
 
     function formatNumber(num) {
@@ -238,7 +236,7 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
                     </>
                 }
 
-                <Button color="warning" variant="shadow" onPress={assetSwitch ? depositNft : depositFt} disabled={isDisabled} isDisabled={isDisabled}>
+                <Button color="warning" variant="shadow" onPress={assetSwitch ? depositNft : depositFt} isDisabled={isDisabled || !contractState}>
                     <RiLuggageDepositFill color='white' />
                 </Button>
 

@@ -12,6 +12,8 @@ const Wallettransfer = ({ clientConfig, contractState }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = 'smartwallet';
 
+    console.log({ agree, address, contractState });
+
     function transferWalletOwnerShip() {
         openContractCall({
             contractAddress: userAddress,
@@ -120,7 +122,7 @@ const Wallettransfer = ({ clientConfig, contractState }) => {
                     I agree to the privacy policy.
                 </Switch>
                 <Input label='Address' placeholder='Enter address' value={address} onChange={(e) => setAdress(e.target.value)} />
-                <Button isDisabled={(!agree || !address) && contractState} color='warning' onPress={transferWalletOwnerShip}>Transfer Wallet</Button>
+                <Button isDisabled={!((agree && address) && contractState)} color='warning' onPress={transferWalletOwnerShip}>Transfer Wallet</Button>
             </div>
 
         </div>

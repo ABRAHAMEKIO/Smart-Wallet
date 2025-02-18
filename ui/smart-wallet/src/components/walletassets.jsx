@@ -10,7 +10,7 @@ import { bufferCVFromString, cvToValue, fetchCallReadOnlyFunction, noneCV, Pc, P
 import { network } from '../lib/constants';
 import { openContractCall } from '@stacks/connect';
 
-const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
+const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractState }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet-standared";
     const smartWalletAddress = `${userAddress}.${contractName}`;
@@ -165,7 +165,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                 <Input label="Address" placeholder='Enter address...' type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
                                 <Input label="Memo" placeholder='Enter memo...' type='text' maxLength={34} value={memo} onChange={(e) => setMemo(e.target.value)} />
 
-                                <Button color='warning' onPress={sendFt} isDisabled={isFtDisabled}>
+                                <Button color='warning' onPress={sendFt} isDisabled={isFtDisabled || !contractState}>
                                     <IoSend size="20px" className='text-white' />
                                 </Button>
                                 <Divider />
@@ -262,7 +262,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken }) => {
                                     <CardFooter className='flex flex-col gap-2'>
                                         <Input label="Address" placeholder='Enter address' type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
 
-                                        <Button color='warning' className='w-full' isDisabled={isNftDisabled} onPress={sendNFt}>
+                                        <Button color='warning' className='w-full' isDisabled={isNftDisabled || !contractState} onPress={sendNFt}>
                                             <IoSend size="20px" className='text-white' />
                                         </Button>
 

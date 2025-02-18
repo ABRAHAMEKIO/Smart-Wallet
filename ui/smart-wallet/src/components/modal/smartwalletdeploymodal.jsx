@@ -7,7 +7,7 @@ import BaseModal from "./basemodal";
 import { userSession } from "../../user-session";
 import { network } from "../../lib/constants";
 
-function SmartWalletDeployModal({ clientConfig, show, close, setTx, setConfirmationModal }) {
+function SmartWalletDeployModal({ clientConfig, show, close, setTx, setConfirmationModal, contractState }) {
     const authedUser = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smartwallet";
 
@@ -67,7 +67,7 @@ function SmartWalletDeployModal({ clientConfig, show, close, setTx, setConfirmat
                         <Button className="p-0" color="default" radius="full" onPress={close}>
                             <IoClose className="text-danger" />
                         </Button>
-                        <Button className="p-0" color="warning" radius="full" onPress={deployContract}>
+                        <Button isDisabled={!contractState} className="p-0" color="warning" radius="full" onPress={deployContract}>
                             <GrDeploy />
                         </Button>
                     </div>

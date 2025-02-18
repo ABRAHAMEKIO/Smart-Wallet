@@ -10,8 +10,6 @@ import SmartWalletDeployModal from '../components/modal/smartwalletdeploymodal';
 import StxSendModal from '../components/modal/stxsendmodal';
 import ConfirmedModal from '../components/modal/confirmedmodal';
 
-export const default_token_icon = "/icon-placeholder.svg";
-
 function Wallet({ clientConfig, setClientConfig }) {
     const [showAdvisory, setShowAdvisory] = useState(false);
     const [advisoryMessage, setAdvisoryMessage] = useState({ title: '', msg: '', reason: '', severity: '' });
@@ -69,7 +67,7 @@ function Wallet({ clientConfig, setClientConfig }) {
     async function initWalletInstance() {
         const contract_info = await getWalletContractInfo(clientConfig);
         setShowAdvisory(!contract_info?.found);
-        setContractState(!contract_info?.found);
+        setContractState(contract_info?.found);
         if (!contract_info?.found) {
             setAdvisoryMessage({ msg: 'Seems you dont have smart wallet contract deployed yet.', reason: 'Deploy Required', severity: 'secondary' });
             setShowSmartWallettModal(true);
@@ -93,14 +91,14 @@ function Wallet({ clientConfig, setClientConfig }) {
 
                 <SmartWalletBalance balance={formatNumber(parseFloat(smartWalletStx?.balance) / 1000000)} stx={smartWalletStx} setShowDepositModal={setShowDepositModal} setShowStxSendModal={setShowStxSendModal} />
 
-                <Tabs clientConfig={clientConfig} fungibleToken={smartWalletFungibleToken} nonFungibleToken={smartWalletNonFungibleToken} />
+                <Tabs clientConfig={clientConfig} fungibleToken={smartWalletFungibleToken} nonFungibleToken={smartWalletNonFungibleToken} contractState={contractState} />
 
             </div>
 
             {/* Modals */}
-            {showDepositModal && <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={userStx} fungibleToken={userFungibleToken} nonFungibleToken={userNonFungibleToken} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} />}
-            {showSmartWalletModal && <SmartWalletDeployModal show={showSmartWalletModal} close={() => setShowSmartWallettModal(false)} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} />}
-            {showStxSendModal && <StxSendModal show={showStxSendModal} close={() => setShowStxSendModal(false)} stx={smartWalletStx} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} />}
+            {showDepositModal && <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={userStx} fungibleToken={userFungibleToken} nonFungibleToken={userNonFungibleToken} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} contractState={contractState} />}
+            {showSmartWalletModal && <SmartWalletDeployModal show={showSmartWalletModal} close={() => setShowSmartWallettModal(false)} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} contractState={contractState} />}
+            {showStxSendModal && <StxSendModal show={showStxSendModal} close={() => setShowStxSendModal(false)} stx={smartWalletStx} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} contractState={contractState} />}
             {showConfirmationModal && <ConfirmedModal show={showConfirmationModal} close={() => setConfirmationModal(false)} tx={tx} />}
         </>
     )
