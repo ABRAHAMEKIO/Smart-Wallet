@@ -4,6 +4,7 @@ import { FaWallet } from 'react-icons/fa'
 import { GiWallet } from 'react-icons/gi'
 import { IoExtensionPuzzle } from 'react-icons/io5'
 import Walletassets from './walletassets'
+import Wallettransfer from './wallettransfer'
 
 function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken }) {
     return (
@@ -42,7 +43,7 @@ function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken }) {
                     }>
                         <Card className='mt-1'>
                             <CardBody>
-                                {/* <SendWallet network={network} /> */}
+                                <Wallettransfer clientConfig={clientConfig} />
                             </CardBody>
                         </Card>
                     </Tab>
