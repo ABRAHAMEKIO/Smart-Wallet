@@ -28,7 +28,7 @@ const Wallettransfer = ({ clientConfig, contractState }) => {
 
     return (
         <div className='w-full flex flex-col gap-5 items-center p-5'>
-            <h1 className='w-full flex font-bold'>Privacy Policy for Wallet Ownership Transfer Effective Date: <Code>{new Date().toDateString()}</Code></h1>
+            <h1 className='w-full flex font-bold gap-2'>Privacy Policy for Wallet Ownership Transfer Effective Date: <Code>{new Date().toDateString()}</Code></h1>
 
             <Accordion selectionMode="multiple" variant="shadow">
 
