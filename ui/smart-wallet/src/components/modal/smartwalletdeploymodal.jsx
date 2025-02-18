@@ -9,7 +9,7 @@ import { network } from "../../lib/constants";
 
 function SmartWalletDeployModal({ clientConfig, show, close, setTx, setConfirmationModal }) {
     const authedUser = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
-    const contractName = "smart-wallet-standard";
+    const contractName = "smartwallet";
 
     async function checkMemPool() {
         console.log("Mempool check");
