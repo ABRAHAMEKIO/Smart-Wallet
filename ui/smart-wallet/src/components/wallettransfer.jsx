@@ -2,7 +2,8 @@ import { Accordion, AccordionItem, Button, Code, Input, Listbox, ListboxItem, Sw
 import { openContractCall } from '@stacks/connect';
 import React, { useState } from 'react';
 import { userSession } from '../user-session';
-import { principalCV } from '@stacks/transactions';
+import { PostConditionMode, principalCV } from '@stacks/transactions';
+import { network } from '../lib/constants';
 
 const Wallettransfer = ({ clientConfig }) => {
     const [agree, setAgree] = useState(false);
@@ -16,7 +17,10 @@ const Wallettransfer = ({ clientConfig }) => {
             contractAddress: userAddress,
             contractName,
             functionName: 'transfer-wallet',
-            functionArgs: [principalCV()]
+            functionArgs: [principalCV(address)],
+            network: network(clientConfig?.chain),
+            stxAddress: userAddress,
+            postConditionMode: PostConditionMode.Deny
         })
     }
 
