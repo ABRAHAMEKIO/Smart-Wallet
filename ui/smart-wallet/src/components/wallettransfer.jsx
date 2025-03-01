@@ -5,7 +5,7 @@ import { userSession } from '../user-session';
 import { PostConditionMode, principalCV } from '@stacks/transactions';
 import { network } from '../lib/constants';
 
-const Wallettransfer = ({ clientConfig, contractState }) => {
+const Wallettransfer = ({ clientConfig, contractState, setConfirmationModal, setTx }) => {
     const [agree, setAgree] = useState(false);
     const [address, setAdress] = useState('');
 
@@ -22,7 +22,11 @@ const Wallettransfer = ({ clientConfig, contractState }) => {
             functionArgs: [principalCV(address)],
             network: network(clientConfig?.chain),
             stxAddress: userAddress,
-            postConditionMode: PostConditionMode.Deny
+            postConditionMode: PostConditionMode.Deny,
+            onFinish: ({ txId }) => {
+                setTx(txId);
+                setConfirmationModal(true);
+            }
         })
     }
 

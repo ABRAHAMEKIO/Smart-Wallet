@@ -10,7 +10,7 @@ import { bufferCVFromString, cvToValue, fetchCallReadOnlyFunction, noneCV, Pc, P
 import { network } from '../lib/constants';
 import { openContractCall } from '@stacks/connect';
 
-const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractState }) => {
+const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractState, setConfirmationModal, setTx }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet-standared";
     const smartWalletAddress = `${userAddress}.${contractName}`;
@@ -83,7 +83,6 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractS
             onFinish: (res) => {
                 setTx(res?.txId);
                 setConfirmationModal(true);
-                close();
             },
             onCancel: (res) => {
                 console.log('transaction cancelled', { res });
@@ -106,7 +105,6 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractS
             onFinish: (res) => {
                 setTx(res?.txId);
                 setConfirmationModal(true);
-                close();
             },
             onCancel: (res) => {
                 console.log('transaction cancelled', { res });
