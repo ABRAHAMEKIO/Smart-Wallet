@@ -1,9 +1,16 @@
+(define-private (is-allowed-extension (extension <extension-trait>) (payload (buff 2048)))
+	(ok true)
+)
+
 (define-public (stx-transfer (amount uint) (recipient principal) (memo (optional (buff 34))))
 	(ok true)
 )
 
-(define-public (extension-call (extension principal) (payload (buff 2048)))
-	(ok true)
+(define-public (extension-call (extension <extension-trait>) (payload (buff 2048)))
+	(begin
+		(try! (is-allowed-extension extension payload))
+		(as-contract (contract-call? extension call payload))
+	)
 )
 
 (define-public (sip010-transfer (amount uint) (recipient principal) (memo (optional (buff 34))) (sip010 principal))
