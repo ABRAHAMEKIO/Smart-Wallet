@@ -91,7 +91,7 @@ function Wallet({ clientConfig, setClientConfig }) {
 
                 <SmartWalletBalance balance={formatNumber(parseFloat(smartWalletStx?.balance) / 1000000)} stx={smartWalletStx} setShowDepositModal={setShowDepositModal} setShowStxSendModal={setShowStxSendModal} />
 
-                <Tabs clientConfig={clientConfig} fungibleToken={smartWalletFungibleToken} nonFungibleToken={smartWalletNonFungibleToken} contractState={contractState} setConfirmationModal={setConfirmationModal} setTx={setTx} />
+                <Tabs clientConfig={clientConfig} fungibleToken={smartWalletFungibleToken} nonFungibleToken={smartWalletNonFungibleToken} contractState={contractState} setConfirmationModal={setConfirmationModal} setTx={setTx} smartWalletStx={smartWalletStx}/>
 
             </div>
 

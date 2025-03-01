@@ -7,7 +7,7 @@ import Walletassets from './walletassets'
 import Wallettransfer from './wallettransfer'
 import Extensions from './extensions'
 
-function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken, contractState, setConfirmationModal, setTx }) {
+function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken, contractState, setConfirmationModal, setTx, smartWalletStx }) {
     return (
         <div className="flex w-full flex-col">
             <div className="flex w-full flex-col">
@@ -32,7 +32,7 @@ function TabsComponent({ clientConfig, fungibleToken, nonFungibleToken, contract
                     }>
                         <Card className='mt-1'>
                             <CardBody>
-                                <Extensions clientConfig={clientConfig} contractState={contractState} setConfirmationModal={setConfirmationModal} setTx={setTx} />
+                                <Extensions clientConfig={clientConfig} contractState={contractState} setConfirmationModal={setConfirmationModal} setTx={setTx} smartWalletStx={smartWalletStx} />
                             </CardBody>
                         </Card>
                     </Tab>

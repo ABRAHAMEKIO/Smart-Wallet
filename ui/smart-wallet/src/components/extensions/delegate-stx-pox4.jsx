@@ -1,13 +1,14 @@
 import { Button, Input } from '@heroui/react';
 import { openContractCall } from '@stacks/connect';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PiLockKey } from "react-icons/pi";
 import { network } from '../../lib/constants';
 import { noneCV, Pc, PostConditionMode, principalCV, tupleCV, uintCV } from '@stacks/transactions';
 import { serialize } from '@stacks/transactions/dist/cl';
 import { delegate_address } from '../../lib/contracts';
+import { userSession } from '../../user-session';
 
-const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, setTx }) => {
+const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, setTx, smartWalletStx }) => {
     const [amount, setAmount] = useState(0.1);
     const [address, setAddress] = useState('');
     const [lockPeriod, setLockPeriod] = useState(1);
@@ -15,18 +16,6 @@ const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, se
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet-standared";
     const smartWalletAddress = `${userAddress}.${contractName}`;
-
-    function handleOnchange(e) {
-        const { name, value } = e.target;
-        if (name === 'lock-amount') {
-            if (value < 1) setAmount(1);
-        }
-
-        if (name === 'lock-period') {
-            if (value < 1) setLockPeriod(1);
-            if (value > 12) setLockPeriod(1);
-        }
-    }
 
     function delegate() {
         const delegateAmount = amount * 1000000;
@@ -63,9 +52,12 @@ const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, se
 
     return (
         <div className='w-full flex flex-col space-y-4'>
-            <Input label='Lock Amount' min={0.1} name="lock-amount" type='number' value={amount} onChange={handleOnchange} />
+            <Input label='Lock Amount' errorMessage={amount < 1 ? `Minimum lock-amount is 1!!!` : amount > smartWalletStx?.balance ? "Insufficient funds!!!" : ""} min={1} name="lock-amount" type='number' value={amount} onChange={(e) => setAmount(e.target.value)} />
+
             <Input label='Delegate to Address' id='delegate-to-address' type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
-            <Input label='Lock Period' name='lock-period' type='text' value={lockPeriod} onChange={handleOnchange} />
+
+            <Input errorMessage={lockPeriod < 1 ? `Minimum lock-period is 1!!!` : lockPeriod > 12 ? "Max lock period is 12!!" : ""} label='Lock Period' name='lock-period' type='text' min={1} max={12} value={lockPeriod} onChange={(e) => setLockPeriod(e.target.value)} />
+
             <Button isDisabled={!contractState} color='warning' onPress={delegate}>
                 <PiLockKey size="20px" className='text-white' />
             </Button>
