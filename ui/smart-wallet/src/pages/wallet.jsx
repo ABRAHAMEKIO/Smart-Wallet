@@ -91,7 +91,7 @@ function Wallet({ clientConfig, setClientConfig }) {
 
                 <SmartWalletBalance balance={formatNumber(parseFloat(smartWalletStx?.balance) / 1000000)} stx={smartWalletStx} setShowDepositModal={setShowDepositModal} setShowStxSendModal={setShowStxSendModal} />
 
-                <Tabs clientConfig={clientConfig} fungibleToken={smartWalletFungibleToken} nonFungibleToken={smartWalletNonFungibleToken} contractState={contractState} setConfirmationModal={setConfirmationModal} setTx={setTx} smartWalletStx={smartWalletStx}/>
+                <Tabs clientConfig={clientConfig} fungibleToken={smartWalletFungibleToken} nonFungibleToken={smartWalletNonFungibleToken} contractState={contractState} setConfirmationModal={setConfirmationModal} setTx={setTx} smartWalletStx={smartWalletStx} />
 
             </div>
 
@@ -99,7 +99,7 @@ function Wallet({ clientConfig, setClientConfig }) {
             {showDepositModal && <DepositModal show={showDepositModal} close={() => setShowDepositModal(false)} stx={userStx} fungibleToken={userFungibleToken} nonFungibleToken={userNonFungibleToken} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} contractState={contractState} />}
             {showSmartWalletModal && <SmartWalletDeployModal show={showSmartWalletModal} close={() => setShowSmartWallettModal(false)} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} contractState={contractState} />}
             {showStxSendModal && <StxSendModal show={showStxSendModal} close={() => setShowStxSendModal(false)} stx={smartWalletStx} clientConfig={clientConfig} setTx={setTx} setConfirmationModal={setConfirmationModal} contractState={contractState} />}
-            {showConfirmationModal && <ConfirmedModal show={showConfirmationModal} close={() => setConfirmationModal(false)} tx={tx} />}
+            {showConfirmationModal && <ConfirmedModal show={showConfirmationModal} close={() => setConfirmationModal(false)} tx={tx} clientConfig={clientConfig} />}
         </>
     )
 }
