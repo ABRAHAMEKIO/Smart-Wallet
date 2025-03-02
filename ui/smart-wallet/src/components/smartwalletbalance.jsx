@@ -15,7 +15,7 @@ function SmartWalletBalance({ balance, stx, setShowDepositModal, setShowStxSendM
                 src='/stx-logo-wallet.svg'
             />
             <div className='flex flex-col gap-1'>
-                <label>Balance: <Code className='text-warning'>{balance.toFixed(2)} <Chip size='sm' variant='dot' color='success'>${(balance * stx?.rate?.Price).toFixed(2)}</Chip></Code></label>
+                <label><Code className='text-warning'>{balance.toFixed(2)} <Chip size='sm' variant='dot' color='success'>${(balance * stx?.rate?.Price).toFixed(2)}</Chip></Code></label>
                 <h3 className='text-small tracking-tight text-default-500'>Rate: <small className='text-primary'>${stx?.rate?.Price.toFixed(2) || 0}</small></h3>
             </div>
             <div className='flex gap-1'>
