@@ -16,6 +16,7 @@ const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, se
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smartwallet";
     const smartWalletAddress = `${userAddress}.${contractName}`;
+
     function hexToUint8Array(hexString) {
         if (hexString.startsWith('0x')) {
             hexString = hexString.slice(2); // Remove "0x" prefix if present
@@ -29,17 +30,15 @@ const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, se
 
     function delegate() {
         const delegateAmount = amount * 1000000;
-        const payloadTuple = tupleCV({
-            "action": stringAsciiCV('delegate'),
-            "amount-ustx": uintCV(delegateAmount),
-            "delegate-to": principalCV(address),
-            "until-burn-ht": noneCV(),
-            "pox-addr": noneCV(),
-        });
-        const serializedPayload = hexToUint8Array(serializeCV(payloadTuple));
-        // const bytes = hexToBytes(hexString);
-        const clarityValue = deserializeCV(serializedPayload);
-        console.log({ clarityValue, payloadTuple, serializedPayload });
+        const serializedPayload = hexToUint8Array(serializeCV(
+            tupleCV({
+                "action": stringAsciiCV('delegate'),
+                "amount-ustx": uintCV(delegateAmount),
+                "delegate-to": principalCV(address),
+                "until-burn-ht": noneCV(),
+                "pox-addr": noneCV(),
+            })
+        ));
 
         openContractCall({
             contractAddress: userAddress,
