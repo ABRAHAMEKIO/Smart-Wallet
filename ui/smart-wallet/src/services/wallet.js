@@ -7,7 +7,7 @@ import { clientFromNetwork } from "@stacks/network";
 
 export async function getSmartWalletBalance(clientConfig) {
     const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
-    const contractAddress = `${userAddress}.smart-wallet-standared`;
+    const contractAddress = `${userAddress}.smartwallet`;
     const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${contractAddress}/balances`);
     const { fungible_tokens, non_fungible_tokens, stx } = data;
 
@@ -59,7 +59,7 @@ export async function getUserBalance(clientConfig) {
 export async function getWalletContractInfo(clientConfig) {
     let result;
     const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
-    const smartWalletAddress = `${userAddress}.smart-wallet-standared`;
+    const smartWalletAddress = `${userAddress}.smartwallet`;
 
     try {
         const contractInfoData = await (await axios.get(`${clientConfig?.api}/extended/v2/smart-contracts/status?contract_id=${smartWalletAddress}`)).data
