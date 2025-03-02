@@ -26,7 +26,7 @@ function SmartWalletDeployModal({ clientConfig, show, close, setTx, setConfirmat
         openContractDeploy({
             contractName: contractName,
             codeBody: clarityCode,
-            clarityVersion: 3,
+            clarityVersion: 2,
             stxAddress: authedUser,
             network: network(clientConfig?.chain),
             onFinish: (res) => {
