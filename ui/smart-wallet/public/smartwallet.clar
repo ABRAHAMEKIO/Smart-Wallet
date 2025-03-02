@@ -1,9 +1,44 @@
-(define-private (is-allowed-extension (extension <extension-trait>) (payload (buff 2048)))
-	(ok true)
+;; title: smart-wallet-standard
+;; version: 1
+;; summary: Extendible smart wallet with standard SIP-010 and SIP-009 support
+(use-trait extension-trait 'ST30RNTQNY63F6XR66J2Q3WP1THZT3VHZGYEXA9XX.extension-trait.extension-trait)
+
+(use-trait sip-010-trait 'ST30RNTQNY63F6XR66J2Q3WP1THZT3VHZGYEXA9XX.sip-010-trait-ft-standard.sip-010-trait)
+(use-trait sip-009-trait 'ST30RNTQNY63F6XR66J2Q3WP1THZT3VHZGYEXA9XX.nft-trait.nft-trait)
+
+(define-constant err-unauthorised (err u401))
+(define-constant err-forbidden (err u403))
+
+(define-read-only (is-admin-calling)
+	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
 )
 
+(define-private (is-allowed-stx (amount uint) (recipient principal) (memo (optional (buff 34))))
+	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
+)
+
+(define-private (is-allowed-extension (extension <extension-trait>) (payload (buff 2048)))
+	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
+)
+
+(define-private (is-allowed-sip010 (sip010 <sip-010-trait>) (amount uint) (recipient principal) (memo (optional (buff 34))))
+		(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
+)
+
+(define-private (is-allowed-sip009 (sip009 <sip-009-trait>) (amount uint) (recipient principal))
+		(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
+)
+;;
+;; calls with context switching
+;;
 (define-public (stx-transfer (amount uint) (recipient principal) (memo (optional (buff 34))))
-	(ok true)
+	(begin
+		(try! (is-allowed-stx amount recipient memo))
+		(as-contract (match memo
+			to-print (stx-transfer-memo? amount tx-sender recipient to-print)
+			(stx-transfer? amount tx-sender recipient)
+		))
+	)
 )
 
 (define-public (extension-call (extension <extension-trait>) (payload (buff 2048)))
@@ -13,18 +48,48 @@
 	)
 )
 
-(define-public (sip010-transfer (amount uint) (recipient principal) (memo (optional (buff 34))) (sip010 principal))
-	(ok true)
+;;
+;; calls without context switching
+;;
+
+(define-public (sip010-transfer (amount uint) (recipient principal) (memo (optional (buff 34))) (sip010 <sip-010-trait>))
+	(begin
+		(try! (is-allowed-sip010 sip010 amount recipient memo))
+		(contract-call? sip010 transfer amount (as-contract tx-sender) recipient memo)
+	)
 )
 
-(define-public (sip009-transfer (nft-id uint) (recipient principal) (sip009 principal))
-	(ok true)
+
+(define-public (sip009-transfer (nft-id uint) (recipient principal) (sip009 <sip-009-trait>))
+	(begin
+		(try! (is-allowed-sip009 sip009 nft-id recipient))
+		(contract-call? sip009 transfer nft-id (as-contract tx-sender) recipient)
+	)
 )
+
+;;
+;; admin functions
+;;
+(define-map admins principal bool)
 
 (define-public (enable-admin (admin principal) (enabled bool))
-	(ok true)
+	(begin
+		(try! (is-admin-calling))
+		(asserts! (not (is-eq admin (as-contract tx-sender))) err-forbidden)
+		(asserts! (not (is-eq admin contract-caller)) err-forbidden)
+		(ok (map-set admins admin enabled))
+	)
 )
 
 (define-public (transfer-wallet (new-admin principal))
-	(ok true)
+	(let ((old-admin contract-caller))
+		(try! (is-admin-calling))
+		(try! (enable-admin new-admin true))
+		(try! (as-contract (enable-admin old-admin false)))
+		(ok true)
+	)
 )
+
+;; init
+(map-set admins tx-sender true)
+(map-set admins (as-contract tx-sender) true)
