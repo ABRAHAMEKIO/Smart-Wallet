@@ -3,10 +3,10 @@ import { openContractCall } from '@stacks/connect';
 import React, { useEffect, useState } from 'react';
 import { PiLockKey } from "react-icons/pi";
 import { network } from '../../lib/constants';
-import { noneCV, Pc, PostConditionMode, principalCV, tupleCV, uintCV } from '@stacks/transactions';
-import { serialize } from '@stacks/transactions/dist/cl';
+import { bufferCV, bufferCVFromString, deserializeCV, noneCV, Pc, PostConditionMode, principalCV, serializeCV, stringAsciiCV, tupleCV, uintCV } from '@stacks/transactions';
 import { delegate_address } from '../../lib/contracts';
 import { userSession } from '../../user-session';
+import { bufferFromAscii, serialize, stringAscii } from '@stacks/transactions/dist/cl';
 
 const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, setTx, smartWalletStx }) => {
     const [amount, setAmount] = useState(0.1);
@@ -16,23 +16,38 @@ const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, se
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smartwallet";
     const smartWalletAddress = `${userAddress}.${contractName}`;
+    function hexToUint8Array(hexString) {
+        if (hexString.startsWith('0x')) {
+            hexString = hexString.slice(2); // Remove "0x" prefix if present
+        }
+        const bytes = new Uint8Array(hexString.length / 2);
+        for (let i = 0; i < bytes.length; i++) {
+            bytes[i] = parseInt(hexString.substr(i * 2, 2), 16);
+        }
+        return bytes;
+    }
 
     function delegate() {
         const delegateAmount = amount * 1000000;
+        const payloadTuple = tupleCV({
+            "action": stringAsciiCV('delegate'),
+            "amount-ustx": uintCV(delegateAmount),
+            "delegate-to": principalCV(address),
+            "until-burn-ht": noneCV(),
+            "pox-addr": noneCV(),
+        });
+        const serializedPayload = hexToUint8Array(serializeCV(payloadTuple));
+        // const bytes = hexToBytes(hexString);
+        const clarityValue = deserializeCV(serializedPayload);
+        console.log({ clarityValue, payloadTuple, serializedPayload });
+
         openContractCall({
             contractAddress: userAddress,
             contractName: contractName,
             functionName: 'extension-call',
             functionArgs: [
                 principalCV(delegate_address),
-                serialize(
-                    tupleCV({
-                        "action": 'delegate',
-                        "amount-ustx": uintCV(delegateAmount),
-                        "delegate-to": principalCV(address),
-                        "pox-addr": noneCV()
-                    })
-                )
+                bufferCV(serializedPayload)
             ],
             network: network(clientConfig?.chain),
             stxAddress: userAddress,
