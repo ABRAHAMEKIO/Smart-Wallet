@@ -8,12 +8,13 @@ import { network } from '../lib/constants';
 const Wallettransfer = ({ clientConfig, contractState, setConfirmationModal, setTx, smartWalletAddress }) => {
     const [agree, setAgree] = useState(false);
     const [address, setAdress] = useState('');
+    const [contractAddress, contractName] = smartWalletAddress.split('.');
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
 
     function transferWalletOwnerShip() {
         openContractCall({
-            contractAddress: smartWalletAddress.split('.')[0],
-            contractName: smartWalletAddress.split('.')[1],
+            contractAddress: contractAddress,
+            contractName: contractName,
             functionName: 'transfer-wallet',
             functionArgs: [principalCV(address)],
             network: network(clientConfig?.chain),

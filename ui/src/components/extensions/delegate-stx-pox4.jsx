@@ -38,9 +38,10 @@ const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, se
             })
         ));
 
+        const [contractAddress, contractName] = smartWalletAddress.split('.');
         openContractCall({
-            contractAddress: smartWalletAddress.split('.')[0],
-            contractName: smartWalletAddress.split('.')[1],
+            contractAddress: contractAddress,
+            contractName: contractName,
             functionName: 'extension-call',
             functionArgs: [
                 principalCV(delegate_address),

@@ -71,9 +71,11 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractS
         const ftTxAmount = actualtoUmicroValue(amount, selectedToken?.decimal);
         const mem = memo ? someCV(bufferCVFromString(memo)) : noneCV();
         const condition1 = Pc.principal(smartWalletAddress).willSendLte(ftTxAmount).ft(contract_id.split('::')[0], contract_id.split('::')[1]);
+
+        const [assetAddress, assetContractName] = contract_id.split('.');
         openContractCall({
-            contractAddress: contract_id.split('.')[0],
-            contractName: contract_id.split('::')[0].split('.')[1],
+            contractAddress: assetAddress,
+            contractName: assetContractName,
             functionName: 'transfer',
             functionArgs: [uintCV(ftTxAmount), principalCV(smartContractAddress), principalCV(address), mem],
             network: network(clientConfig?.chain),
