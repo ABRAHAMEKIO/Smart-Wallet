@@ -13,7 +13,6 @@ import { useParams } from 'react-router-dom';
 
 function Wallet({ clientConfig, setClientConfig }) {
     const { address: sharedAddress } = useParams();
-    console.log({ sharedAddress });
 
     const [showAdvisory, setShowAdvisory] = useState(false);
     const [advisoryMessage, setAdvisoryMessage] = useState({ title: '', msg: '', reason: '', severity: '' });

@@ -13,7 +13,7 @@ import { openContractCall } from '@stacks/connect';
 const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractState, setConfirmationModal, setTx, sharedAddress }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet";
-    const smartWalletAddress = `${sharedAddress || userAddress}.${contractName}`;
+    const smartWalletAddress = sharedAddress || `${userAddress}.${contractName}`;
 
     const [selectedToken, setSelectedToken] = useState();
     const [assetMeta, setAssetMeta] = useState();

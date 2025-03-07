@@ -10,7 +10,7 @@ import { network } from '../../lib/constants';
 const StxSendModal = ({ show, close, stx, clientConfig, contractState, sharedAddress }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet";
-    const smartWalletAddress = `${sharedAddress || userAddress}.${contractName}`;
+    const smartWalletAddress = sharedAddress || `${userAddress}.${contractName}`;
 
     const [amount, setAmount] = useState(0);
     const [address, setAddress] = useState(userAddress);

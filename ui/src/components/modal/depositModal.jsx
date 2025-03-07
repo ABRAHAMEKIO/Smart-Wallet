@@ -12,7 +12,7 @@ import { openContractCall, openSTXTransfer } from '@stacks/connect';
 
 const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungibleToken, setTx, setConfirmationModal, contractState, sharedAddress }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
-    const walletAddress = `${sharedAddress || userAddress}.smart-wallet`;
+    const walletAddress = sharedAddress || `${userAddress}.smart-wallet`;
 
     const [isDisabled, setIsDisabled] = useState(false);
     const [selectedToken, setSelectedToken] = useState();

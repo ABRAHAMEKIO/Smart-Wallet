@@ -16,8 +16,8 @@ const Wallettransfer = ({ clientConfig, contractState, setConfirmationModal, set
 
     function transferWalletOwnerShip() {
         openContractCall({
-            contractAddress: sharedAddress || userAddress,
-            contractName,
+            contractAddress: sharedAddress.split('.')[0] || userAddress,
+            contractName: sharedAddress.split('.')[1] || contractName,
             functionName: 'transfer-wallet',
             functionArgs: [principalCV(address)],
             network: network(clientConfig?.chain),

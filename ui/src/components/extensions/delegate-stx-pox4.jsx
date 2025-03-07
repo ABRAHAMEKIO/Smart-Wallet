@@ -15,7 +15,7 @@ const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, se
 
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet";
-    const smartWalletAddress = `${sharedAddress || userAddress}.${contractName}`;
+    const smartWalletAddress = sharedAddress || `${userAddress}.${contractName}`;
 
     function hexToUint8Array(hexString) {
         if (hexString.startsWith('0x')) {
@@ -41,8 +41,8 @@ const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, se
         ));
 
         openContractCall({
-            contractAddress: sharedAddress || userAddress,
-            contractName: contractName,
+            contractAddress: sharedAddress.split('.')[0] || userAddress,
+            contractName: sharedAddress.split('.')[1] || contractName,
             functionName: 'extension-call',
             functionArgs: [
                 principalCV(delegate_address),
