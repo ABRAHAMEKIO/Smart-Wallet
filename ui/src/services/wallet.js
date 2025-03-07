@@ -59,7 +59,8 @@ export async function getWalletContractInfo(address, clientConfig) {
     try {
         const contractInfoData = await (await axios.get(`${clientConfig?.api}/extended/v2/smart-contracts/status?contract_id=${address}`)).data
         const contractInfo = contractInfoData[address];
-        result = { found: contractInfo?.found, ...contractInfo?.result };
+        console.log({ contractInfo });
+        result = { found: contractInfo?.found && contractInfo?.result?.status === 'success', ...contractInfo?.result };
     } catch (error) {
         console.log({ error });
         result = { found: false, error: error.message, code: error?.code };
