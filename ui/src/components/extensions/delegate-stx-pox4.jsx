@@ -8,14 +8,12 @@ import { delegate_address } from '../../lib/contracts';
 import { userSession } from '../../user-session';
 import { bufferFromAscii, serialize, stringAscii } from '@stacks/transactions/dist/cl';
 
-const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, setTx, smartWalletStx, sharedAddress }) => {
+const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, setTx, smartWalletStx, smartWalletAddress }) => {
     const [amount, setAmount] = useState(0.1);
     const [address, setAddress] = useState('');
     const [lockPeriod, setLockPeriod] = useState(1);
 
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
-    const contractName = "smart-wallet";
-    const smartWalletAddress = sharedAddress || `${userAddress}.${contractName}`;
 
     function hexToUint8Array(hexString) {
         if (hexString.startsWith('0x')) {
@@ -41,8 +39,8 @@ const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, se
         ));
 
         openContractCall({
-            contractAddress: sharedAddress.split('.')[0] || userAddress,
-            contractName: sharedAddress.split('.')[1] || contractName,
+            contractAddress: smartWalletAddress.split('.')[0],
+            contractName: smartWalletAddress.split('.')[1],
             functionName: 'extension-call',
             functionArgs: [
                 principalCV(delegate_address),

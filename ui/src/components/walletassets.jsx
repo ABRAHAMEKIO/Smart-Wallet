@@ -10,10 +10,8 @@ import { bufferCVFromString, cvToValue, fetchCallReadOnlyFunction, noneCV, Pc, P
 import { network } from '../lib/constants';
 import { openContractCall } from '@stacks/connect';
 
-const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractState, setConfirmationModal, setTx, sharedAddress }) => {
+const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractState, setConfirmationModal, setTx, smartWalletAddress }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
-    const contractName = "smart-wallet";
-    const smartWalletAddress = sharedAddress || `${userAddress}.${contractName}`;
 
     const [selectedToken, setSelectedToken] = useState();
     const [assetMeta, setAssetMeta] = useState();
@@ -24,6 +22,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractS
     const [amount, setAmount] = useState(0);
     const [address, setAddress] = useState(userAddress);
     const [memo, setMemo] = useState('');
+
 
     async function handleSelectFt(e) {
         const { value } = e.target;
@@ -67,6 +66,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractS
     }
 
     function sendFt() {
+
         const { contract_id } = selectedToken;
         const ftTxAmount = actualtoUmicroValue(amount, selectedToken?.decimal);
         const mem = memo ? someCV(bufferCVFromString(memo)) : noneCV();
@@ -75,7 +75,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractS
             contractAddress: contract_id.split('.')[0],
             contractName: contract_id.split('::')[0].split('.')[1],
             functionName: 'transfer',
-            functionArgs: [uintCV(ftTxAmount), principalCV(smartWalletAddress), principalCV(address), mem],
+            functionArgs: [uintCV(ftTxAmount), principalCV(smartContractAddress), principalCV(address), mem],
             network: network(clientConfig?.chain),
             stxAddress: userAddress,
             postConditions: [condition1],

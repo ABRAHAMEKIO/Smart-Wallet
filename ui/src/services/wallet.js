@@ -6,9 +6,7 @@ import { network } from "../lib/constants";
 import { clientFromNetwork } from "@stacks/network";
 
 export async function getSmartWalletBalance(address, clientConfig) {
-    const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
-    const contractAddress = `${address || userAddress}.smart-wallet`;
-    const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${contractAddress}/balances`);
+    const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${address}/balances`);
     const { fungible_tokens, non_fungible_tokens, stx } = data;
 
     const rate = (await axios.get(`https://api.diadata.org/v1/assetQuotation/Stacks/0x0000000000000000000000000000000000000000`)).data;
@@ -16,7 +14,7 @@ export async function getSmartWalletBalance(address, clientConfig) {
         return { contract_id: key, ...fungible_tokens[key], name: key.split('::')[1], contract_principal: key.split('::')[0] };
     });
     const nonFungibleTokens = await Promise.all(Object.keys(non_fungible_tokens).map(async (key) => {
-        let asset = (await axios.get(`${clientConfig?.api}/extended/v1/tokens/nft/holdings?principal=${contractAddress}&asset_identifiers=${key}&offset=0&limit=50`)).data?.results;
+        let asset = (await axios.get(`${clientConfig?.api}/extended/v1/tokens/nft/holdings?principal=${address}&asset_identifiers=${key}&offset=0&limit=50`)).data?.results;
         asset = asset?.map((values) => {
             const hexvals = hexToCV(values?.value?.hex);
             const buffValue = hexvals?.value?.name ? Buffer.from(hexvals?.value?.name?.value, "hex").toString() : values?.value?.repr.slice(1);
@@ -58,14 +56,12 @@ export async function getUserBalance(clientConfig) {
 
 export async function getWalletContractInfo(address, clientConfig) {
     let result;
-    const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
-    const smartWalletAddress = `${address || userAddress}.smart-wallet`;
-
     try {
-        const contractInfoData = await (await axios.get(`${clientConfig?.api}/extended/v2/smart-contracts/status?contract_id=${smartWalletAddress}`)).data
-        const contractInfo = contractInfoData[smartWalletAddress];
+        const contractInfoData = await (await axios.get(`${clientConfig?.api}/extended/v2/smart-contracts/status?contract_id=${address}`)).data
+        const contractInfo = contractInfoData[address];
         result = { found: contractInfo?.found, ...contractInfo?.result };
     } catch (error) {
+        console.log({ error });
         result = { found: false, error: error.message, code: error?.code };
     }
 

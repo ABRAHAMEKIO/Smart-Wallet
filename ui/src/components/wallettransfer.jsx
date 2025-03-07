@@ -5,19 +5,15 @@ import { userSession } from '../user-session';
 import { PostConditionMode, principalCV } from '@stacks/transactions';
 import { network } from '../lib/constants';
 
-const Wallettransfer = ({ clientConfig, contractState, setConfirmationModal, setTx, sharedAddress }) => {
+const Wallettransfer = ({ clientConfig, contractState, setConfirmationModal, setTx, smartWalletAddress }) => {
     const [agree, setAgree] = useState(false);
     const [address, setAdress] = useState('');
-
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
-    const contractName = 'smart-wallet';
-
-    console.log({ agree, address, contractState });
 
     function transferWalletOwnerShip() {
         openContractCall({
-            contractAddress: sharedAddress.split('.')[0] || userAddress,
-            contractName: sharedAddress.split('.')[1] || contractName,
+            contractAddress: smartWalletAddress.split('.')[0],
+            contractName: smartWalletAddress.split('.')[1],
             functionName: 'transfer-wallet',
             functionArgs: [principalCV(address)],
             network: network(clientConfig?.chain),
