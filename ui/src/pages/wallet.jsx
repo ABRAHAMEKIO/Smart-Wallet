@@ -102,7 +102,7 @@ function Wallet({ clientConfig, setClientConfig }) {
 
                 <div className='w-full flex'>
                     <Tooltip content="Click to view on explorer">
-                        <Code color="secondary"><a href={`${explorer(smartWalletAddress, '', clientConfig?.chain)}`} target='_blank'>{`${smartWalletAddress.slice(0, 6)}...${smartWalletAddress.slice(-20)}`}</a></Code>
+                        <Code color="secondary"><a href={`${explorer(smartWalletAddress, '', clientConfig?.chain)}`} target='_blank'>{`${smartWalletAddress.slice(0, 6)}...${smartWalletAddress.slice(-16)}`}</a></Code>
                     </Tooltip>
                 </div>
             </div>
