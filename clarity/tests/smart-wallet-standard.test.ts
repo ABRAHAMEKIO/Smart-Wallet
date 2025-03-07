@@ -15,7 +15,7 @@ import {
   trueCV,
   uintCV,
 } from "@stacks/transactions";
-import { createExpect, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { deployments } from "../../clarigen/src/clarigen-types";
 
 const simnet = await initSimnet();
