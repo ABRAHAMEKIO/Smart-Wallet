@@ -15,8 +15,7 @@ import { explorer } from '../lib/constants';
 import { Code, Tooltip } from '@heroui/react';
 
 function Wallet({ clientConfig, setClientConfig }) {
-    // const { address } = useParams();
-    const address = '';
+    const { address } = useParams();
     const [smartWalletAddress, setSmartWalletAddress] = useState(address || userSession.loadUserData().profile.stxAddress[clientConfig.network] + '.smart-wallet');
 
     const [showAdvisory, setShowAdvisory] = useState(false);
@@ -97,13 +96,13 @@ function Wallet({ clientConfig, setClientConfig }) {
                 {/* Advisory Box */}
                 <SmartWalletContractAdvisory show={showAdvisory} props={advisoryMessage} icon={<GrDeploy />} action={openLaunchPad} />
 
-                {/* {contractState &&  */}
-                <div className='w-full flex'>
-                    <Tooltip size='sm' content="Click to view on explorer">
-                        <Code size='sm' color="secondary"><a href={`${explorer(smartWalletAddress, '', clientConfig?.chain)}`} target='_blank'>{`${smartWalletAddress.slice(0, 6)}...${smartWalletAddress.slice(-16)}`}</a></Code>
-                    </Tooltip>
-                </div>
-                {/* // } */}
+                {contractState &&
+                    <div className='w-full flex'>
+                        <Tooltip size='sm' content="Click to view on explorer">
+                            <Code size='sm' color="secondary"><a href={`${explorer(smartWalletAddress, '', clientConfig?.chain)}`} target='_blank'>{`${smartWalletAddress.slice(0, 6)}...${smartWalletAddress.slice(-16)}`}</a></Code>
+                        </Tooltip>
+                    </div>
+                }
 
                 <SmartWalletBalance balance={formatNumber(parseFloat(smartWalletStx?.balance) / 1000000)} stx={smartWalletStx} setShowDepositModal={setShowDepositModal} setShowStxSendModal={setShowStxSendModal} smartWalletAddress={smartWalletAddress} />
 
