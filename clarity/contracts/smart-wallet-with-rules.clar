@@ -1,4 +1,4 @@
-;; title: smart-wallet
+;; title: smart-wallet-with-rules
 ;; version:
 ;; summary:
 ;; description:

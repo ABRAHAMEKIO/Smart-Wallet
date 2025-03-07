@@ -144,6 +144,11 @@ plan:
             path: contracts/extensions/ext-sponsored-transfer.clar
             clarity-version: 3
         - emulated-contract-publish:
+            contract-name: ext-test
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/tests/ext-test.clar
+            clarity-version: 3
+        - emulated-contract-publish:
             contract-name: ext-unsafe-sip010-transfer
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/extensions/ext-unsafe-sip010-transfer.clar
@@ -164,21 +169,6 @@ plan:
             path: contracts/rule-set-trait.clar
             clarity-version: 3
         - emulated-contract-publish:
-            contract-name: standard-rules
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/rules/standard-rules.clar
-            clarity-version: 3
-        - emulated-contract-publish:
-            contract-name: smart-wallet
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/smart-wallet.clar
-            clarity-version: 3
-        - emulated-contract-publish:
-            contract-name: smart-wallet-endpoint
-            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/smart-wallet-endpoint.clar
-            clarity-version: 3
-        - emulated-contract-publish:
             contract-name: smart-wallet-standard
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/smart-wallet-standard.clar
@@ -187,5 +177,20 @@ plan:
             contract-name: smart-wallet-standard-endpoint
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/smart-wallet-standard-endpoint.clar
+            clarity-version: 3
+        - emulated-contract-publish:
+            contract-name: standard-rules
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/rules/standard-rules.clar
+            clarity-version: 3
+        - emulated-contract-publish:
+            contract-name: smart-wallet-with-rules
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/smart-wallet-with-rules.clar
+            clarity-version: 3
+        - emulated-contract-publish:
+            contract-name: smart-wallet-with-rules-endpoint
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/smart-wallet-with-rules-endpoint.clar
             clarity-version: 3
       epoch: "3.1"

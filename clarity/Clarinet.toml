@@ -77,13 +77,13 @@ path = 'contracts/rule-set-trait.clar'
 clarity_version = 3
 epoch = 3.1
 
-[contracts.smart-wallet]
-path = 'contracts/smart-wallet.clar'
+[contracts.smart-wallet-with-rules]
+path = 'contracts/smart-wallet-with-rules.clar'
 clarity_version = 3
 epoch = 3.1
 
-[contracts.smart-wallet-endpoint]
-path = 'contracts/smart-wallet-endpoint.clar'
+[contracts.smart-wallet-with-rules-endpoint]
+path = 'contracts/smart-wallet-with-rules-endpoint.clar'
 clarity_version = 3
 epoch = 3.1
 
@@ -106,6 +106,12 @@ epoch = 3.1
 path = 'contracts/rules/standard-rules.clar'
 clarity_version = 3
 epoch = 3.1
+
+[contracts.ext-test]
+path = 'contracts/tests/ext-test.clar'
+clarity_version = 3
+epoch = 3.1
+
 [repl.analysis]
 passes = ['check_checker']
 
