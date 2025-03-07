@@ -1,3 +1,5 @@
+import { STACKS_DEVNET, STACKS_MAINNET, STACKS_MOCKNET, STACKS_TESTNET } from "@stacks/network";
+
 export const api = {
     testnet: 'https://api.testnet.hiro.so',
     mainnet: 'https://api.hiro.so',
@@ -14,19 +16,17 @@ export const explorer = (address, tx, network) => {
     return explorerUrl[network];
 }
 
-export const spportedExtensions = [
-    { key: "cat", label: "Cat" },
-    { key: "dog", label: "Dog" },
-    { key: "elephant", label: "Elephant" },
-    { key: "lion", label: "Lion" },
-    { key: "tiger", label: "Tiger" },
-    { key: "giraffe", label: "Giraffe" },
-    { key: "dolphin", label: "Dolphin" },
-    { key: "penguin", label: "Penguin" },
-    { key: "zebra", label: "Zebra" },
-    { key: "shark", label: "Shark" },
-    { key: "whale", label: "Whale" },
-    { key: "otter", label: "Otter" },
-    { key: "crocodile", label: "Crocodile" },
-]
+export const network = (chain) => {
+    const networks = {
+        mainnet: STACKS_MAINNET,
+        testnet: STACKS_TESTNET,
+        devnet: STACKS_DEVNET,
+        mocknet: STACKS_MOCKNET
+    };
+    return networks[chain];
+}
 
+export const storageProvider = {
+    ipfs: { replace: "https://ipfs.tech/", at: "ipfs:/" },
+    gaia: ""
+};

@@ -1,45 +1,102 @@
 import axios from "axios";
-import { api } from "../lib/constants";
-import { testnet_ft_tokens_meta } from "../lib/ft_testnet_meta";
+import { userSession } from "../user-session";
+import { cvToValue, fetchCallReadOnlyFunction, hexToCV, uintCV } from "@stacks/transactions";
+import { Buffer } from "buffer";
+import { network } from "../lib/constants";
+import { clientFromNetwork } from "@stacks/network";
 
-export async function getAllAssets(address, network) {
-    let balance = { stx: { balance: 0, rate: 0 }, fungible_tokens: [], non_fungible_tokens: [] };
-    const apiUrl = `${api[network]}/extended/v1/address/${address}/balances`;
+export async function getSmartWalletBalance(clientConfig) {
+    const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
+    const contractAddress = `${userAddress}.smart-wallet`;
+    const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${contractAddress}/balances`);
+    const { fungible_tokens, non_fungible_tokens, stx } = data;
+
+    const rate = (await axios.get(`https://api.diadata.org/v1/assetQuotation/Stacks/0x0000000000000000000000000000000000000000`)).data;
+    const fungibleTokens = Object.keys(fungible_tokens).map((key) => {
+        return { contract_id: key, ...fungible_tokens[key], name: key.split('::')[1], contract_principal: key.split('::')[0] };
+    });
+    const nonFungibleTokens = await Promise.all(Object.keys(non_fungible_tokens).map(async (key) => {
+        let asset = (await axios.get(`${clientConfig?.api}/extended/v1/tokens/nft/holdings?principal=${userAddress}&asset_identifiers=${key}&offset=0&limit=50`)).data?.results;
+        asset = asset?.map((values) => {
+            const hexvals = hexToCV(values?.value?.hex);
+            const buffValue = hexvals?.value?.name ? Buffer.from(hexvals?.value?.name?.value, "hex").toString() : values?.value?.repr.slice(1);
+            return {
+                ...values,
+                name: values?.asset_identifier.split('::')[1],
+                value: buffValue
+            }
+        })
+        return asset;
+    }));
+    return { stx: { ...stx, rate }, fungibleTokens, nonFungibleTokens: nonFungibleTokens.flat() };
+}
+
+export async function getUserBalance(clientConfig) {
+    const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
+    const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${userAddress}/balances`);
+    const { fungible_tokens, non_fungible_tokens, stx } = data;
+
+    const rate = (await axios.get(`https://api.diadata.org/v1/assetQuotation/Stacks/0x0000000000000000000000000000000000000000`)).data;
+    const fungibleTokens = Object.keys(fungible_tokens).map((key) => {
+        return { contract_id: key, ...fungible_tokens[key], name: key.split('::')[1] };
+    });
+    const nonFungibleTokens = await Promise.all(Object.keys(non_fungible_tokens).map(async (key) => {
+        let asset = (await axios.get(`${clientConfig?.api}/extended/v1/tokens/nft/holdings?principal=${userAddress}&asset_identifiers=${key}&offset=0&limit=50`)).data?.results;
+        asset = asset?.map((values) => {
+            const hexvals = hexToCV(values?.value?.hex);
+            const buffValue = hexvals?.value?.name ? Buffer.from(hexvals?.value?.name?.value, "hex").toString() : values?.value?.repr.slice(1);
+            return {
+                ...values,
+                name: values?.asset_identifier.split('::')[1],
+                value: buffValue
+            }
+        })
+        return asset;
+    }));
+    return { stx: { ...stx, rate }, fungibleTokens, nonFungibleTokens: nonFungibleTokens.flat() };
+}
+
+export async function getWalletContractInfo(clientConfig) {
+    let result;
+    const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
+    const smartWalletAddress = `${userAddress}.smart-wallet`;
 
     try {
-        const res = await axios.get(apiUrl);
-        if (res.status === 200 && res.data) {
-            const { data: { stx, fungible_tokens, non_fungible_tokens } } = res
-            const stxRate = (await axios.get('https://api.diadata.org/v1/assetQuotation/Stacks/0x0000000000000000000000000000000000000000')).data;
-            balance = {
-                stx: { balance: (stx?.balance / 1000000).toFixed(2), rate: (stxRate?.Price).toFixed(2) },
-                fungible_tokens: Object.keys(fungible_tokens).map((key) => {
-                    return {
-                        ...testnet_ft_tokens_meta[key.split('::')[0]], ...{
-                            balance: parseInt(fungible_tokens[key].balance),
-                            suggested_name: key.split('::')[1],
-                            placeholder_icon: './icon-placeholder.svg',
-                            contract_principal: key.split('::')[0],
-                            contract_identity: key
-                        }
-                    };
-                }),
-                non_fungible_tokens: Object.keys(non_fungible_tokens).map((key) => {
-                    return {
-                        name: key.split('::')[1],
-                        count: non_fungible_tokens[key].count,
-                        contract_id: key,
-                        contract_address: key.split('::')[0],
-                        image_url: '/nft-placeholder.svg'
-                    }
-                })
-            };
-        } else {
-            throw res.status;
-        }
+        const contractInfoData = await (await axios.get(`${clientConfig?.api}/extended/v2/smart-contracts/status?contract_id=${smartWalletAddress}`)).data
+        const contractInfo = contractInfoData[smartWalletAddress];
+        result = { found: contractInfo?.found, ...contractInfo?.result };
     } catch (error) {
-        console.log(error);
+        result = { found: false, error: error.message, code: error?.code };
     }
 
-    return balance;
+    return result;
+}
+
+export async function getNftWallet(targetAssetAddress, assetId, clientConfig) {
+    let result;
+    try {
+        const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
+        let metaUri = await fetchCallReadOnlyFunction({
+            contractAddress: targetAssetAddress.split('.')[0],
+            contractName: targetAssetAddress.split('::')[0].split('.')[1],
+            functionName: 'get-token-uri',
+            functionArgs: [uintCV(parseInt(assetId))],
+            network: network(clientFromNetwork?.chain),
+            senderAddress: userAddress
+        });
+        metaUri = cvToValue(metaUri)?.value?.value;
+        const getmeta = (await axios.get(metaUri)).data;
+        result = getmeta;
+    } catch (error) {
+        result = {
+            attributes: [],
+            description: error?.message,
+            image: "nft-holder.png",
+            name: error?.code,
+            properties: {}
+        }
+    }
+
+
+    return result;
 }
