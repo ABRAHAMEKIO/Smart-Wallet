@@ -23,7 +23,7 @@ function AppRoutes() {
             {isAuthed &&
                 <>
                     <Route path='/' element={<Wallet clientConfig={clientConfig} setClientConfig={setClientConfig} />} />
-                    <Route path='/:address' element={<Wallet clientConfig={clientConfig} setClientConfig={setClientConfig} />} />
+                    <Route path='/:address*' element={<Wallet clientConfig={clientConfig} setClientConfig={setClientConfig} />} />
                 </>
             }
         </Routes>
