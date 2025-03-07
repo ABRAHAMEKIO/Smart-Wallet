@@ -11,6 +11,8 @@ import StxSendModal from '../components/modal/stxsendmodal';
 import ConfirmedModal from '../components/modal/confirmedmodal';
 import { useParams } from 'react-router-dom';
 import { userSession } from '../user-session';
+import { explorer } from '../lib/constants';
+import { Code, Tooltip } from '@heroui/react';
 
 function Wallet({ clientConfig, setClientConfig }) {
     const { address } = useParams();
@@ -98,6 +100,11 @@ function Wallet({ clientConfig, setClientConfig }) {
 
                 <Tabs clientConfig={clientConfig} fungibleToken={smartWalletFungibleToken} nonFungibleToken={smartWalletNonFungibleToken} contractState={contractState} setConfirmationModal={setConfirmationModal} setTx={setTx} smartWalletStx={smartWalletStx} smartWalletAddress={smartWalletAddress} />
 
+                <div className='w-full flex'>
+                    <Tooltip content="Click to view on explorer">
+                        <Code color="secondary"><a href={`${explorer(smartWalletAddress, '', clientConfig?.chain)}`} target='_blank'>{`${smartWalletAddress.slice(0, 6)}...${smartWalletAddress.slice(-20)}`}</a></Code>
+                    </Tooltip>
+                </div>
             </div>
 
             {/* Modals */}
