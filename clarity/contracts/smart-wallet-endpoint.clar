@@ -1,5 +1,5 @@
 
-;; title: smart-wallet-standard-endpoint
+;; title: smart-wallet-endpoint
 ;; version:
 ;; summary:
 ;; description:

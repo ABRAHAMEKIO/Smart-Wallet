@@ -82,18 +82,13 @@ path = 'contracts/smart-wallet-with-rules.clar'
 clarity_version = 3
 epoch = 3.1
 
-[contracts.smart-wallet-with-rules-endpoint]
-path = 'contracts/smart-wallet-with-rules-endpoint.clar'
-clarity_version = 3
-epoch = 3.1
-
 [contracts.smart-wallet-standard]
 path = 'contracts/smart-wallet-standard.clar'
 clarity_version = 3
 epoch = 3.1
 
-[contracts.smart-wallet-standard-endpoint]
-path = 'contracts/smart-wallet-standard-endpoint.clar'
+[contracts.smart-wallet-endpoint]
+path = 'contracts/smart-wallet-endpoint.clar'
 clarity_version = 3
 epoch = 3.1
 

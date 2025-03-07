@@ -20,7 +20,7 @@ import {
   project,
 } from "../../clarigen/src/clarigen-types";
 
-const { smartWalletStandardEndpoint } = projectFactory(project, "simnet");
+const { smartWalletEndpoint } = projectFactory(project, "simnet");
 
 const delegationAmount = 100;
 
@@ -36,11 +36,7 @@ describe("standard wallet with delegate-stx-pox-4 extension", () => {
 
     // delegate to pool admin
     const response = txOk(
-      smartWalletStandardEndpoint.delegateStx(
-        smartWallet,
-        delegationAmount,
-        poolAdmin
-      ),
+      smartWalletEndpoint.delegateStx(smartWallet, delegationAmount, poolAdmin),
       deployer
     );
 

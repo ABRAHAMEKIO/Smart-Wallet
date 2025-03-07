@@ -1,4 +1,4 @@
-import { projectFactory } from "@clarigen/core";
+import { deploymentFactory, projectFactory } from "@clarigen/core";
 import { rovOk, txErr, txOk } from "@clarigen/test";
 import {
   boolCV,
@@ -8,9 +8,13 @@ import {
   trueCV,
 } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
-import { accounts, project } from "../../clarigen/src/clarigen-types";
+import {
+  accounts,
+  deployments,
+  project,
+} from "../../clarigen/src/clarigen-types";
 
-const { smartWalletWithRules, smartWalletWithRulesEndpoint } = projectFactory(
+const { smartWalletWithRules, smartWalletEndpoint } = projectFactory(
   project,
   "simnet"
 );
@@ -72,11 +76,14 @@ describe("test `stx-transfer` public function", () => {
   it("transfers fee to sponsor", async () => {
     const fees = 10000;
     const response = txOk(
-      smartWalletWithRulesEndpoint.stxTransferSponsored({
-        amount: transferAmount,
-        to: accounts.wallet_2.address,
-        fees,
-      }),
+      smartWalletEndpoint.stxTransferSponsored(
+        deployments.smartWalletWithRules.simnet,
+        {
+          amount: transferAmount,
+          to: accounts.wallet_2.address,
+          fees,
+        }
+      ),
       accounts.wallet_1.address
     );
 
