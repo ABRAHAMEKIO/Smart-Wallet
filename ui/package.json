@@ -11,10 +11,9 @@
   },
   "dependencies": {
     "@heroui/react": "^2.6.14",
-    "@stacks/connect": "^7.4.0",
-    "@stacks/connect-react": "^22.2.0",
+    "@stacks/connect": "^8.1.6",
     "@stacks/network": "^7.0.2",
-    "@stacks/transactions": "^7.0.2",
+    "@stacks/transactions": "^7.0.4",
     "axios": "^1.7.9",
     "buffer": "^6.0.3",
     "framer-motion": "^11.18.1",

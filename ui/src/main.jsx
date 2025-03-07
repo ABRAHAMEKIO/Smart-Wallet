@@ -3,8 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./custom.css";
 
-import { Connect } from "@stacks/connect-react";
-
 import { userSession } from "./user-session";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
