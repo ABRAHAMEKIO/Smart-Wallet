@@ -1,9 +1,4 @@
-import {
-  isConnected,
-  connect,
-  disconnect as stacksDisconnect,
-  getLocalStorage,
-} from "@stacks/connect";
+import { AppConfig, showConnect, UserSession } from "@stacks/connect";
 import {
   STACKS_TESTNET,
   STACKS_MAINNET,
@@ -15,8 +10,6 @@ const appConfig = new AppConfig(["store_write", "publish_data"]);
 export const userSession = new UserSession({ appConfig });
 
 export function authenticate() {
-  return connect();
-  return;
   return showConnect({
     appDetails: {
       name: "Smart Wallet",
@@ -31,16 +24,23 @@ export function authenticate() {
 }
 
 export function disconnect() {
-  stacksDisconnect();
+  userSession.signUserOut("/");
 }
 
 export function isUserAuthed() {
-  return isConnected();
+  return userSession.isUserSignedIn();
 }
 
 export function getAddress(network) {
-  const data = getLocalStorage();
-  return data.addresses.stx;
+  const networkVal = {
+    testnet: "testnet",
+    devnet: "testnet",
+    mainnet: "mainnet",
+    mocknet: "mainnet",
+  }[network];
+  return isUserAuthed()
+    ? userSession.loadUserData().profile.stxAddress[networkVal]
+    : "";
 }
 
 export function getNetworks() {
