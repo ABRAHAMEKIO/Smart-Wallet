@@ -1,27 +1,39 @@
 {
-  "name": "test-tests",
-  "version": "1.0.0",
-  "description": "Run unit tests on this project.",
-  "type": "module",
+  "name": "smart-wallet",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "vitest run",
-    "test:report": "vitest run -- --coverage --costs",
-    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\"",
-    "generate": "clarigen"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@clarigen/cli": "^2.0.6",
-    "@clarigen/core": "^2.0.6",
-    "@clarigen/test": "^2.0.6",
-    "@hirosystems/clarinet-sdk": "^2.6.0",
-    "@stacks/transactions": "^6.12.0",
-    "chokidar-cli": "^3.0.0",
-    "typescript": "^5.3.3",
-    "vite": "^5.1.4",
-    "vitest": "^1.3.1",
-    "vitest-environment-clarinet": "^2.0.0"
+    "@heroui/react": "^2.6.14",
+    "@stacks/connect": "^7.4.0",
+    "@stacks/connect-react": "^22.2.0",
+    "@stacks/network": "^7.0.2",
+    "@stacks/transactions": "^7.0.2",
+    "axios": "^1.7.9",
+    "buffer": "^6.0.3",
+    "framer-motion": "^11.18.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.4.0",
+    "react-router-dom": "^7.1.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "vite": "^4.4.5"
   }
 }

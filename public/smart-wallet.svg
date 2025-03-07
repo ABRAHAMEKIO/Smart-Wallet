@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <!-- Wallet base -->
+    <path d="M45 70 L155 70 Q165 70 165 80 L165 140 Q165 150 155 150 L45 150 Q35 150 35 140 L35 80 Q35 70 45 70Z" fill="#5546FF" stroke="#5546FF" stroke-width="2"/>
+
+    <!-- Wallet flap -->
+    <path d="M35 85 L35 75 Q35 60 50 60 L150 60 Q165 60 165 75 L165 85" fill="none" stroke="#5546FF" stroke-width="2"/>
+
+    <!-- Stacks logo stylized element -->
+    <path d="M85 95 L115 95 L115 125 L85 125 Z" fill="none" stroke="white" stroke-width="2"/>
+    <path d="M95 105 L105 105 L105 115 L95 115 Z" fill="white"/>
+
+    <!-- Digital elements -->
+    <circle cx="150" cy="110" r="8" fill="white"/>
+    <rect x="75" y="85" width="50" height="50" fill="none" stroke="white" stroke-width="1" opacity="0.3"/>
+    <rect x="80" y="90" width="40" height="40" fill="none" stroke="white" stroke-width="1" opacity="0.3"/>
+</svg>  

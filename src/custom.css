@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  background-image: linear-gradient(to bottom, #cfd9df 0%, #e2ebf0 100%);
+  background-attachment: fixed;
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 1200px) {
+}
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 480px) {
+
+}
