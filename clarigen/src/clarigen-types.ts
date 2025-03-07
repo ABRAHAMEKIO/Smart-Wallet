@@ -758,10 +758,6 @@ sip013SemiFungibleTokenTrait: {
   },
 smartWalletStandard: {
   "functions": {
-    isAllowedExtension: {"name":"is-allowed-extension","access":"private","args":[{"name":"extension","type":"trait_reference"},{"name":"payload","type":{"buffer":{"length":2048}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[extension: TypedAbiArg<string, "extension">, payload: TypedAbiArg<Uint8Array, "payload">], Response<boolean, bigint>>,
-    isAllowedSip009: {"name":"is-allowed-sip009","access":"private","args":[{"name":"sip009","type":"trait_reference"},{"name":"amount","type":"uint128"},{"name":"recipient","type":"principal"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[sip009: TypedAbiArg<string, "sip009">, amount: TypedAbiArg<number | bigint, "amount">, recipient: TypedAbiArg<string, "recipient">], Response<boolean, bigint>>,
-    isAllowedSip010: {"name":"is-allowed-sip010","access":"private","args":[{"name":"sip010","type":"trait_reference"},{"name":"amount","type":"uint128"},{"name":"recipient","type":"principal"},{"name":"memo","type":{"optional":{"buffer":{"length":34}}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[sip010: TypedAbiArg<string, "sip010">, amount: TypedAbiArg<number | bigint, "amount">, recipient: TypedAbiArg<string, "recipient">, memo: TypedAbiArg<Uint8Array | null, "memo">], Response<boolean, bigint>>,
-    isAllowedStx: {"name":"is-allowed-stx","access":"private","args":[{"name":"amount","type":"uint128"},{"name":"recipient","type":"principal"},{"name":"memo","type":{"optional":{"buffer":{"length":34}}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[amount: TypedAbiArg<number | bigint, "amount">, recipient: TypedAbiArg<string, "recipient">, memo: TypedAbiArg<Uint8Array | null, "memo">], Response<boolean, bigint>>,
     enableAdmin: {"name":"enable-admin","access":"public","args":[{"name":"admin","type":"principal"},{"name":"enabled","type":"bool"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[admin: TypedAbiArg<string, "admin">, enabled: TypedAbiArg<boolean, "enabled">], Response<boolean, bigint>>,
     extensionCall: {"name":"extension-call","access":"public","args":[{"name":"extension","type":"trait_reference"},{"name":"payload","type":{"buffer":{"length":2048}}}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[extension: TypedAbiArg<string, "extension">, payload: TypedAbiArg<Uint8Array, "payload">], Response<boolean, bigint>>,
     sip009Transfer: {"name":"sip009-transfer","access":"public","args":[{"name":"nft-id","type":"uint128"},{"name":"recipient","type":"principal"},{"name":"sip009","type":"trait_reference"}],"outputs":{"type":{"response":{"ok":"bool","error":"uint128"}}}} as TypedAbiFunction<[nftId: TypedAbiArg<number | bigint, "nftId">, recipient: TypedAbiArg<string, "recipient">, sip009: TypedAbiArg<string, "sip009">], Response<boolean, bigint>>,
@@ -798,17 +794,17 @@ smartWalletStandard: {
   constants: {
   errForbidden: {
     isOk: false,
-    value: 403n
+    value: 4_003n
   },
   errUnauthorised: {
     isOk: false,
-    value: 401n
+    value: 4_001n
   }
 },
   "non_fungible_tokens": [
     
   ],
-  "fungible_tokens":[],"epoch":"Epoch31","clarity_version":"Clarity3",
+  "fungible_tokens":[{"name":"ect"}],"epoch":"Epoch31","clarity_version":"Clarity3",
   contractName: 'smart-wallet-standard',
   },
 smartWalletStandardEndpoint: {

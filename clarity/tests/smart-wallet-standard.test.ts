@@ -16,6 +16,7 @@ import {
   uintCV,
 } from "@stacks/transactions";
 import { createExpect, describe, expect, it } from "vitest";
+import { deployments } from "../../clarigen/src/clarigen-types";
 
 const simnet = await initSimnet();
 
@@ -52,6 +53,13 @@ const wrappedBitcoinContract = contractPrincipalCV(
 
 describe("test `smart-wallet-standard` public functions", () => {
   it("transfers 100 stx to wallet", async () => {
+    const stxTransfer = tx.transferSTX(
+      10000000000,
+      deployments.smartWalletStandard.simnet,
+      address1
+    );
+    simnet.mineBlock([stxTransfer]);
+
     const transferResponse = await simnet.callPublicFn(
       smartWalletStandard,
       "stx-transfer",
@@ -62,8 +70,7 @@ describe("test `smart-wallet-standard` public functions", () => {
       "STX Transfer Response:",
       Cl.prettyPrint(transferResponse.result)
     );
-    // not enough funds in the wallet
-    expect(transferResponse.result).toBeErr(Cl.uint(1));
+    expect(transferResponse.result).toBeOk(Cl.bool(true));
   });
 
   it("calls extension with payload", async () => {
@@ -211,17 +218,6 @@ it("checks that extension-call is working", async () => {
   expect(extensionCall.result.type).toBe(ClarityType.ResponseOk);
 });
 
-it("test the is-allowed-stx function", async () => {
-  const IsAllowedStx = simnet.callPrivateFn(
-    smartWalletStandard,
-    "is-allowed-stx",
-    [amountCV, recipientCV, memoCV],
-    deployer
-  );
-  console.log(IsAllowedStx);
-  expect(IsAllowedStx.result).toBeOk(Cl.bool(true));
-});
-
 it("test the transfer-wallet public function", async () => {
   const newAdminAddress = standardPrincipalCV(address3);
   const transferWallet = simnet.callPublicFn(
@@ -233,17 +229,4 @@ it("test the transfer-wallet public function", async () => {
 
   console.log(transferWallet);
   expect(transferWallet.result).toHaveClarityType(ClarityType.ResponseOk);
-});
-
-it("test the is-allowed-extension function", async () => {
-  const payload = contractPrincipalCV(simnet.deployer, smartWalletStandard);
-  const extensionTrait = contractPrincipalCV(simnet.deployer, "ext-test");
-  const IsAllowedExtension = simnet.callPrivateFn(
-    smartWalletStandard,
-    "is-allowed-extension",
-    [extensionTrait, bufferCV(serializeCV(payload))],
-    deployer
-  );
-  console.log(IsAllowedExtension);
-  expect(IsAllowedExtension.result).toBeOk(Cl.bool(true));
 });
