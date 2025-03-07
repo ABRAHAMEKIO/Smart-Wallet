@@ -7,33 +7,43 @@ genesis:
     - name: deployer
       address: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
     - name: faucet
       address: STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
     - name: wallet_1
       address: ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
     - name: wallet_2
       address: ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
     - name: wallet_3
       address: ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
     - name: wallet_4
       address: ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
     - name: wallet_5
       address: ST2REHHS5J3CERCRBEPMGH7921Q6PYKAADT7JP2VB
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
     - name: wallet_6
       address: ST3AM1A56AK2C1XAFJ4115ZSV26EB49BVQ10MGCS0
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
     - name: wallet_7
       address: ST3PF13W7Z0RRM42A8VZRVFQ75SV1K26RXEP8YGKJ
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
     - name: wallet_8
       address: ST3NBRSFKX28FQ2ZJ1MAKX58HKHSDGNV5N7R21XCP
       balance: "100000000000000"
+      sbtc-balance: "1000000000"
   contracts:
     - costs
     - pox
@@ -49,6 +59,11 @@ plan:
   batches:
     - id: 0
       transactions:
+        - emulated-contract-publish:
+            contract-name: sip013-semi-fungible-token-trait
+            emulated-sender: SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V
+            path: "./.cache/requirements/SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait.clar"
+            clarity-version: 1
         - emulated-contract-publish:
             contract-name: nft-trait
             emulated-sender: SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9
@@ -84,16 +99,8 @@ plan:
             emulated-sender: SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR
             path: "./.cache/requirements/SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.Wrapped-Bitcoin.clar"
             clarity-version: 1
-      epoch: "2.0"
+      epoch: "2.1"
     - id: 1
-      transactions:
-        - emulated-contract-publish:
-            contract-name: sip013-semi-fungible-token-trait
-            emulated-sender: SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V
-            path: "./.cache/requirements/SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait.clar"
-            clarity-version: 1
-      epoch: "2.05"
-    - id: 2
       transactions:
         - emulated-contract-publish:
             contract-name: nope
@@ -101,7 +108,7 @@ plan:
             path: "./.cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope.clar"
             clarity-version: 2
       epoch: "2.4"
-    - id: 3
+    - id: 2
       transactions:
         - emulated-contract-publish:
             contract-name: og-bitcoin-pizza-leather-edition
@@ -109,7 +116,7 @@ plan:
             path: "./.cache/requirements/SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition.clar"
             clarity-version: 2
       epoch: "2.5"
-    - id: 4
+    - id: 3
       transactions:
         - emulated-contract-publish:
             contract-name: extension-trait
