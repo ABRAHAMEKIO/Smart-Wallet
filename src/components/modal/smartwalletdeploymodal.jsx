@@ -16,7 +16,7 @@ function SmartWalletDeployModal({ clientConfig, show, close, setTx, setConfirmat
     }
 
     async function deployContract() {
-        let clarityCode = await fetch("/contract/simnet/contracts/smart-wallet.clar");
+        let clarityCode = await fetch("/smart-wallet.clar");
         if (clarityCode.status !== 200) {
             alert("Failed to fetch contract code");
             return;
