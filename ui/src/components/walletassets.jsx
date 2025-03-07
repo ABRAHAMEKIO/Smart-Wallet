@@ -10,10 +10,10 @@ import { bufferCVFromString, cvToValue, fetchCallReadOnlyFunction, noneCV, Pc, P
 import { network } from '../lib/constants';
 import { openContractCall } from '@stacks/connect';
 
-const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractState, setConfirmationModal, setTx }) => {
+const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractState, setConfirmationModal, setTx, sharedAddress }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
     const contractName = "smart-wallet";
-    const smartWalletAddress = `${userAddress}.${contractName}`;
+    const smartWalletAddress = `${sharedAddress || userAddress}.${contractName}`;
 
     const [selectedToken, setSelectedToken] = useState();
     const [assetMeta, setAssetMeta] = useState();
@@ -97,7 +97,7 @@ const Walletassets = ({ clientConfig, fungibleToken, nonFungibleToken, contractS
             contractAddress: asset_identifier.split('.')[0],
             contractName: asset_identifier.split('::')[0].split(".")[1],
             functionName: 'transfer',
-            functionArgs: [uintCV(value), principalCV(smartWalletAddress), principalCV(userAddress)],
+            functionArgs: [uintCV(value), principalCV(smartWalletAddress), principalCV(address)],
             network: network(clientConfig?.chain),
             postConditions: [condition],
             postConditionMode: PostConditionMode.Deny,

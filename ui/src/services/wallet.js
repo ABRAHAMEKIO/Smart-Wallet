@@ -5,9 +5,9 @@ import { Buffer } from "buffer";
 import { network } from "../lib/constants";
 import { clientFromNetwork } from "@stacks/network";
 
-export async function getSmartWalletBalance(clientConfig) {
+export async function getSmartWalletBalance(address, clientConfig) {
     const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
-    const contractAddress = `${userAddress}.smart-wallet`;
+    const contractAddress = `${address || userAddress}.smart-wallet`;
     const { data, status } = await axios.get(`${clientConfig?.api}/extended/v1/address/${contractAddress}/balances`);
     const { fungible_tokens, non_fungible_tokens, stx } = data;
 
@@ -16,7 +16,7 @@ export async function getSmartWalletBalance(clientConfig) {
         return { contract_id: key, ...fungible_tokens[key], name: key.split('::')[1], contract_principal: key.split('::')[0] };
     });
     const nonFungibleTokens = await Promise.all(Object.keys(non_fungible_tokens).map(async (key) => {
-        let asset = (await axios.get(`${clientConfig?.api}/extended/v1/tokens/nft/holdings?principal=${userAddress}&asset_identifiers=${key}&offset=0&limit=50`)).data?.results;
+        let asset = (await axios.get(`${clientConfig?.api}/extended/v1/tokens/nft/holdings?principal=${contractAddress}&asset_identifiers=${key}&offset=0&limit=50`)).data?.results;
         asset = asset?.map((values) => {
             const hexvals = hexToCV(values?.value?.hex);
             const buffValue = hexvals?.value?.name ? Buffer.from(hexvals?.value?.name?.value, "hex").toString() : values?.value?.repr.slice(1);
@@ -56,10 +56,10 @@ export async function getUserBalance(clientConfig) {
     return { stx: { ...stx, rate }, fungibleTokens, nonFungibleTokens: nonFungibleTokens.flat() };
 }
 
-export async function getWalletContractInfo(clientConfig) {
+export async function getWalletContractInfo(address, clientConfig) {
     let result;
     const userAddress = userSession?.loadUserData()?.profile?.stxAddress[clientConfig?.network];
-    const smartWalletAddress = `${userAddress}.smart-wallet`;
+    const smartWalletAddress = `${address || userAddress}.smart-wallet`;
 
     try {
         const contractInfoData = await (await axios.get(`${clientConfig?.api}/extended/v2/smart-contracts/status?contract_id=${smartWalletAddress}`)).data
