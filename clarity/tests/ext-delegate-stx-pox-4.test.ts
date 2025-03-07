@@ -4,16 +4,12 @@ import {
   hexToBytes,
   projectFactory,
 } from "@clarigen/core";
-import { filterEvents, rovOk, txErr, txOk } from "@clarigen/test";
+import { filterEvents, txOk } from "@clarigen/test";
+import { tx } from "@hirosystems/clarinet-sdk";
 import {
   boolCV,
   bufferCV,
-  Cl,
-  ClarityType,
-  contractPrincipalCV,
   principalCV,
-  standardPrincipalCV,
-  trueCV,
   tupleCV,
   uintCV,
 } from "@stacks/transactions";
@@ -23,9 +19,6 @@ import {
   deployments,
   project,
 } from "../../clarigen/src/clarigen-types";
-import { serialize } from "@clarigen/cli";
-import { tx } from "@hirosystems/clarinet-sdk";
-import { bool, principal } from "@stacks/transactions/dist/cl";
 
 const { smartWalletStandardEndpoint } = projectFactory(project, "simnet");
 
@@ -34,18 +27,20 @@ const delegationAmount = 100;
 const deployer = accounts.deployer.address;
 const poolAdmin = accounts.wallet_2.address;
 
+const smartWallet = deployments.smartWalletStandard.simnet;
+
 describe("standard wallet with delegate-stx-pox-4 extension", () => {
   it("user can delegate and pool admin can lock", async () => {
-    const stxTransfer = tx.transferSTX(
-      10000000000,
-      deployments.smartWalletStandard.simnet,
-      deployer
-    );
+    const stxTransfer = tx.transferSTX(10000000000, smartWallet, deployer);
     simnet.mineBlock([stxTransfer]);
 
     // delegate to pool admin
     const response = txOk(
-      smartWalletStandardEndpoint.delegateStx(delegationAmount, poolAdmin),
+      smartWalletStandardEndpoint.delegateStx(
+        smartWallet,
+        delegationAmount,
+        poolAdmin
+      ),
       deployer
     );
 
@@ -85,9 +80,7 @@ describe("standard wallet with delegate-stx-pox-4 extension", () => {
     const [stxEvent] = stxEvents;
     expect(stxEvent.data.amount).toEqual(delegationAmount.toString());
 
-    expect(stxEvent.data.sender).toEqual(
-      deployments.smartWalletStandard.simnet
-    );
+    expect(stxEvent.data.sender).toEqual(smartWallet);
     expect(stxEvent.data.recipient).toEqual(
       deployments.extDelegateStxPox4.simnet
     );

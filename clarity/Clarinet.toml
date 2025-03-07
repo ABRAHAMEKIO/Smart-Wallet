@@ -102,6 +102,12 @@ path = 'contracts/smart-wallet-trait.clar'
 clarity_version = 3
 epoch = 3.1
 
+
+[contracts.smart-wallet-with-rules-trait]
+path = 'contracts/smart-wallet-with-rules-trait.clar'
+clarity_version = 3
+epoch = 3.1
+
 [contracts.standard-rules]
 path = 'contracts/rules/standard-rules.clar'
 clarity_version = 3
