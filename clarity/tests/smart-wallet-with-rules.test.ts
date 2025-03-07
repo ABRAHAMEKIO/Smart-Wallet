@@ -1,4 +1,4 @@
-import { deploymentFactory, projectFactory } from "@clarigen/core";
+import { projectFactory } from "@clarigen/core";
 import { rovOk, txErr, txOk } from "@clarigen/test";
 import {
   boolCV,
@@ -28,7 +28,7 @@ function hasAmountProperty(data: any): data is { amount: string } {
   return (data as { amount: string }).amount !== undefined;
 }
 
-describe("test `stx-transfer` public function", () => {
+describe("Smart Wallet with rules", () => {
   it("transfers 100 stx to wallet", async () => {
     const response = txOk(
       smartWalletWithRules.stxTransfer(
@@ -38,8 +38,7 @@ describe("test `stx-transfer` public function", () => {
       ),
       accounts.wallet_1.address
     );
-    console.log(response);
-    expect(response.result.type).toBe(ClarityType.ResponseOk);
+    expect(response.result).toBeOk(trueCV());
   });
 
   it("transfers 100 sip10 tokens to wallet", async () => {
@@ -108,7 +107,6 @@ it("test the enable-admin public function", async () => {
     ezra
   );
 
-  console.log(enableAdmin);
   expect(enableAdmin.result).toHaveClarityType(ClarityType.ResponseErr);
 });
 
@@ -118,7 +116,6 @@ it("checks that set-security-level is working", async () => {
     accounts.deployer.address
   );
 
-  console.log(setSecurityLevel);
   expect(setSecurityLevel.result.type).toBe(ClarityType.ResponseOk);
 });
 
@@ -126,6 +123,5 @@ it("checks that is-admin-calling is working", async () => {
   const isAdminCalling = rovOk(smartWalletWithRules.isAdminCalling());
   accounts.wallet_1.address;
 
-  console.log(isAdminCalling);
   expect(isAdminCalling).toBeOk;
 });

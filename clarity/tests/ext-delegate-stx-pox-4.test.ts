@@ -13,14 +13,17 @@ import {
   tupleCV,
   uintCV,
 } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { describe, expect, test } from "vitest";
 import {
   accounts,
   deployments,
   project,
 } from "../../clarigen/src/clarigen-types";
 
-const { smartWalletEndpoint } = projectFactory(project, "simnet");
+const { smartWalletEndpoint, extDelegateStxPox4 } = projectFactory(
+  project,
+  "simnet"
+);
 
 const delegationAmount = 100;
 
@@ -28,15 +31,20 @@ const deployer = accounts.deployer.address;
 const poolAdmin = accounts.wallet_2.address;
 
 const smartWallet = deployments.smartWalletStandard.simnet;
-
-describe("standard wallet with delegate-stx-pox-4 extension", () => {
-  it("user can delegate and pool admin can lock", async () => {
+const delegateExtension = deployments.extDelegateStxPox4.simnet;
+describe("Standard wallet with delegate-stx-pox-4 extension", () => {
+  test("that user can delegate and pool admin can lock", async () => {
     const stxTransfer = tx.transferSTX(10000000000, smartWallet, deployer);
     simnet.mineBlock([stxTransfer]);
 
     // delegate to pool admin
     const response = txOk(
-      smartWalletEndpoint.delegateStx(smartWallet, delegationAmount, poolAdmin),
+      smartWalletEndpoint.delegateStx(
+        smartWallet,
+        delegateExtension,
+        delegationAmount,
+        poolAdmin
+      ),
       deployer
     );
 
@@ -47,7 +55,7 @@ describe("standard wallet with delegate-stx-pox-4 extension", () => {
       response.events,
       CoreNodeEventType.ContractEvent
     );
-    expect(printEvents.length).toEqual(1);
+    expect(printEvents.length).toEqual(2);
     const [print] = printEvents;
     const printData = cvToValue<{
       a: string;
