@@ -8,7 +8,8 @@
     "test": "vitest run",
     "test:report": "vitest run -- --coverage --costs",
     "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\"",
-    "generate": "clarigen generate"
+    "generate": "clarigen generate",
+    "update:ui": "cp ./contracts/smart-wallet-standard.clar ./../ui/public/smart-wallet.clar"
   },
   "author": "",
   "license": "ISC",
