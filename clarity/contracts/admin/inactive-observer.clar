@@ -4,7 +4,7 @@
 ;; summary:
 ;; description:
 
-(use-trait smart-wallet-trait .smart-wallet-trait.smart-wallet-trait)
+(use-trait smart-wallet-trait .smart-wallet-with-rules-trait.smart-wallet-trait)
 
 (define-public (close-smart-wallet (wallet <smart-wallet-trait>))
     (match (contract-call? wallet is-inactive)

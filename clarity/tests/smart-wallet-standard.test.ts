@@ -1,5 +1,4 @@
-import { tx } from "@hirosystems/clarinet-sdk";
-import { initSimnet } from "@hirosystems/clarinet-sdk";
+import { initSimnet, tx } from "@hirosystems/clarinet-sdk";
 import {
   boolCV,
   bufferCV,
@@ -21,10 +20,10 @@ import { deployments } from "../../clarigen/src/clarigen-types";
 const simnet = await initSimnet();
 
 const accounts = simnet.getAccounts();
-const deployer = accounts.get("deployer");
-const address1 = accounts.get("wallet_1");
-const address2 = accounts.get("wallet_2");
-const address3 = accounts.get("wallet_3");
+const deployer = accounts.get("deployer")!;
+const address1 = accounts.get("wallet_1")!;
+const address2 = accounts.get("wallet_2")!;
+const address3 = accounts.get("wallet_3")!;
 
 if (!deployer || !address2 || !address3) {
   throw new Error("One or more required addresses are undefined.");
@@ -51,7 +50,7 @@ const wrappedBitcoinContract = contractPrincipalCV(
   xBTC
 );
 
-describe("test `smart-wallet-standard` public functions", () => {
+describe("Standard Smart Wallet", () => {
   it("transfers 100 stx to wallet", async () => {
     const stxTransfer = tx.transferSTX(
       10000000000,
@@ -66,10 +65,6 @@ describe("test `smart-wallet-standard` public functions", () => {
       [amountCV, recipientCV, memoCV],
       deployer
     );
-    console.log(
-      "STX Transfer Response:",
-      Cl.prettyPrint(transferResponse.result)
-    );
     expect(transferResponse.result).toBeOk(Cl.bool(true));
   });
 
@@ -80,10 +75,6 @@ describe("test `smart-wallet-standard` public functions", () => {
       "extension-call",
       [extTest, bufferCV(serializeCV(payload))],
       deployer
-    );
-    console.log(
-      "Extension Call Response:",
-      Cl.prettyPrint(extensionResponse.result)
     );
     expect(extensionResponse.result.type).toBe(ClarityType.ResponseOk);
   });
@@ -126,10 +117,6 @@ describe("test `smart-wallet-standard` public functions", () => {
       [amountCV, recipientCV, memoCV, wrappedBitcoinContract],
       deployer
     );
-    console.log(
-      "SIP-10 Transfer Response:",
-      Cl.prettyPrint(sip10transfer.result)
-    );
     expect(sip10transfer.result).toBeErr(Cl.uint(4)); // xBTC defines that tx-sender must be token sender
   });
 
@@ -155,7 +142,6 @@ describe("test `smart-wallet-standard` public functions", () => {
       [NftId, recipientCV, sip009Contract],
       deployer
     );
-    console.log("NFT Transfer Response:", Cl.prettyPrint(sip9transfer.result));
     expect(sip9transfer.result).toBeErr(uintCV(101)); // nft defines that tx-sender must be owner
   });
 
@@ -167,10 +153,7 @@ describe("test `smart-wallet-standard` public functions", () => {
       [adminAddress, boolCV(true)],
       deployer
     );
-    console.log(
-      "Enable Admin Response:",
-      Cl.prettyPrint(enableAdminResponse.result)
-    );
+
     expect(enableAdminResponse.result.type).toBe(ClarityType.ResponseOk);
   });
 
@@ -181,10 +164,6 @@ describe("test `smart-wallet-standard` public functions", () => {
       "transfer-wallet",
       [newAdminAddress],
       deployer
-    );
-    console.log(
-      "Transfer Wallet Response:",
-      Cl.prettyPrint(transferWalletResponse.result)
     );
     expect(transferWalletResponse.result.type).toBe(ClarityType.ResponseOk);
   });
@@ -199,7 +178,6 @@ it("fails to enable-admin not normal user", async () => {
     address1 // not current admin
   );
 
-  console.log(enableAdmin);
   expect(enableAdmin.result).toHaveClarityType(ClarityType.ResponseErr);
 });
 

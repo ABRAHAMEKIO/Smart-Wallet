@@ -4,7 +4,6 @@
 ;; summary:
 ;; description:
 
-(use-trait smart-wallet-trait .smart-wallet-trait.smart-wallet-trait)
 (define-constant err-invalid-payload (err u500))
 (define-constant err-invalid-caller (err u501))
 

@@ -8,9 +8,13 @@ import {
   trueCV,
 } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
-import { accounts, project } from "../../clarigen/src/clarigen-types";
+import {
+  accounts,
+  deployments,
+  project,
+} from "../../clarigen/src/clarigen-types";
 
-const { smartWalletWithRules, smartWalletWithRulesEndpoint } = projectFactory(
+const { smartWalletWithRules, smartWalletEndpoint } = projectFactory(
   project,
   "simnet"
 );
@@ -24,7 +28,7 @@ function hasAmountProperty(data: any): data is { amount: string } {
   return (data as { amount: string }).amount !== undefined;
 }
 
-describe("test `stx-transfer` public function", () => {
+describe("Smart Wallet with rules", () => {
   it("transfers 100 stx to wallet", async () => {
     const response = txOk(
       smartWalletWithRules.stxTransfer(
@@ -34,8 +38,7 @@ describe("test `stx-transfer` public function", () => {
       ),
       accounts.wallet_1.address
     );
-    console.log(response);
-    expect(response.result.type).toBe(ClarityType.ResponseOk);
+    expect(response.result).toBeOk(trueCV());
   });
 
   it("transfers 100 sip10 tokens to wallet", async () => {
@@ -72,11 +75,14 @@ describe("test `stx-transfer` public function", () => {
   it("transfers fee to sponsor", async () => {
     const fees = 10000;
     const response = txOk(
-      smartWalletWithRulesEndpoint.stxTransferSponsored({
-        amount: transferAmount,
-        to: accounts.wallet_2.address,
-        fees,
-      }),
+      smartWalletEndpoint.stxTransferSponsored(
+        deployments.smartWalletWithRules.simnet,
+        {
+          amount: transferAmount,
+          to: accounts.wallet_2.address,
+          fees,
+        }
+      ),
       accounts.wallet_1.address
     );
 
@@ -101,7 +107,6 @@ it("test the enable-admin public function", async () => {
     ezra
   );
 
-  console.log(enableAdmin);
   expect(enableAdmin.result).toHaveClarityType(ClarityType.ResponseErr);
 });
 
@@ -111,7 +116,6 @@ it("checks that set-security-level is working", async () => {
     accounts.deployer.address
   );
 
-  console.log(setSecurityLevel);
   expect(setSecurityLevel.result.type).toBe(ClarityType.ResponseOk);
 });
 
@@ -119,6 +123,5 @@ it("checks that is-admin-calling is working", async () => {
   const isAdminCalling = rovOk(smartWalletWithRules.isAdminCalling());
   accounts.wallet_1.address;
 
-  console.log(isAdminCalling);
   expect(isAdminCalling).toBeOk;
 });
