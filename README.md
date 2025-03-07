@@ -12,8 +12,8 @@ An earlier versions of smart wallets on Stacks was develop by Hiro Systems: [Sma
 
 ### Complicated Smart Wallet
 
-- smart-wallet.clar: most experimental wallet that uses rules with limits and inactivity tracker
-- smart-wallet-endpoint.clar: user facing functions
+- smart-wallet-with-rules.clar: most experimental wallet that uses rules with limits and inactivity tracker
+- smart-wallet-with-rules-endpoint.clar: user facing functions
 
 ### Basic Smart Wallet
 
