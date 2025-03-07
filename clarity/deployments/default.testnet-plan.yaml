@@ -1,0 +1,208 @@
+---
+id: 0
+name: Testnet deployment
+network: testnet
+stacks-node: "https://api.testnet.hiro.so"
+bitcoin-node: "http://blockstack:blockstacksystem@bitcoind.testnet.stacks.co:18332"
+plan:
+  batches:
+    - id: 0
+      transactions:
+        - requirement-publish:
+            contract-id: SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 4680
+            path: "./.cache/requirements/SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait.clar"
+            clarity-version: 1
+        - requirement-publish:
+            contract-id: SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335.commission-trait
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 700
+            path: "./.cache/requirements/SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335.commission-trait.clar"
+            clarity-version: 1
+        - requirement-publish:
+            contract-id: SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.micro-nthng
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 8860
+            path: "./.cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.micro-nthng.clar"
+            clarity-version: 1
+        - requirement-publish:
+            contract-id: SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 8400
+            path: "./.cache/requirements/SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.clar"
+            clarity-version: 1
+        - requirement-publish:
+            contract-id: SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.ft-trait
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 8350
+            path: "./.cache/requirements/SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.ft-trait.clar"
+            clarity-version: 1
+        - requirement-publish:
+            contract-id: SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.restricted-token-trait
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 5480
+            path: "./.cache/requirements/SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.restricted-token-trait.clar"
+            clarity-version: 1
+        - requirement-publish:
+            contract-id: SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.Wrapped-Bitcoin
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 104220
+            path: "./.cache/requirements/SP3DX3H4FEYZJZ586MFBS25ZW3HZDMEW92260R2PR.Wrapped-Bitcoin.clar"
+            clarity-version: 1
+      epoch: "2.0"
+    - id: 1
+      transactions:
+        - requirement-publish:
+            contract-id: SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 9620
+            path: "./.cache/requirements/SPDBEG5X8XD50SPM1JJH0E5CTXGDV5NJTKAKKR5V.sip013-semi-fungible-token-trait.clar"
+            clarity-version: 1
+      epoch: "2.05"
+    - id: 2
+      transactions:
+        - requirement-publish:
+            contract-id: SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 51810
+            path: "./.cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.nope.clar"
+            clarity-version: 2
+      epoch: "2.4"
+    - id: 3
+      transactions:
+        - requirement-publish:
+            contract-id: SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition
+            remap-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            remap-principals:
+              SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 387280
+            path: "./.cache/requirements/SP16GEW6P7GBGZG0PXRXFJEMR3TJHJEY2HJKBP1P5.og-bitcoin-pizza-leather-edition.clar"
+            clarity-version: 2
+      epoch: "2.5"
+    - id: 4
+      transactions:
+        - contract-publish:
+            contract-name: extension-trait
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 164
+            path: contracts/extension-trait.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: emergency-rules
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 371
+            path: contracts/rules/emergency-rules.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: smart-wallet-trait
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 380
+            path: contracts/smart-wallet-trait.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: ext-delegate-stx-pox-4
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 2159
+            path: contracts/extensions/ext-delegate-stx-pox-4.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: ext-sponsored-transfer
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 857
+            path: contracts/extensions/ext-sponsored-transfer.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: ext-test
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 328
+            path: contracts/tests/ext-test.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: ext-unsafe-sip010-transfer
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 936
+            path: contracts/extensions/ext-unsafe-sip010-transfer.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: inactive-observer
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 425
+            path: contracts/admin/inactive-observer.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: no-rules
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 355
+            path: contracts/rules/no-rules.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: rule-set-trait
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 292
+            path: contracts/rule-set-trait.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: smart-wallet-standard
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 2823
+            path: contracts/smart-wallet-standard.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: smart-wallet-standard-endpoint
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 772
+            path: contracts/smart-wallet-standard-endpoint.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: standard-rules
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 821
+            path: contracts/rules/standard-rules.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: smart-wallet-with-rules
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 3825
+            path: contracts/smart-wallet-with-rules.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: smart-wallet-with-rules-endpoint
+            expected-sender: ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS
+            cost: 398
+            path: contracts/smart-wallet-with-rules-endpoint.clar
+            anchor-block-only: true
+            clarity-version: 3
+      epoch: "3.1"

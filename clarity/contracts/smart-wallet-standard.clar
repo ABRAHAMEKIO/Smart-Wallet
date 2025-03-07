@@ -10,7 +10,7 @@
 (define-constant err-forbidden (err u4003))
 (define-fungible-token ect )
 (define-read-only (is-admin-calling)
-	(ok (asserts! (default-to false (map-get? admins contract-caller)) err-unauthorised))
+	(ok (asserts! (default-to false (map-get? admins tx-sender)) err-unauthorised))
 )
 
 ;;
