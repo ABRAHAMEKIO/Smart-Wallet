@@ -10,9 +10,8 @@ import { network } from '../../lib/constants';
 import { userSession } from '../../user-session';
 import { openContractCall, openSTXTransfer } from '@stacks/connect';
 
-const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungibleToken, setTx, setConfirmationModal, contractState }) => {
+const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungibleToken, setTx, setConfirmationModal, contractState, smartWalletAddress }) => {
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
-    const walletAddress = `${userAddress}.smart-wallet`;
 
     const [isDisabled, setIsDisabled] = useState(false);
     const [selectedToken, setSelectedToken] = useState();
@@ -71,11 +70,10 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
         const { name, contract_id } = selectedToken;
         if (name === 'stx') {
             const stxTxAmount = actualtoUmicroValue(amount, selectedToken?.decimal);
-            console.log({ stxTxAmount })
             const condition0 = Pc.principal(userAddress).willSendLte(stxTxAmount).ustx();
             openSTXTransfer({
                 amount: stxTxAmount,
-                recipient: walletAddress,
+                recipient: smartWalletAddress,
                 memo: memo,
                 stxAddress: userAddress,
                 network: network(clientConfig?.chain),
@@ -100,7 +98,7 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
             contractAddress: contract_id.split('.')[0],
             contractName: contract_id.split('::')[0].split('.')[1],
             functionName: 'transfer',
-            functionArgs: [uintCV(ftTxAmount), principalCV(userAddress), principalCV(walletAddress), mem],
+            functionArgs: [uintCV(ftTxAmount), principalCV(userAddress), principalCV(smartWalletAddress), mem],
             network: network(clientConfig?.chain),
             stxAddress: userAddress,
             postConditions: [condition1],
@@ -124,7 +122,7 @@ const DepositModal = ({ clientConfig, show, close, stx, fungibleToken, nonFungib
             contractAddress: asset_identifier.split('.')[0],
             contractName: asset_identifier.split('::')[0].split(".")[1],
             functionName: 'transfer',
-            functionArgs: [uintCV(value), principalCV(userAddress), principalCV(walletAddress)],
+            functionArgs: [uintCV(value), principalCV(userAddress), principalCV(smartWalletAddress)],
             network: network(clientConfig?.chain),
             postConditions: [condition],
             postConditionMode: PostConditionMode.Deny,

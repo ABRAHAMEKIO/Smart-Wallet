@@ -5,19 +5,16 @@ import { userSession } from '../user-session';
 import { PostConditionMode, principalCV } from '@stacks/transactions';
 import { network } from '../lib/constants';
 
-const Wallettransfer = ({ clientConfig, contractState, setConfirmationModal, setTx }) => {
+const Wallettransfer = ({ clientConfig, contractState, setConfirmationModal, setTx, smartWalletAddress }) => {
     const [agree, setAgree] = useState(false);
     const [address, setAdress] = useState('');
-
+    const [contractAddress, contractName] = smartWalletAddress.split('.');
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
-    const contractName = 'smart-wallet';
-
-    console.log({ agree, address, contractState });
 
     function transferWalletOwnerShip() {
         openContractCall({
-            contractAddress: userAddress,
-            contractName,
+            contractAddress: contractAddress,
+            contractName: contractName,
             functionName: 'transfer-wallet',
             functionArgs: [principalCV(address)],
             network: network(clientConfig?.chain),
@@ -31,11 +28,11 @@ const Wallettransfer = ({ clientConfig, contractState, setConfirmationModal, set
     }
 
     return (
-        <div className='w-full flex flex-col gap-5 items-center p-5'>            
+        <div className='w-full flex flex-col gap-5 items-center p-5'>
 
-            <div className='w-full flex gap-5 flex-col'>               
+            <div className='w-full flex gap-5 flex-col'>
                 <Input label='Address' placeholder='Enter address' value={address} onChange={(e) => setAdress(e.target.value)} />
-                <Button isDisabled={!((agree && address) && contractState)} color='warning' onPress={transferWalletOwnerShip}>Transfer Wallet</Button>
+                <Button isDisabled={!(address && contractState)} color='warning' onPress={transferWalletOwnerShip}>Transfer Wallet</Button>
             </div>
 
         </div>

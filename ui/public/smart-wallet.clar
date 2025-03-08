@@ -1,10 +1,10 @@
 ;; title: smart-wallet-standard
 ;; version: 1
 ;; summary: Extendible smart wallet with standard SIP-010 and SIP-009 support
-(use-trait extension-trait .extension-trait.extension-trait)
+(use-trait extension-trait 'ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS.extension-trait.extension-trait)
 
-(use-trait sip-010-trait 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.sip-010-trait)
-(use-trait sip-009-trait 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait.nft-trait)
+(use-trait sip-010-trait 'ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS.sip-010-trait-ft-standard.sip-010-trait)
+(use-trait sip-009-trait 'ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS.nft-trait.nft-trait)
 
 (define-constant err-unauthorised (err u4001))
 (define-constant err-forbidden (err u4003))
