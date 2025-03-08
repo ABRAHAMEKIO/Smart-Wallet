@@ -1,1 +1,1 @@
-export const delegate_address = "ST30RNTQNY63F6XR66J2Q3WP1THZT3VHZGYEXA9XX.ext-delegate-stx-pox-4";
+export const delegate_address = "ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS.ext-delegate-stx-pox-4";

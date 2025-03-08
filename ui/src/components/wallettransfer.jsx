@@ -32,7 +32,7 @@ const Wallettransfer = ({ clientConfig, contractState, setConfirmationModal, set
 
             <div className='w-full flex gap-5 flex-col'>
                 <Input label='Address' placeholder='Enter address' value={address} onChange={(e) => setAdress(e.target.value)} />
-                <Button isDisabled={!((agree && address) && contractState)} color='warning' onPress={transferWalletOwnerShip}>Transfer Wallet</Button>
+                <Button isDisabled={!(address && contractState)} color='warning' onPress={transferWalletOwnerShip}>Transfer Wallet</Button>
             </div>
 
         </div>
