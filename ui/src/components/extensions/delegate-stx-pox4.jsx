@@ -10,7 +10,7 @@ import { bufferFromAscii, serialize, stringAscii } from '@stacks/transactions/di
 
 const DelegateStxPox4 = ({ clientConfig, contractState, setConfirmationModal, setTx, smartWalletStx, smartWalletAddress }) => {
     const [amount, setAmount] = useState(0.1);
-    const [address, setAddress] = useState('');
+    const [address, setAddress] = useState(smartWalletAddress);
     const [lockPeriod, setLockPeriod] = useState(1);
 
     const userAddress = userSession.loadUserData().profile.stxAddress[clientConfig?.chain];
