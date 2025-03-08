@@ -1,4 +1,4 @@
-name: UI Checks
+name: Clarity Checks
 on:
   push:
     branches: [ "main" ]

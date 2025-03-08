@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "description": "Smart Wallet Clarity contracts and UI",
+  "scripts": {
+    "prepare": "echo \"installed!\""
+  }
+}
