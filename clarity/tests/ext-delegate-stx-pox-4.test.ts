@@ -55,7 +55,7 @@ describe("Standard wallet with delegate-stx-pox-4 extension", () => {
       response.events,
       CoreNodeEventType.ContractEvent
     );
-    expect(printEvents.length).toEqual(2);
+    expect(printEvents.length).toEqual(1);
     const [print] = printEvents;
     const printData = cvToValue<{
       a: string;
