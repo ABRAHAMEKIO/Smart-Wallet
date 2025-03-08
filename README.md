@@ -18,11 +18,14 @@ An earlier versions of smart wallets on Stacks was develop by Hiro Systems: [Sma
 ### Basic Smart Wallet
 
 - smart-wallet-standard.clar: just a simple wallet
-- smart-wallet-standard-endpoint.clar: user facing functions
 
 ## Extensions
 
 Extensions are smart contracts that can be execute anything in the name of the smart contract. The expect a buffer as payload containing a serialized Clarity Value of a certain type. The tx-sender and contract-caller of the extension is the smart wallet.
+
+There is a stateless contract that provides convenient functions to popular call extensions
+
+- smart-wallet-endpoint.clar: user facing functions
 
 ### Sponsored STX transfer
 
