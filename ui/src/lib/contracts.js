@@ -1,0 +1,1 @@
+export const delegate_address = "ST3FFRX7C911PZP5RHE148YDVDD9JWVS6FZRA60VS.ext-delegate-stx-pox-4";

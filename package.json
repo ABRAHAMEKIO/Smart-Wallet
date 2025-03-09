@@ -1,27 +1,7 @@
 {
-  "name": "test-tests",
-  "version": "1.0.0",
-  "description": "Run unit tests on this project.",
-  "type": "module",
   "private": true,
+  "description": "Smart Wallet Clarity contracts and UI",
   "scripts": {
-    "test": "vitest run",
-    "test:report": "vitest run -- --coverage --costs",
-    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\"",
-    "generate": "clarigen"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@clarigen/cli": "^2.0.6",
-    "@clarigen/core": "^2.0.6",
-    "@clarigen/test": "^2.0.6",
-    "@hirosystems/clarinet-sdk": "^2.6.0",
-    "@stacks/transactions": "^6.12.0",
-    "chokidar-cli": "^3.0.0",
-    "typescript": "^5.3.3",
-    "vite": "^5.1.4",
-    "vitest": "^1.3.1",
-    "vitest-environment-clarinet": "^2.0.0"
+    "prepare": "echo \"installed!\""
   }
 }
