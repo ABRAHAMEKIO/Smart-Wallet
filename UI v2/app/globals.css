@@ -1,0 +1,375 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 262.1 83.3% 57.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.bg-grid-white\/5 {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+}
+
+/* Modern Crypto UI Styles */
+.crypto-card {
+  @apply relative overflow-hidden rounded-xl border border-gray-800 bg-black p-6;
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.8) 0%, rgba(10, 10, 10, 0.9) 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 30px rgba(128, 90, 213, 0.1) inset;
+  backdrop-filter: blur(10px);
+}
+
+.crypto-card-highlight {
+  @apply relative overflow-hidden rounded-xl border border-gray-800 bg-black p-6;
+  background: linear-gradient(135deg, rgba(40, 40, 40, 0.8) 0%, rgba(15, 15, 15, 0.9) 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 30px rgba(128, 90, 213, 0.2) inset;
+  backdrop-filter: blur(10px);
+}
+
+.crypto-glow {
+  position: relative;
+}
+
+.crypto-glow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(128, 90, 213, 0.5), transparent);
+}
+
+.crypto-gradient-text {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(90deg, #9c6dff, #6d8dff);
+}
+
+.crypto-gradient-purple {
+  background: linear-gradient(135deg, rgba(128, 90, 213, 0.2) 0%, rgba(76, 29, 149, 0.1) 100%);
+}
+
+.crypto-gradient-blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%);
+}
+
+.crypto-gradient-green {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.1) 100%);
+}
+
+.crypto-gradient-red {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.1) 100%);
+}
+
+.crypto-blur-bg {
+  @apply relative;
+}
+
+.crypto-blur-bg::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(128, 90, 213, 0.3) 0%, transparent 70%);
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.crypto-blur-bg::after {
+  content: "";
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.glass-effect {
+  background: rgba(20, 20, 20, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(270deg, #0f172a, #1e293b, #0f172a);
+  background-size: 600% 600%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+.crypto-button {
+  @apply relative overflow-hidden rounded-lg px-5 py-2.5 transition-all duration-300;
+  background: linear-gradient(90deg, rgba(128, 90, 213, 0.8), rgba(76, 29, 149, 0.8));
+  box-shadow: 0 4px 15px rgba(128, 90, 213, 0.3);
+}
+
+.crypto-button:hover {
+  background: linear-gradient(90deg, rgba(128, 90, 213, 1), rgba(76, 29, 149, 1));
+  box-shadow: 0 4px 20px rgba(128, 90, 213, 0.5);
+}
+
+.crypto-button-outline {
+  @apply relative overflow-hidden rounded-lg border border-gray-700 bg-transparent px-5 py-2.5 transition-all duration-300;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.crypto-button-outline:hover {
+  @apply border-primary/50;
+  box-shadow: 0 4px 20px rgba(128, 90, 213, 0.2);
+}
+
+.token-icon {
+  @apply flex h-10 w-10 items-center justify-center rounded-full;
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.8) 0%, rgba(10, 10, 10, 0.9) 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(128, 90, 213, 0.1) inset;
+}
+
+.token-icon-stx {
+  background: linear-gradient(135deg, rgba(128, 90, 213, 0.2) 0%, rgba(76, 29, 149, 0.1) 100%);
+}
+
+.token-icon-btc {
+  background: linear-gradient(135deg, rgba(247, 147, 26, 0.2) 0%, rgba(247, 147, 26, 0.1) 100%);
+}
+
+.token-icon-mno {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%);
+}
+
+.crypto-card-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.crypto-card-glow::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(128, 90, 213, 0.1) 0%, transparent 60%);
+  transform: rotate(30deg);
+  z-index: 0;
+}
+
+.crypto-card-glow > * {
+  position: relative;
+  z-index: 1;
+}
+
+.crypto-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(128, 90, 213, 0.3), transparent);
+}
+
+.crypto-input {
+  @apply rounded-lg border border-gray-800 bg-gray-900 px-4 py-2 transition-all duration-300;
+}
+
+.crypto-input:focus {
+  @apply border-primary/50 outline-none;
+  box-shadow: 0 0 0 2px rgba(128, 90, 213, 0.2);
+}
+
+.crypto-tab {
+  @apply relative rounded-lg px-4 py-2 text-sm font-medium text-gray-400 transition-all duration-300;
+}
+
+.crypto-tab-active {
+  @apply text-white;
+  background: linear-gradient(90deg, rgba(128, 90, 213, 0.2), rgba(76, 29, 149, 0.1));
+  box-shadow: 0 2px 10px rgba(128, 90, 213, 0.1);
+}
+
+.crypto-tab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(128, 90, 213, 1), rgba(76, 29, 149, 1));
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.crypto-tab:hover::after,
+.crypto-tab-active::after {
+  width: 80%;
+}
+
+.crypto-badge {
+  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  background: linear-gradient(90deg, rgba(128, 90, 213, 0.2), rgba(76, 29, 149, 0.1));
+}
+
+.crypto-badge-green {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+}
+
+.crypto-badge-red {
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.1));
+}
+
+.crypto-badge-blue {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));
+}
+
+.crypto-badge-yellow {
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+}
+
+.crypto-skeleton {
+  @apply animate-pulse rounded-lg bg-gray-800;
+}
+
+.crypto-skeleton-text {
+  @apply h-4 w-full animate-pulse rounded bg-gray-800;
+}
+
+.crypto-skeleton-circle {
+  @apply h-10 w-10 animate-pulse rounded-full bg-gray-800;
+}
+
+.crypto-skeleton-button {
+  @apply h-10 w-full animate-pulse rounded-lg bg-gray-800;
+}
+
+.crypto-skeleton-card {
+  @apply h-40 w-full animate-pulse rounded-lg bg-gray-800;
+}
+
+.crypto-skeleton-avatar {
+  @apply h-10 w-10 animate-pulse rounded-full bg-gray-800;
+}
+
+.crypto-skeleton-input {
+  @apply h-10 w-full animate-pulse rounded-lg bg-gray-800;
+}
+
+.crypto-skeleton-tab {
+  @apply h-10 w-20 animate-pulse rounded-lg bg-gray-800;
+}
+
+.crypto-skeleton-badge {
+  @apply h-5 w-16 animate-pulse rounded-full bg-gray-800;
+}
+
+.crypto-skeleton-divider {
+  @apply h-px w-full animate-pulse bg-gray-800;
+}
+
+.crypto-skeleton-icon {
+  @apply h-6 w-6 animate-pulse rounded-full bg-gray-800;
+}
+
+.crypto-skeleton-text-sm {
+  @apply h-3 w-full animate-pulse rounded bg-gray-800;
+}
+
+.crypto-skeleton-text-lg {
+  @apply h-6 w-full animate-pulse rounded bg-gray-800;
+}
+
+.crypto-skeleton-text-xl {
+  @apply h-8 w-full animate-pulse rounded bg-gray-800;
+}
+
+.crypto-skeleton-text-2xl {
+  @apply h-10 w-full animate-pulse rounded bg-gray-800;
+}
+
+.crypto-skeleton-text-3xl {
+  @apply h-12 w-full animate-pulse rounded bg-gray-800;
+}
+
+.crypto-skeleton-text-4xl {
+  @apply h-14 w-full animate-pulse rounded bg-gray-800;
+}
+
+.crypto-skeleton-text-5xl {
+  @apply h-16 w-full animate-pulse rounded bg-gray-800;
+}
+
+.crypto-skeleton-text-6xl {
+  @apply h-20 w-full animate-pulse rounded bg-gray-800;
+}
+
+/* We'll stop at 6xl since Tailwind only includes heights up to h-64 by default */
